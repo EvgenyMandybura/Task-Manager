@@ -11,7 +11,7 @@ const FacebookLogin = ({ loginUserFB, history }) => {
   };
 
   return (
-    <Button type="button" onClick={signInFB}>
+    <Button type="button" color="primary" onClick={signInFB}>
       Facebook
     </Button>
   );

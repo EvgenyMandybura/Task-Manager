@@ -50,5 +50,17 @@ class Firebase {
   getCurrentUsername() {
     return this.auth.currentUser && this.auth.currentUser.displayName;
   }
+
+  completeProfile(model) {
+    const { firstName, LastName, description, email, password } = model.values;
+    this.auth.currentUser.updateProfile({displayName:`${firstName}`})
+    this.auth.currentUser.updateEmail({email})
+
+  }
+
+  getUserInfo() {
+    return this.auth.currentUser && this.auth.currentUser.providerData
+  }
+
 }
 export default new Firebase();

@@ -1,4 +1,11 @@
-import { LOGIN_USER_FB, LOGIN_SUCCESS, LOGIN_ERROR } from "./actionTypes";
+import {
+  LOGIN_USER_FB,
+  LOGIN_SUCCESS,
+  LOGIN_ERROR,
+  COMPLETE_PROFILE_FORM,
+  COMPLETE_PROFILE_FORM_SUCCESS,
+  COMPLETE_PROFILE_FORM_ERROR
+} from "./actionTypes";
 
 const initialState = {
   error: "",
@@ -25,6 +32,25 @@ const auth = (state = initialState, action) => {
     case LOGIN_ERROR:
       state = {
         ...state,
+        loading: false,
+      };
+      break;
+    case COMPLETE_PROFILE_FORM:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case COMPLETE_PROFILE_FORM_ERROR:
+      state = {
+        ...state,
+        loading: false,
+      };
+      break;
+    case COMPLETE_PROFILE_FORM_SUCCESS:
+      state = {
+        ...state,
+        user: action.payload,
         loading: false,
       };
       break;
