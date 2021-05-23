@@ -34,10 +34,9 @@ export const completeProfile = (model) => {
   };
 };
 
-export const completeProfileSuccess = ({ data }) => {
+export const completeProfileSuccess = () => {
   return {
     type: COMPLETE_PROFILE_FORM_SUCCESS,
-    payload: data,
   };
 };
 

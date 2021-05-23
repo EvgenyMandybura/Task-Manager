@@ -13,15 +13,15 @@ import {
 } from "./actions";
 
 import ToastrService from "../../services/ToastrService";
-import FirebaseService from "../../services/FirebaseService";
+import AuthService from "../../services/AuthService";
 
 const loginWithFBAsync = async () => {
-  const authUser = await FirebaseService.loginWithFacebook();
+  const authUser = await AuthService.loginWithFacebook();
   return authUser;
 };
 
 const completeProfileAsync = async (model) => {
-  return FirebaseService.completeProfile(model)
+  return AuthService.completeProfile(model)
 };
 
 function* loginUserWithFB({ payload: { history } }) {
@@ -46,6 +46,9 @@ function* completeProfileFirebase({ payload }) {
   try {
     const result = yield call(completeProfileAsync, model);
     yield put(completeProfileSuccess(result));
+    if (result) {
+      model.history.push("/dashboard");
+    }
     ToastrService.success("Profile completed");
   } catch (error) {
     ToastrService.error(error.message);
