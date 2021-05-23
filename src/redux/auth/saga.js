@@ -2,6 +2,7 @@ import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 
 import {
   LOGIN_USER_FB,
+  LOGIN_USER,
   COMPLETE_PROFILE_FORM
 } from "./actionTypes";
 
@@ -17,6 +18,11 @@ import AuthService from "../../services/AuthService";
 
 const loginWithFBAsync = async () => {
   const authUser = await AuthService.loginWithFacebook();
+  return authUser;
+};
+
+const loginWithEmailPasswordAsync = async (email, password) => {
+  const authUser = await AuthService.login({ password, email });
   return authUser;
 };
 
@@ -41,6 +47,24 @@ function* loginUserWithFB({ payload: { history } }) {
   }
 }
 
+function* loginUserWithEmailPassword({ payload: { user, history } }) {
+  try {
+    const response = yield call(
+        loginWithEmailPasswordAsync,
+        user.email,
+        user.password
+    );
+    yield put(loginSuccess(response));
+    if(response) {
+      history.push("/dashboard");
+    } else {
+      history.push("/");
+    }
+  } catch (error) {
+    ToastrService.error(error.message);
+    yield put(loginError());
+  }
+}
 function* completeProfileFirebase({ payload }) {
   const { model } = payload;
   try {
@@ -56,8 +80,12 @@ function* completeProfileFirebase({ payload }) {
   }
 }
 
-export function* watchUserLogin() {
+export function* watchUserLoginFB() {
   yield takeEvery(LOGIN_USER_FB, loginUserWithFB);
+}
+
+export function* watchUserLogin() {
+  yield takeEvery(LOGIN_USER, loginUserWithEmailPassword);
 }
 
 export function* watchUpdateProfile() {
@@ -65,8 +93,11 @@ export function* watchUpdateProfile() {
 }
 
 function* authSaga() {
-  yield all([fork(watchUserLogin)]);
-  yield all([fork(watchUpdateProfile)]);
+  yield all([
+    fork(watchUserLogin),
+    fork(watchUserLoginFB),
+    fork(watchUpdateProfile),
+  ]);
 }
 
 export default authSaga;

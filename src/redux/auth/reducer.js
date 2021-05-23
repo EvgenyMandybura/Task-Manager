@@ -1,5 +1,6 @@
 import {
   LOGIN_USER_FB,
+  LOGIN_USER,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
   COMPLETE_PROFILE_FORM,
@@ -17,6 +18,12 @@ const initialState = {
 const auth = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_USER_FB:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case LOGIN_USER:
       state = {
         ...state,
         loading: true,

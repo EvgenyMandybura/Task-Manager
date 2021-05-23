@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import * as yup from "yup";
 import FormikFormGroup from "../formik/FormikFormGroup";
 import { Formik } from "formik";
+import {loginUser} from "../../redux/auth/actions";
 import validationSchemas from "../../constants/validationSchemas";
 import "./index.scss";
 
@@ -18,8 +19,10 @@ const initialValues = {
   password: "",
 };
 
-const SignInForm = () => {
-  const handleSubmitForm = (values) => {};
+const SignInForm = ({ loginUser, history }) => {
+  const handleSubmitForm = (values) => {
+    loginUser(values, history);
+  };
 
   return (
     <Formik
@@ -71,4 +74,4 @@ const SignInForm = () => {
 
 const mapStateToProps = () => ({});
 
-export default withRouter(connect(mapStateToProps)(SignInForm));
+export default withRouter(connect(mapStateToProps, {loginUser})(SignInForm));

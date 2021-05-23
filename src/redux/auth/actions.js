@@ -2,6 +2,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_USER_FB,
   LOGIN_ERROR,
+  LOGIN_USER,
   COMPLETE_PROFILE_FORM,
   COMPLETE_PROFILE_FORM_SUCCESS,
   COMPLETE_PROFILE_FORM_ERROR
@@ -11,6 +12,13 @@ export const loginUserFB = (history) => {
   return {
     type: LOGIN_USER_FB,
     payload: { history },
+  };
+};
+
+export const loginUser = (user, history) => {
+  return {
+    type: LOGIN_USER,
+    payload: { user, history },
   };
 };
 
