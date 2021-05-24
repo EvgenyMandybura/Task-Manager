@@ -3,6 +3,7 @@ import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 import {
   LOGIN_USER_FB,
   LOGIN_USER,
+  LOGOUT_USER,
   COMPLETE_PROFILE_FORM,
   REGISTER_USER,
 } from "./actionTypes";
@@ -36,7 +37,7 @@ const signOutAsync = () => {
 };
 
 const completeProfileAsync = async (model) => {
-  return AuthService.completeProfile(model)
+  return AuthService.completeProfile(model);
 };
 
 const registerWithEmailPasswordAsync = (email, password) => {
@@ -45,7 +46,7 @@ const registerWithEmailPasswordAsync = (email, password) => {
     password,
   });
   return authUser;
-}
+};
 
 function* loginUserWithFB({ payload: { history } }) {
   try {
@@ -53,7 +54,7 @@ function* loginUserWithFB({ payload: { history } }) {
     yield put(loginSuccess(response));
     if (response.additionalUserInfo.isNewUser) {
       history.push("/complete-profile");
-    } else if(response) {
+    } else if (response) {
       history.push("/dashboard");
     } else {
       history.push("/");
@@ -67,12 +68,12 @@ function* loginUserWithFB({ payload: { history } }) {
 function* loginUserWithEmailPassword({ payload: { user, history } }) {
   try {
     const response = yield call(
-        loginWithEmailPasswordAsync,
-        user.email,
-        user.password
+      loginWithEmailPasswordAsync,
+      user.email,
+      user.password
     );
     yield put(loginSuccess(response));
-    if(response) {
+    if (response) {
       history.push("/dashboard");
     } else {
       history.push("/");
@@ -110,18 +111,16 @@ function* completeProfileFirebase({ payload }) {
 
 function* signUpUser({ payload }) {
   const { model } = payload;
-  const { email, password, } = model.values;
+  const { email, password } = model.values;
   try {
     const responseRegister = yield call(
-        registerWithEmailPasswordAsync,
-        email,
-        password,
+      registerWithEmailPasswordAsync,
+      email,
+      password
     );
-    const responseCompleteProfile = yield call(
-        completeProfileAsync, model
-    );
+    const responseCompleteProfile = yield call(completeProfileAsync, model);
     yield put(registerUserSuccess(responseRegister));
-    if(responseRegister && responseCompleteProfile) {
+    if (responseRegister && responseCompleteProfile) {
       model.history.push("/dashboard");
     } else {
       model.history.push("/");

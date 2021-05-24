@@ -11,7 +11,7 @@ import {
   REGISTER_USER_ERROR,
   LOGOUT_USER,
   LOGOUT_USER_SUCCESS,
-  LOGOUT_ERROR
+  LOGOUT_ERROR,
 } from "./actionTypes";
 
 export const loginUserFB = (history) => {
@@ -79,10 +79,9 @@ export const registerUserError = ({ message }) => ({
   payload: { message },
 });
 
-export const logoutUser = (history) => {
+export const logoutUser = () => {
   return {
     type: LOGOUT_USER,
-    payload: { history },
   };
 };
 
