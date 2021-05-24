@@ -9,6 +9,9 @@ import {
   REGISTER_USER,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_ERROR,
+  LOGOUT_USER,
+  LOGOUT_USER_SUCCESS,
+  LOGOUT_ERROR
 } from "./actionTypes";
 
 export const loginUserFB = (history) => {
@@ -75,3 +78,24 @@ export const registerUserError = ({ message }) => ({
   type: REGISTER_USER_ERROR,
   payload: { message },
 });
+
+export const logoutUser = (history) => {
+  return {
+    type: LOGOUT_USER,
+    payload: { history },
+  };
+};
+
+export const logoutUserSuccess = () => {
+  return {
+    type: LOGOUT_USER_SUCCESS,
+    payload: {},
+  };
+};
+
+export const logoutError = ({ message }) => {
+  return {
+    type: LOGOUT_ERROR,
+    payload: { message },
+  };
+};

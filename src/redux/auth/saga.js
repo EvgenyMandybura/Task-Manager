@@ -10,6 +10,8 @@ import {
 import {
   loginSuccess,
   loginError,
+  logoutUserSuccess,
+  logoutError,
   completeProfileSuccess,
   completeProfileError,
   registerUserSuccess,
@@ -27,6 +29,10 @@ const loginWithFBAsync = async () => {
 const loginWithEmailPasswordAsync = async (email, password) => {
   const authUser = await AuthService.login({ password, email });
   return authUser;
+};
+
+const signOutAsync = () => {
+  return AuthService.logout();
 };
 
 const completeProfileAsync = async (model) => {
@@ -74,6 +80,16 @@ function* loginUserWithEmailPassword({ payload: { user, history } }) {
   } catch (error) {
     ToastrService.error(error.message);
     yield put(loginError());
+  }
+}
+
+function* logoutUser() {
+  try {
+    yield call(signOutAsync);
+    yield put(logoutUserSuccess());
+  } catch (error) {
+    ToastrService.error(error.message);
+    yield put(logoutError(error));
   }
 }
 
@@ -128,6 +144,9 @@ export function* watchUpdateProfile() {
   yield takeEvery(COMPLETE_PROFILE_FORM, completeProfileFirebase);
 }
 
+export function* watchUserLogOut() {
+  yield takeEvery(LOGOUT_USER, logoutUser);
+}
 
 export function* watchUserRegister() {
   yield takeEvery(REGISTER_USER, signUpUser);
@@ -137,6 +156,7 @@ function* authSaga() {
   yield all([
     fork(watchUserLogin),
     fork(watchUserLoginFB),
+    fork(watchUserLogOut),
     fork(watchUpdateProfile),
     fork(watchUserRegister),
   ]);
