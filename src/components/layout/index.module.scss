@@ -27,3 +27,12 @@
   position: fixed;
   top: 90px;
 }
+
+.containerUser {
+  padding-top: 30px;
+  padding-bottom: 50px;
+  .card {
+    margin: 8px 8px 8px 8px;
+    border: none;
+  }
+}

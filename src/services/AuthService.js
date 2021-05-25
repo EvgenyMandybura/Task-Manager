@@ -1,7 +1,6 @@
 import {firebase_app, firestore, firebase_storage} from "../components/Firebase/firebase";
 import firebase from "firebase";
 
-
 class AuthService {
     login({ email, password }) {
         return firebase_app.auth().signInWithEmailAndPassword(email, password);
@@ -38,7 +37,7 @@ class AuthService {
         const user = firebase_app.auth().currentUser;
         user.updateProfile({displayName:`${firstName} ${lastName}`});
 
-        firestore.collection("users").add({
+        firestore.collection("users").doc(`${user.uid}`).set({
             firstName: firstName,
             lastName: lastName,
             description: description,
