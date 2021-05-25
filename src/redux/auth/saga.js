@@ -79,6 +79,23 @@ function* loginUserWithEmailPassword({ payload: { user, history } }) {
 
 function* completeProfileFirebase({ payload }) {
   const { model } = payload;
+
+  /*
+values.fullName = `${values.firstName} ${values.lastName}`;
+
+if ( model.fileModel.files ){
+
+    if ( model.values.password === model.values.confirmPassword ) {
+        registerUser(model);
+    } else {
+        ToastrService.warn("Passwords must match!!")
+    }
+} else {
+    ToastrService.warn("You need to upload a photo!")
+}
+
+ */
+
   try {
     const result = yield call(completeProfileAsync, model);
     yield put(completeProfileSuccess(result));
