@@ -40,7 +40,7 @@ const MakeNewPageForm = ({ createBoard, history }) => {
                 <img
                   src={profileImage.current ? profileImage.current : null}
                   alt="Logo"
-                  className="avatar"
+                  className="boardImage"
                 />
                 <div className="file-input">
                   <input

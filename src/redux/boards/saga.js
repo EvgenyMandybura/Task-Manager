@@ -16,7 +16,7 @@ function* createBoardProject({ payload: { model } }) {
     const response = yield call(createBoardAsync, model);
     yield put(createProductSuccess(response));
     if (response) {
-      history.push("/boards");
+      model.history.push(`/board-details/${response}`);
     }
   } catch (error) {
     ToastrService.error(error.message);
