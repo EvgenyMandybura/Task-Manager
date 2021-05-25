@@ -8,6 +8,7 @@ import Boards from "../view/Boards/Boards";
 import { UserContext } from "../components/Firebase/UserProvider";
 import Header from "../components/layout/Header";
 import MakeNewPage from "../view/Boards/MakeNewPage";
+import BoardDetails from "../view/Boards/BoardDetails";
 
 function Application() {
   const user = useContext(UserContext);
@@ -19,6 +20,7 @@ function Application() {
         <Route path="/complete-profile" component={CompleteProfile} />
         <Route path="/boards" component={Boards} />
         <Route path="/make-new-board" component={MakeNewPage} />
+        <Route path="/board-details" component={BoardDetails} />
         <Route exact path="/" component={Dashboard} />
       </Switch>
     </Router>

@@ -5,7 +5,6 @@ import MakeNewPageForm from "../../components/forms/MakeNewPageForm";
 const MakeNewPage = () => {
     return (
         <ContainerUser>
-            <h1>Make New Page</h1>
             <MakeNewPageForm />
         </ContainerUser>
     );

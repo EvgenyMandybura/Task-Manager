@@ -11,6 +11,7 @@ import validationSchemas from "../../constants/validationSchemas";
 import splitter from "../../helpers/splitter";
 import {firebase_app} from "../Firebase/firebase";
 import logoPlaceholder from "../../assets/ic-avatar-placeholder.svg";
+import {changeHandlerImage} from "../../helpers/UploadImage";
 import "./index.scss";
 
 const validationSchema = yup.object({
@@ -22,7 +23,7 @@ const validationSchema = yup.object({
 
 const CompleteProfileForm = ({ completeProfile, history }) => {
     const { displayName, email, phoneNumber, photoURL } = firebase_app.auth().currentUser;
-    const profileImage1 = useRef(photoURL? photoURL :logoPlaceholder);
+    const profileImage = useRef(photoURL? photoURL :logoPlaceholder);
 
     const initialValues = {
         firstName: displayName? splitter(displayName)[0]: "",
@@ -39,22 +40,7 @@ const CompleteProfileForm = ({ completeProfile, history }) => {
 
     const changeHandler = (e) => {
         const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-            fileModel.files = [file];
-            profileImage1.current = reader.result;
-            const image = new Image();
-            image.src = reader.result;
-            image.onload = function(){
-                if (( 100 <= this.width && this.width <=1000 ) &&
-                    (100 <= this.height && this.height <=1000 )) {
-                    profileImage1.current = reader.result;
-                } else {
-                    ToastrService.warn("Image size must be more 100px and less 1000px");
-                }
-            };
-        };
+        changeHandlerImage(file, fileModel, profileImage)
     };
 
     return (
@@ -77,13 +63,13 @@ const CompleteProfileForm = ({ completeProfile, history }) => {
                                 <h3>Complete Profile</h3>
                                 <div>
                                     <img
-                                        src={profileImage1.current? profileImage1.current: null}
+                                        src={profileImage.current? profileImage.current: null}
                                         alt="Logo"
                                         className="avatar"
                                     />
                                     <div className="file-input">
                                         <input
-                                            ref={profileImage1}
+                                            ref={profileImage}
                                             type="file"
                                             accept="image/*"
                                             className="file"

@@ -1,68 +1,128 @@
-import React from "react";
+import React, { useRef } from "react";
 import { connect } from "react-redux";
-import { Button, Form } from "reactstrap";
-import { withRouter, Link } from "react-router-dom";
-import * as yup from "yup";
+import { Button, Col, Form, Row } from "reactstrap";
+import { withRouter } from "react-router-dom";
 import FormikFormGroup from "../formik/FormikFormGroup";
-import { Formik } from "formik";
-import validationSchemas from "../../constants/validationSchemas";
+import { Field, FieldArray, Formik } from "formik";
+import fileValidation from "../../helpers/fileValidation";
+import logoPlaceholder from "../../assets/ic-placeholder.svg";
+import { changeHandlerImage } from "../../helpers/UploadImage";
+import { createBoard } from "../../redux/boards/actions";
 
-const validationSchema = yup.object({
-    email: validationSchemas.email,
-    password: validationSchemas.passwordNoPattern,
-});
+const initialValues = {
+  title: "",
+  description: "",
+  members: [""],
+};
 
-const MakeNewPageForm = ({ history }) => {
-    const initialValues = {
-        title: "",
-        email: "",
-        password: "",
-    };
+const MakeNewPageForm = ({ createBoard, history }) => {
+  const handleSubmitForm = (values) => {
+    const model = { values, history, fileModel };
+    fileValidation(model, createBoard);
+  };
+  const fileModel = {};
+  const profileImage = useRef(logoPlaceholder);
 
-    const handleSubmitForm = (values) => {
+  const changeHandler = (e) => {
+    const file = e.target.files[0];
+    changeHandlerImage(file, fileModel, profileImage);
+  };
 
-    };
-
-    return (
-        <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmitForm}
-        >
-            {(form) => {
-                const { errors, touched, handleSubmit } = form;
-
-                return (
-                    <div>
-                        <Form className="w-100" onSubmit={handleSubmit}>
-                            <h3>Create new board</h3>
-
-                            <FormikFormGroup
-
-                                errors={errors}
-                                touched={touched}
-                                fieldName={"password"}
-                                placeholder={"Enter password"}
+  return (
+    <div>
+      <Formik initialValues={initialValues} onSubmit={handleSubmitForm}>
+        {(form) => {
+          const { errors, touched, handleSubmit } = form;
+          return (
+            <Form className="w-100" onSubmit={handleSubmit}>
+              <h3>Create new Board</h3>
+              <div>
+                <img
+                  src={profileImage.current ? profileImage.current : null}
+                  alt="Logo"
+                  className="avatar"
+                />
+                <div className="file-input">
+                  <input
+                    ref={profileImage}
+                    type="file"
+                    accept="image/*"
+                    className="file"
+                    id="file"
+                    onChange={(e) => changeHandler(e)}
+                  />
+                  <label htmlFor="file" className="buttonLabel">
+                    Select file
+                  </label>
+                </div>
+              </div>
+              <FormikFormGroup
+                errors={errors}
+                touched={touched}
+                fieldName={"title"}
+                label={"title"}
+                placeholder={"Add title"}
+              />
+              <FormikFormGroup
+                errors={errors}
+                touched={touched}
+                fieldName={"description"}
+                label={"description"}
+                placeholder={"Add description"}
+              />
+              <FieldArray name="members" label={"Members:"}>
+                {({ remove, push }) => (
+                  <div>
+                    {form.values.members.length > 0 &&
+                      form.values.members.map((member, index) => (
+                        <Row key={index} className="memberAdd">
+                          <Col xs="11">
+                            <Field
+                              name={`members.${index}`}
+                              placeholder="Add member by email"
+                              className="form-control"
+                              type="email"
                             />
-                            <div className="d-flex justify-content-center align-items-center">
-                                <Button
-                                    color="success"
-                                    type="submit"
-                                    className="w-100 mt-3 text-uppercase"
-                                    size="md"
-                                >
-                                    Sign In
-                                </Button>
-                            </div>
-                        </Form>
-
-                    </div>
-                );
-            }}
-        </Formik>
-    );
+                          </Col>
+                          <Col xs="1">
+                            <Button
+                              type="button"
+                              color="danger"
+                              onClick={() => remove(index)}
+                            >
+                              X
+                            </Button>
+                          </Col>
+                        </Row>
+                      ))}
+                    <Button
+                      type="button"
+                      color="success"
+                      onClick={() => push()}
+                    >
+                      Add member
+                    </Button>
+                  </div>
+                )}
+              </FieldArray>
+              <Button
+                color="success"
+                type="submit"
+                className="buttonLabel"
+                size="md"
+              >
+                Continue
+              </Button>
+            </Form>
+          );
+        }}
+      </Formik>
+    </div>
+  );
 };
 
 const mapStateToProps = () => ({});
 
-export default withRouter(connect(mapStateToProps)(MakeNewPageForm));
+export default withRouter(
+  connect(mapStateToProps, { createBoard })(MakeNewPageForm)
+);

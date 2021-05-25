@@ -3,19 +3,19 @@ import { connect } from "react-redux";
 import { Button, Form } from "reactstrap";
 import { Link, withRouter } from "react-router-dom";
 import { registerUser } from "../../redux/auth/actions";
-import "bootstrap/dist/css/bootstrap.min.css";
 import * as yup from "yup";
 import FormikFormGroup from "../formik/FormikFormGroup";
 import { Formik } from "formik";
 import validationSchemas from "../../constants/validationSchemas";
-import ToastrService from "../../services/ToastrService";
 import logoPlaceholder from "../../assets/ic-avatar-placeholder.svg";
-
+import fileValidation from "../../helpers/fileValidation";
+import { changeHandlerImage } from "../../helpers/UploadImage";
 const validationSchema = yup.object({
   firstName: validationSchemas.name,
   lastName: validationSchemas.name,
   email: validationSchemas.email,
   password: validationSchemas.password,
+  confirmPassword: validationSchemas.confirmPassword,
 });
 
 const initialValues = {
@@ -31,43 +31,15 @@ const initialValues = {
 const SignUpForm = ({ registerUser, history }) => {
   const handleSubmitForm = (values) => {
     const model = { values, history, fileModel };
-    values.fullName = `${values.firstName} ${values.lastName}`;
-
-    if (model.fileModel.files) {
-      if (model.values.password === model.values.confirmPassword) {
-        registerUser(model);
-      } else {
-        ToastrService.warn("Passwords must match!!");
-      }
-    } else {
-      ToastrService.warn("You need to upload a photo!");
-    }
+    fileValidation(model, registerUser);
   };
   const fileModel = {};
-  const profileImage1 = useRef(logoPlaceholder);
+  const profileImage = useRef(logoPlaceholder);
+
   const changeHandler = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      fileModel.files = [file];
-      profileImage1.current = reader.result;
-      const image = new Image();
-      image.src = reader.result;
-      image.onload = function () {
-        if (
-          100 <= this.width &&
-          this.width <= 1000 &&
-          100 <= this.height &&
-          this.height <= 1000
-        ) {
-          profileImage1.current = reader.result;
-        } else {
-          ToastrService.warn("Image size must be more 100px and less 1000px");
-        }
-      };
-    };
-  };
+    changeHandlerImage(file, fileModel, profileImage)
+  }
 
   return (
     <div>
@@ -84,13 +56,13 @@ const SignUpForm = ({ registerUser, history }) => {
               <h1>Sign up</h1>
               <div>
                 <img
-                  src={profileImage1.current ? profileImage1.current : null}
+                  src={profileImage.current ? profileImage.current : null}
                   alt="Logo"
                   className="avatar"
                 />
                 <div className="file-input">
                   <input
-                    ref={profileImage1}
+                    ref={profileImage}
                     type="file"
                     accept="image/*"
                     className="file"

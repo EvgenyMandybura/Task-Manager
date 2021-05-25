@@ -1,10 +1,6 @@
-import {firebase_app, firestore} from "../components/Firebase/firebase";
+import { firebase_app, firestore } from "../components/Firebase/firebase";
 
 class BoardsService {
-
-    createBoard(model) {
-
-    }
-
+  createBoard(model) {}
 }
 export default new BoardsService();

@@ -2,12 +2,9 @@ import React from "react";
 import ContainerUser from "../../components/layout/ContainerUser";
 import {Button, Card, CardBody, CardTitle, CardSubtitle, CardText} from "reactstrap";
 import {Link} from "react-router-dom";
-import "./index.scss"
+import "./indexBoards.scss"
 
 const Boards = () => {
-
-    //let timeInMs = Date.now();
-
     return (
         <ContainerUser>
             <h1>Boards Boards Boards</h1>
@@ -15,7 +12,7 @@ const Boards = () => {
                 <Button color="success">Add New Board</Button>
             </Link>
             <div>
-                <Card>
+                <Card className="cardBoards">
                     <CardBody>
                         <CardTitle tag="h5">Board title</CardTitle>
                         <CardSubtitle tag="h6" className="mb-2 text-muted">Board subtitle</CardSubtitle>
@@ -23,7 +20,7 @@ const Boards = () => {
                         <Button>Button</Button>
                     </CardBody>
                 </Card>
-                <Card>
+                <Card className="cardBoards">
                     <CardBody>
                         <CardTitle tag="h5">Board title</CardTitle>
                         <CardSubtitle tag="h6" className="mb-2 text-muted">Card subtitle</CardSubtitle>
@@ -31,7 +28,7 @@ const Boards = () => {
                         <Button>Button</Button>
                     </CardBody>
                 </Card>
-                <Card>
+                <Card className="cardBoards">
                     <CardBody>
                         <CardTitle tag="h5">Board title</CardTitle>
                         <CardSubtitle tag="h6" className="mb-2 text-muted">Card subtitle</CardSubtitle>
