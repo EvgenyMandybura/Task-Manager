@@ -1,46 +1,71 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ContainerUser from "../../components/layout/ContainerUser";
-import {Button, Card, CardBody, CardTitle, CardSubtitle, CardText} from "reactstrap";
-import {Link} from "react-router-dom";
-import "./indexBoards.scss"
+import {
+  Button,
+  Card,
+  CardBody,
+  CardTitle,
+  CardText,
+  CardImg,
+} from "reactstrap";
+import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import "./indexBoards.scss";
+import imgPlaceholder from "../../assets/ic-placeholder.svg";
+import { getListBoards, getListBoardsClear } from "../../redux/boards/actions";
 
-const Boards = () => {
-    return (
-        <ContainerUser>
-            <h1>Boards Boards Boards</h1>
-            <Link to="/make-new-board">
-                <Button color="success">Add New Board</Button>
-            </Link>
-            <div>
-                <Card className="cardBoards">
-                    <CardBody>
-                        <CardTitle tag="h5">Board title</CardTitle>
-                        <CardSubtitle tag="h6" className="mb-2 text-muted">Board subtitle</CardSubtitle>
-                        <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                        <Button>Button</Button>
-                    </CardBody>
-                </Card>
-                <Card className="cardBoards">
-                    <CardBody>
-                        <CardTitle tag="h5">Board title</CardTitle>
-                        <CardSubtitle tag="h6" className="mb-2 text-muted">Card subtitle</CardSubtitle>
-                        <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                        <Button>Button</Button>
-                    </CardBody>
-                </Card>
-                <Card className="cardBoards">
-                    <CardBody>
-                        <CardTitle tag="h5">Board title</CardTitle>
-                        <CardSubtitle tag="h6" className="mb-2 text-muted">Card subtitle</CardSubtitle>
-                        <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                        <Button>Button</Button>
-                    </CardBody>
-                </Card>
-            </div>
+const Boards = ({ getListBoards, getListBoardsClear, boardState, history }) => {
+  const { boardsList: boardsList } = boardState;
+  const [ready, updateReady] = useState(false);
+  const fetchBoards = () => {
+    getListBoards();
+  };
+  useEffect(() => {
+    fetchBoards();
+    updateReady(true);
+    return () => {
+      getListBoardsClear();
+    };
+  }, []);
 
-
-        </ContainerUser>
-    );
+  return (
+    <ContainerUser>
+      <h1>List of boards:</h1>
+      <Link to="/make-new-board">
+        <Button color="success">Add New Board</Button>
+      </Link>
+      <div>
+        {ready && boardsList != "" ? (
+          boardsList.map((board) => (
+            <Card
+              className="cardBoards"
+              onClick={() => history.push(`/board-details/${board.boardId}`)}
+              key={board.boardId}
+            >
+              <CardImg
+                src={board.fileUrl ? board.fileUrl : imgPlaceholder}
+                alt="Card image"
+              />
+              <CardBody>
+                <CardTitle tag="h5">{board.title}</CardTitle>
+                <CardText>{board.description}</CardText>
+                <CardText>{board.creatorId}</CardText>
+                <CardText>userPhoto: {board.userPhoto}</CardText>
+                <Button color="secondary">Edit</Button>
+                <Button color="dander">Leave board</Button>
+              </CardBody>
+            </Card>
+          ))
+        ) : (
+          <h3>Now boards</h3>
+        )}
+      </div>
+    </ContainerUser>
+  );
 };
 
-export default Boards;
+const mapStateToProps = ({ boards }) => ({ boardState: boards });
+export default withRouter(
+  connect(mapStateToProps, { getListBoards, getListBoardsClear })(Boards)
+);

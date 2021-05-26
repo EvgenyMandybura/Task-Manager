@@ -1,5 +1,9 @@
 .cardBoards {
   margin: 16px;
+  max-width: 320px;
+  min-height: 400px;
+  display: inline-block;
+  vertical-align: top;
 }
 
 .cardBoardDetails{

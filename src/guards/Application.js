@@ -21,7 +21,7 @@ function Application() {
         <Route path="/boards" component={Boards} />
         <Route path="/make-new-board" component={MakeNewPage} />
         <Route path="/board-details" component={BoardDetails} />
-        <Route exact path="/" component={Dashboard} />
+        <Route exact path="/" component={Boards} />
       </Switch>
     </Router>
   ) : (

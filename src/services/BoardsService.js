@@ -9,7 +9,6 @@ class BoardsService {
     const creatorId = firebase_app.auth().currentUser.uid;
     const boardId = `${creatorId}_${timeStamp}`;
     const storage = firebase.storage().ref().child(`${boardsUrl}/${boardId}`);
-
     return uploadToFirebase(model, storage, creatorId, boardId, boardsUrl).then(
       function () {
         return boardId;
@@ -29,7 +28,25 @@ class BoardsService {
         }
       })
       .catch((error) => {
-        return "Error getting document:";
+        return "Error getting documents: ", error;
+      });
+  }
+
+  getAllList() {
+    const docRef = firestore.collection(boardsUrl);
+    const currentUserID = firebase_app.auth().currentUser.uid;
+    const query = docRef.where("creatorId", "==", currentUserID);
+    return query
+      .get()
+      .then((querySnapshot) => {
+        const tempDoc = [];
+        querySnapshot.forEach((doc) => {
+          tempDoc.push({ ...doc.data() });
+        });
+        return tempDoc;
+      })
+      .catch((error) => {
+        return "Error getting documents: ", error;
       });
   }
 }

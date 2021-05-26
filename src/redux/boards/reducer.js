@@ -6,6 +6,10 @@ import {
   GET_BOARD_SUCCESS,
   GET_BOARD_ERROR,
   GET_BOARD_CLEAR,
+  GET_BOARDS,
+  GET_BOARDS_SUCCESS,
+  GET_BOARDS_ERROR,
+  GET_BOARDS_CLEAR,
 } from "./actionTypes";
 
 const initialState = {
@@ -14,6 +18,7 @@ const initialState = {
   created: null,
   loading: false,
   board: null,
+  boardsList: [],
 };
 
 const boards = (state = initialState, action) => {
@@ -61,6 +66,32 @@ const boards = (state = initialState, action) => {
         ...state,
         product: null,
         loading: false,
+      };
+      break;
+    case GET_BOARDS:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case GET_BOARDS_SUCCESS:
+      state = {
+        ...state,
+        boardsList: action.payload,
+        loading: false,
+      };
+      break;
+    case GET_BOARDS_CLEAR:
+      state = {
+        ...state,
+        loading: false,
+      };
+      break;
+    case GET_BOARDS_ERROR:
+      state = {
+        ...state,
+        data: [],
+        error: "",
       };
       break;
 

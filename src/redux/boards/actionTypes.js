@@ -6,3 +6,8 @@ export const GET_BOARD = "GET_BOARD";
 export const GET_BOARD_ERROR = "GET_BOARD_ERROR";
 export const GET_BOARD_SUCCESS = "GET_BOARD_SUCCESS";
 export const GET_BOARD_CLEAR = "GET_BOARD_CLEAR";
+
+export const GET_BOARDS = "GET_BOARDS";
+export const GET_BOARDS_SUCCESS = "GET_BOARDS_SUCCESS";
+export const GET_BOARDS_ERROR = "GET_BOARDS_ERROR";
+export const GET_BOARDS_CLEAR = "GET_BOARDS_CLEAR";

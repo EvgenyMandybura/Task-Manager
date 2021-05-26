@@ -18,6 +18,7 @@ async function uploadToFirebase(
       ...rest,
       fileUrl,
       creatorId,
+      boardId,
     });
 }
 
