@@ -1,14 +1,23 @@
 import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 
-import { CREATE_BOARD } from "./actionTypes";
+import { CREATE_BOARD, GET_BOARD } from "./actionTypes";
 
-import { createProductSuccess, createBoardError } from "./actions";
+import {
+  createProductSuccess,
+  createBoardError,
+  getBoardSuccess,
+  getBoardError,
+} from "./actions";
 
 import ToastrService from "../../services/ToastrService";
 import BoardsService from "../../services/BoardsService";
 
 const createBoardAsync = async (model) => {
   return await BoardsService.createBoard(model);
+};
+
+const getBoardAsync = async (boadrId) => {
+  return await BoardsService.getBoard(boadrId);
 };
 
 function* createBoardProject({ payload: { model } }) {
@@ -24,12 +33,25 @@ function* createBoardProject({ payload: { model } }) {
   }
 }
 
-export function* watchUserLoginFB() {
+function* getBoard({ payload: { boardId } }) {
+  try {
+    const response = yield call(getBoardAsync, boardId);
+    yield put(getBoardSuccess(response));
+  } catch (error) {
+    yield put(getBoardError(error));
+  }
+}
+
+export function* watchCreateBoard() {
   yield takeEvery(CREATE_BOARD, createBoardProject);
 }
 
+export function* watchGetBoard() {
+  yield takeEvery(GET_BOARD, getBoard);
+}
+
 function* authBoards() {
-  yield all([fork(watchUserLoginFB)]);
+  yield all([fork(watchCreateBoard), fork(watchGetBoard)]);
 }
 
 export default authBoards;

@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
 
-import Auth from "./auth/reducer";
-import Boards from "./boards/reducer";
+import auth from "./auth/reducer";
+import boards from "./boards/reducer";
 
 const rootReducer = combineReducers({
-  Auth,
-  Boards,
+  auth,
+  boards,
 });
 
 export default rootReducer;

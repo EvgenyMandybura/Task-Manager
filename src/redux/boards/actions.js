@@ -2,6 +2,10 @@ import {
   CREATE_BOARD,
   CREATE_BOARD_SUCCESS,
   CREATE_BOARD_ERROR,
+  GET_BOARD,
+  GET_BOARD_SUCCESS,
+  GET_BOARD_ERROR,
+  GET_BOARD_CLEAR,
 } from "./actionTypes";
 
 export const createBoard = (model) => {
@@ -22,3 +26,30 @@ export const createBoardError = ({ message }) => ({
   type: CREATE_BOARD_ERROR,
   payload: { message },
 });
+
+export const getBoard = (boardId) => {
+  return {
+    payload: { boardId },
+    type: GET_BOARD,
+  };
+};
+
+export const getBoardSuccess = (data) => {
+  return {
+    payload: data,
+    type: GET_BOARD_SUCCESS,
+  };
+};
+
+export const getBoardError = ({ message = "Unknown error" }) => {
+  return {
+    payload: { message },
+    type: GET_BOARD_ERROR,
+  };
+};
+
+export const clearBoardFetched = () => {
+  return {
+    type: GET_BOARD_CLEAR,
+  };
+};
