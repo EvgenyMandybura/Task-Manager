@@ -8,6 +8,7 @@ import {
   IS_REQUIRED_PASSWORD,
   IS_REQUIRED_USERNAME,
   IS_INCORRECT_PHONE,
+  PASSWORD_DOES_NOT_MATCH
 } from "./validationErrors";
 import {
   PASSWORD_MAX_LENGTH,
@@ -26,6 +27,15 @@ const validationSchemas = {
     .max(PASSWORD_MAX_LENGTH, IS_INCORRECT_LENGTH_PASSWORD)
     .matches(PASSWORD_PATTERN, IS_INCORRECT_FORMAT_PASSWORD)
     .required(IS_REQUIRED_PASSWORD),
+  confirmPassword: yup
+      .string()
+      .when("password", {
+        is: val => ( (val && val.length) > 0 ? true : false ),
+        then: yup.string().oneOf(
+            [yup.ref("password")],
+            PASSWORD_DOES_NOT_MATCH
+        )
+      }),
   passwordNoPattern: yup.string().required(IS_REQUIRED_PASSWORD),
   name: yup
     .string()

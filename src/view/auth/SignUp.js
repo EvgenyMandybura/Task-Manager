@@ -1,9 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import ContainerAuth from "./ContainerAuth";
+import SignUpForm from "../../components/forms/SignUpForm";
 
 const SignUp = () => {
-  return <h1>Sign Up</h1>;
+  return (
+      <ContainerAuth>
+        <SignUpForm />
+      </ContainerAuth>
+  );
 };
 
 const mapStateToProps = () => ({});

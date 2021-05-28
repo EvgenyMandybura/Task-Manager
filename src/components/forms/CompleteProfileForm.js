@@ -23,7 +23,7 @@ const validationSchema = yup.object({
 const CompleteProfileForm = ({ completeProfile, history }) => {
     const { displayName, email, phoneNumber, photoURL } = firebase_app.auth().currentUser;
     const profileImage1 = useRef(photoURL? photoURL :logoPlaceholder);
-    const [fileImage, setFileImage]  = useState(photoURL? photoURL :logoPlaceholder)
+
     const initialValues = {
         firstName: displayName? splitter(displayName)[0]: "",
         lastName: displayName? splitter(displayName)[1]: "",

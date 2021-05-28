@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { Button, Form } from "reactstrap";
 import { withRouter, Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 import * as yup from "yup";
 import FormikFormGroup from "../formik/FormikFormGroup";
 import { Formik } from "formik";

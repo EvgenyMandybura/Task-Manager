@@ -5,7 +5,10 @@ import {
   LOGIN_USER,
   COMPLETE_PROFILE_FORM,
   COMPLETE_PROFILE_FORM_SUCCESS,
-  COMPLETE_PROFILE_FORM_ERROR
+  COMPLETE_PROFILE_FORM_ERROR,
+  REGISTER_USER,
+  REGISTER_USER_SUCCESS,
+  REGISTER_USER_ERROR,
 } from "./actionTypes";
 
 export const loginUserFB = (history) => {
@@ -53,3 +56,22 @@ export const completeProfileError = () => {
     type: COMPLETE_PROFILE_FORM_ERROR,
   };
 };
+
+export const registerUser = (model) => {
+  return {
+    type: REGISTER_USER,
+    payload: { model },
+  };
+};
+
+export const registerUserSuccess = (user) => {
+  return {
+    type: REGISTER_USER_SUCCESS,
+    payload: user,
+  };
+};
+
+export const registerUserError = ({ message }) => ({
+  type: REGISTER_USER_ERROR,
+  payload: { message },
+});

@@ -5,7 +5,10 @@ import {
   LOGIN_ERROR,
   COMPLETE_PROFILE_FORM,
   COMPLETE_PROFILE_FORM_SUCCESS,
-  COMPLETE_PROFILE_FORM_ERROR
+  COMPLETE_PROFILE_FORM_ERROR,
+  REGISTER_USER,
+  REGISTER_USER_SUCCESS,
+  REGISTER_USER_ERROR,
 } from "./actionTypes";
 
 const initialState = {
@@ -61,6 +64,12 @@ const auth = (state = initialState, action) => {
         loading: false,
       };
       break;
+    case REGISTER_USER:
+      return { ...state, loading: true, error: "" };
+    case REGISTER_USER_SUCCESS:
+      return { ...state, loading: false, user: action.payload, error: "" };
+    case REGISTER_USER_ERROR:
+      return { ...state, loading: false };
 
     default:
       state = { ...state };
