@@ -96,6 +96,7 @@ function* logoutUser() {
 
 function* completeProfileFirebase({ payload }) {
   const { model } = payload;
+
   try {
     const result = yield call(completeProfileAsync, model);
     yield put(completeProfileSuccess(result));
