@@ -1,7 +1,7 @@
 import { firebase_app, firestore } from "../components/Firebase/firebase";
 import firebase from "firebase";
 import uploadToFirebase from "../helpers/uploadToFirebase";
-import { boardsUrl } from "../constants/urlForFiresore";
+import { boardsUrl, usersUrl } from "../constants/urlForFiresore";
 
 class BoardsService {
   createBoard(model) {
@@ -9,11 +9,23 @@ class BoardsService {
     const creatorId = firebase_app.auth().currentUser.uid;
     const boardId = `${creatorId}_${timeStamp}`;
     const storage = firebase.storage().ref().child(`${boardsUrl}/${boardId}`);
-    return uploadToFirebase(model, storage, creatorId, boardId, boardsUrl).then(
-      function () {
-        return boardId;
-      }
-    );
+    const file = model.fileModel.files[0];
+    const dataForStorage = {
+      boardId,
+      creatorId,
+      title: model.values.title,
+      description: model.values.description,
+      members: model.values.members,
+    };
+    return uploadToFirebase(
+      dataForStorage,
+      storage,
+      boardId,
+      file,
+      boardsUrl
+    ).then(function () {
+      return boardId;
+    });
   }
 
   getBoard(boardId) {
@@ -32,22 +44,19 @@ class BoardsService {
       });
   }
 
-  getAllList() {
-    const docRef = firestore.collection(boardsUrl);
+  async getAllList() {
+    const tempDoc = [];
     const currentUserID = firebase_app.auth().currentUser.uid;
-    const query = docRef.where("creatorId", "==", currentUserID);
-    return query
-      .get()
-      .then((querySnapshot) => {
-        const tempDoc = [];
-        querySnapshot.forEach((doc) => {
-          tempDoc.push({ ...doc.data() });
-        });
-        return tempDoc;
-      })
-      .catch((error) => {
-        return "Error getting documents: ", error;
-      });
+    const docUsersRef = firestore.collection(usersUrl);
+    const docBoardRef = firestore.collection(boardsUrl);
+    const query = await docBoardRef
+      .where("creatorId", "==", currentUserID)
+      .get();
+    for (const doc of query.docs) {
+      const queryUser = (await docUsersRef.doc(currentUserID).get()).data();
+      await tempDoc.push({ queryUser, ...doc.data() });
+    }
+    return tempDoc;
   }
 }
 export default new BoardsService();

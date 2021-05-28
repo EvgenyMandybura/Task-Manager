@@ -19,6 +19,7 @@ import {
   DropdownItem,
 } from "reactstrap";
 import SubMenu from "./SubMenu";
+import { usersUrl } from "../../constants/urlForFiresore";
 
 const Header = ({ logoutUser, history }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +39,7 @@ const Header = ({ logoutUser, history }) => {
     firebase_app
       .storage()
       .ref()
-      .child(`images/${user.uid}/avatar`)
+      .child(`${usersUrl}/${user.uid}`)
       .getDownloadURL()
       .then((url) => {
         setImageAvatar(url);

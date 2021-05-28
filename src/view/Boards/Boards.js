@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import "./indexBoards.scss";
 import imgPlaceholder from "../../assets/ic-placeholder.svg";
 import { getListBoards, getListBoardsClear } from "../../redux/boards/actions";
+import HeaderStyles from "../../components/layout/index.module.scss";
 
 const Boards = ({ getListBoards, getListBoardsClear, boardState, history }) => {
   const { boardsList: boardsList } = boardState;
@@ -21,6 +22,7 @@ const Boards = ({ getListBoards, getListBoardsClear, boardState, history }) => {
   const fetchBoards = () => {
     getListBoards();
   };
+
   useEffect(() => {
     fetchBoards();
     updateReady(true);
@@ -28,7 +30,6 @@ const Boards = ({ getListBoards, getListBoardsClear, boardState, history }) => {
       getListBoardsClear();
     };
   }, []);
-
   return (
     <ContainerUser>
       <h1>List of boards:</h1>
@@ -50,15 +51,23 @@ const Boards = ({ getListBoards, getListBoardsClear, boardState, history }) => {
               <CardBody>
                 <CardTitle tag="h5">{board.title}</CardTitle>
                 <CardText>{board.description}</CardText>
-                <CardText>{board.creatorId}</CardText>
-                <CardText>userPhoto: {board.userPhoto}</CardText>
-                <Button color="secondary">Edit</Button>
-                <Button color="dander">Leave board</Button>
+                <CardText>
+                  <img
+                    src={board.queryUser.fileUrl}
+                    alt="logo"
+                    className={HeaderStyles.userLogo}
+                  />
+                  <b>{board.queryUser.firstName}</b>
+                </CardText>
+                <Button color="secondary" className="cardBoardDetailsBtn">
+                  Edit
+                </Button>
+                <Button color="danger">Leave board</Button>
               </CardBody>
             </Card>
           ))
         ) : (
-          <h3>Now boards</h3>
+          <h3>No boards</h3>
         )}
       </div>
     </ContainerUser>

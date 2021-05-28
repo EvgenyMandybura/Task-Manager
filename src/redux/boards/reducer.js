@@ -64,7 +64,7 @@ const boards = (state = initialState, action) => {
     case GET_BOARD_CLEAR:
       state = {
         ...state,
-        product: null,
+        board: null,
         loading: false,
       };
       break;
@@ -85,6 +85,7 @@ const boards = (state = initialState, action) => {
       state = {
         ...state,
         loading: false,
+        boardsList: [],
       };
       break;
     case GET_BOARDS_ERROR:

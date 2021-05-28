@@ -1,24 +1,21 @@
 import { firestore } from "../components/Firebase/firebase";
 
 async function uploadToFirebase(
-  model,
+  dataForStorage,
   storage,
-  creatorId,
-  boardId,
+  Id,
+  file,
   collectionUrl
 ) {
-  const { ...rest } = model.values;
-  await storage.put(model.fileModel.files[0], { contentType: "image/jpeg" });
+  const { ...rest } = dataForStorage;
+  await storage.put(file, { contentType: "image/jpeg" });
   const fileUrl = await storage.getDownloadURL();
-
   await firestore
     .collection(collectionUrl)
-    .doc(boardId)
+    .doc(Id)
     .set({
       ...rest,
       fileUrl,
-      creatorId,
-      boardId,
     });
 }
 
