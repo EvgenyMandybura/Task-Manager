@@ -3,6 +3,9 @@ import {
   LOGIN_USER,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
+  LOGOUT_USER,
+  LOGOUT_USER_SUCCESS,
+  LOGOUT_ERROR,
   COMPLETE_PROFILE_FORM,
   COMPLETE_PROFILE_FORM_SUCCESS,
   COMPLETE_PROFILE_FORM_ERROR,
@@ -44,6 +47,15 @@ const auth = (state = initialState, action) => {
         ...state,
         loading: false,
       };
+      break;
+    case LOGOUT_USER:
+      state = { ...state };
+      break;
+    case LOGOUT_USER_SUCCESS:
+      state = { ...state };
+      break;
+    case LOGOUT_ERROR:
+      state = { ...state, loading: false };
       break;
     case COMPLETE_PROFILE_FORM:
       state = {
