@@ -10,6 +10,9 @@ import {
   GET_BOARDS_SUCCESS,
   GET_BOARDS_ERROR,
   GET_BOARDS_CLEAR,
+  EDIT_BOARD,
+  EDIT_BOARD_SUCCESS,
+  EDIT_BOARD_ERROR,
 } from "./actionTypes";
 
 const initialState = {
@@ -93,6 +96,25 @@ const boards = (state = initialState, action) => {
         ...state,
         data: [],
         error: "",
+      };
+      break;
+    case EDIT_BOARD:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case EDIT_BOARD_SUCCESS:
+      state = {
+        ...state,
+        created: action.payload,
+        loading: false,
+      };
+      break;
+    case EDIT_BOARD_ERROR:
+      state = {
+        ...state,
+        loading: false,
       };
       break;
 

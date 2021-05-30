@@ -41,7 +41,7 @@ const Boards = ({ getListBoards, getListBoardsClear, boardState, history }) => {
           boardsList.map((board) => (
             <Card
               className="cardBoards"
-              onClick={() => history.push(`/board-details/${board.boardId}`)}
+              //    onClick={() => history.push(`/board-details/${board.boardId}`)}
               key={board.boardId}
             >
               <CardImg
@@ -59,9 +59,17 @@ const Boards = ({ getListBoards, getListBoardsClear, boardState, history }) => {
                   />
                   <b>{board.queryUser.firstName}</b>
                 </CardText>
-                <Button color="secondary" className="cardBoardDetailsBtn">
+
+                <Button
+                  color="secondary"
+                  className="cardBoardDetailsBtn"
+                  onClick={() =>
+                    history.push(`/edit-board-details/${board.boardId}`)
+                  }
+                >
                   Edit
                 </Button>
+
                 <Button color="danger">Leave board</Button>
               </CardBody>
             </Card>

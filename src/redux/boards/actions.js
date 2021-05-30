@@ -10,6 +10,9 @@ import {
   GET_BOARDS_SUCCESS,
   GET_BOARDS_ERROR,
   GET_BOARDS_CLEAR,
+  EDIT_BOARD,
+  EDIT_BOARD_SUCCESS,
+  EDIT_BOARD_ERROR,
 } from "./actionTypes";
 
 export const createBoard = (model) => {
@@ -81,3 +84,22 @@ export const getListBoardsClear = () => {
     type: GET_BOARDS_ERROR,
   };
 };
+
+export const editBoard = (model) => {
+  return {
+    type: EDIT_BOARD,
+    payload: { model },
+  };
+};
+
+export const editBoardSuccess = (board) => {
+  return {
+    type: EDIT_BOARD_SUCCESS,
+    payload: board,
+  };
+};
+
+export const editBoardError = ({ message }) => ({
+  type: EDIT_BOARD_ERROR,
+  payload: { message },
+});

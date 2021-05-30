@@ -47,7 +47,6 @@ class BoardsService {
 
   async getAllList() {
     const tempDoc = [];
-    //const currentUserID = firebase_app.auth().currentUser.uid;
     const currentUserID = StorageService.user.value.uid;
     const docUsersRef = firestore.collection(usersUrl);
     const docBoardRef = firestore.collection(boardsUrl);
@@ -59,6 +58,28 @@ class BoardsService {
       await tempDoc.push({ queryUser, ...doc.data() });
     }
     return tempDoc;
+  }
+
+  editBoard(model) {
+    const creatorId = StorageService.user.value.uid;
+    const { boardId } = model.values;
+    const storage = firebase.storage().ref().child(`${boardsUrl}/${boardId}`);
+    const file = model.fileModel.files[0];
+    const dataForStorage = {
+      creatorId,
+      title: model.values.title,
+      description: model.values.description,
+      members: model.values.members,
+    };
+    return uploadToFirebase(
+      dataForStorage,
+      storage,
+      boardId,
+      file,
+      boardsUrl
+    ).then(function () {
+      return boardId;
+    });
   }
 }
 export default new BoardsService();

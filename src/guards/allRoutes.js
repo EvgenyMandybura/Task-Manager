@@ -5,6 +5,7 @@ import Dashboard from "../view/dashboard/Dashboard";
 import Boards from "../view/Boards/Boards";
 import MakeNewPage from "../view/Boards/MakeNewPage";
 import BoardDetails from "../view/Boards/BoardDetails";
+import EditBoardDetailsForm from "../components/forms/EditBoardDetailsForm";
 
 const userRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -12,6 +13,7 @@ const userRoutes = [
   { path: "/boards", component: Boards },
   { path: "/make-new-board", component: MakeNewPage },
   { path: "/board-details", component: BoardDetails },
+  { path: "/edit-board-details", component: EditBoardDetailsForm },
   { path: "", exact: true, component: Boards },
 ];
 
