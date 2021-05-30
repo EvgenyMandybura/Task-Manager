@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Redirect, Route, withRouter } from "react-router-dom";
 import Header from "../../components/layout/Header";
-import { UserContext } from "../../components/Firebase/UserProvider";
-import { auth } from "../../components/Firebase/firebase";
+import StorageService from "../../services/StorageService";
 
-function AuthMiddleware({ component: Component, exact = false }) {
-  const user = useContext(UserContext);
+const AuthMiddleware = ({ component: Component, exact = false }) => {
   return (
     <Route
       exact={exact}
       render={(props) => {
+        const user = StorageService.user.value;
+
         if (!!user) {
           return (
             <>
@@ -27,6 +27,6 @@ function AuthMiddleware({ component: Component, exact = false }) {
       }}
     />
   );
-}
+};
 
 export default withRouter(AuthMiddleware);

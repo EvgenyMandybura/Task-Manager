@@ -84,10 +84,11 @@ function* loginUserWithEmailPassword({ payload: { user, history } }) {
   }
 }
 
-function* logoutUser() {
+function* logoutUser({ payload: { history } }) {
   try {
     yield call(signOutAsync);
     yield put(logoutUserSuccess());
+    history.push("/sign-in");
   } catch (error) {
     ToastrService.error(error.message);
     yield put(logoutError(error));

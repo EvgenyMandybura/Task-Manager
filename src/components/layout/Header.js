@@ -20,14 +20,15 @@ import {
 } from "reactstrap";
 import SubMenu from "./SubMenu";
 import { usersUrl } from "../../constants/urlForFiresore";
+import StorageService from "../../services/StorageService";
 
-const Header = ({ logoutUser, history }) => {
+const Header = ({ logoutUser, history, authState }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenNavBar, setIsOpenNavBar] = useState(false);
-  const user = firebase_app.auth().currentUser;
+  const user = StorageService.user.value;
   const toggle = () => setIsOpen(!isOpen);
   const onSubmitLogOut = () => {
-    logoutUser();
+    logoutUser(history);
   };
   const toggleSidebar = () => {
     setIsOpenNavBar(!isOpenNavBar);
@@ -97,6 +98,6 @@ const Header = ({ logoutUser, history }) => {
   );
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = ({ auth }) => ({ authState: auth });
 
 export default withRouter(connect(mapStateToProps, { logoutUser })(Header));

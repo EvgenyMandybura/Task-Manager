@@ -4,38 +4,36 @@ import { authRoutes, userRoutes } from "./guards/allRoutes";
 import AuthMiddleware from "./guards/middleware/AuthMiddleware";
 import NonAuthMiddleware from "./guards/middleware/NonAuthMiddleware";
 import { ToastContainer } from "react-toastify";
-import UserProvider from "./components/Firebase/UserProvider";
 
 const App = () => {
   return (
     <Fragment>
       <ToastContainer />
-      <UserProvider>
-        <Router>
-          <Switch>
-            {authRoutes.map((route, idx) => (
-              <NonAuthMiddleware
+
+      <Router>
+        <Switch>
+          {authRoutes.map((route, idx) => (
+            <NonAuthMiddleware
+              path={route.path}
+              component={route.component}
+              exact={route.exact}
+              key={idx}
+            />
+          ))}
+
+          {userRoutes.map((route, idx) => {
+            return (
+              <AuthMiddleware
                 path={route.path}
                 component={route.component}
                 exact={route.exact}
+                roles={route.roles}
                 key={idx}
               />
-            ))}
-
-            {userRoutes.map((route, idx) => {
-              return (
-                <AuthMiddleware
-                  path={route.path}
-                  component={route.component}
-                  exact={route.exact}
-                  roles={route.roles}
-                  key={idx}
-                />
-              );
-            })}
-          </Switch>
-        </Router>
-      </UserProvider>
+            );
+          })}
+        </Switch>
+      </Router>
     </Fragment>
   );
 };

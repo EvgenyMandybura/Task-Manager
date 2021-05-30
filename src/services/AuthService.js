@@ -1,44 +1,61 @@
-import {
-  firebase_app,
-  firestore,
-  firebase_storage,
-} from "../components/Firebase/firebase";
+import { firebase_app } from "../components/Firebase/firebase";
 import firebase from "firebase";
 import { usersUrl } from "../constants/urlForFiresore";
 import uploadToFirebase from "../helpers/uploadToFirebase";
+import StorageService from "./StorageService";
+
+const USER_PLACEHOLDER = {
+  firstName: "FirstName",
+  lastName: "LastName",
+};
+
+const REMEMBER_ME_DEFAULT = true;
 
 class AuthService {
-  login({ email, password }) {
-    return firebase_app.auth().signInWithEmailAndPassword(email, password);
+  login({ email, password, remember = REMEMBER_ME_DEFAULT }) {
+    this.clearUser();
+    return firebase_app
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((authUser) => {
+        const user = firebase_app.auth().currentUser;
+        this.storeUser(user, remember);
+        return authUser;
+      });
   }
 
-  loginWithFacebook() {
+  loginWithFacebook(remember = REMEMBER_ME_DEFAULT) {
+    this.clearUser();
     const provider = new firebase.auth.FacebookAuthProvider();
     return firebase_app
       .auth()
       .signInWithPopup(provider)
-      .then((result) => {
-        let credential = result.credential;
-        let user = result.user;
-        let accessToken = credential.accessToken;
-        return result;
-      })
-      .catch((error) => {
-        let errorCode = error.code;
-        let errorMessage = error.message;
-        let email = error.email;
-        let credential = error.credential;
+      .then((authUser) => {
+        const user = firebase_app.auth().currentUser;
+        this.storeUser(user, remember);
+        return authUser;
       });
   }
 
   logout() {
-    return firebase_app.auth().signOut();
+    return firebase_app
+      .auth()
+      .signOut()
+      .then(() => {
+        this.clearUser();
+      });
   }
 
-  async register({ name, email, password }) {
+  async register({ name, email, password, remember = REMEMBER_ME_DEFAULT }) {
+    this.clearUser();
     return await firebase_app
       .auth()
-      .createUserWithEmailAndPassword(email, password);
+      .createUserWithEmailAndPassword(email, password)
+      .then((authUser) => {
+        const user = firebase_app.auth().currentUser;
+        this.storeUser(user, remember);
+        return authUser;
+      });
   }
 
   completeProfile(model) {
@@ -65,14 +82,19 @@ class AuthService {
     });
   }
 
-  getProfile(userId) {
-    const docUsersRef = firestore.collection(usersUrl);
-    return docUsersRef
-      .doc(userId)
-      .get()
-      .then((docCreator) => {
-        return docCreator.data();
-      });
+  storeUser(userData, remember = false) {
+    const storage = remember ? localStorage : sessionStorage;
+    StorageService.user.storage = storage;
+    StorageService.user.value = userData;
+  }
+
+  clearUser() {
+    StorageService.user.clear();
+  }
+
+  getUser() {
+    const user = StorageService.user.value;
+    return user ? user : USER_PLACEHOLDER;
   }
 }
 export default new AuthService();

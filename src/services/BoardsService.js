@@ -2,11 +2,12 @@ import { firebase_app, firestore } from "../components/Firebase/firebase";
 import firebase from "firebase";
 import uploadToFirebase from "../helpers/uploadToFirebase";
 import { boardsUrl, usersUrl } from "../constants/urlForFiresore";
+import StorageService from "./StorageService";
 
 class BoardsService {
   createBoard(model) {
     const timeStamp = new Date().getTime();
-    const creatorId = firebase_app.auth().currentUser.uid;
+    const creatorId = StorageService.user.value.uid;
     const boardId = `${creatorId}_${timeStamp}`;
     const storage = firebase.storage().ref().child(`${boardsUrl}/${boardId}`);
     const file = model.fileModel.files[0];
@@ -46,7 +47,8 @@ class BoardsService {
 
   async getAllList() {
     const tempDoc = [];
-    const currentUserID = firebase_app.auth().currentUser.uid;
+    //const currentUserID = firebase_app.auth().currentUser.uid;
+    const currentUserID = StorageService.user.value.uid;
     const docUsersRef = firestore.collection(usersUrl);
     const docBoardRef = firestore.collection(boardsUrl);
     const query = await docBoardRef
