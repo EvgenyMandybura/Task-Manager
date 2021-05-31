@@ -4,8 +4,9 @@ import { Button, Col, Form, Row } from "reactstrap";
 import { useRouteMatch, withRouter } from "react-router-dom";
 import FormikFormGroup from "../formik/FormikFormGroup";
 import { Field, FieldArray, Formik } from "formik";
-import fileValidation from "../../helpers/fileValidation";
-import { changeHandlerImage, showImage } from "../../helpers/UploadImage";
+import FileHelper from "../../helpers/FIleHelper";
+import { changeHandlerImage } from "../../helpers/UploadImage";
+
 import {
   editBoard,
   getBoard,
@@ -45,20 +46,24 @@ const EditBoardDetailsForm = ({
   const handleSubmitForm = (values) => {
     const model = { values, history, fileModel };
     model.values.boardId = boardId;
-    console.log(model);
+    fileModel.files = [file];
+    editBoard(model);
   };
-
+  const uploadedImage = useRef(null);
   const fileModel = {};
-  const profileImage = useRef();
+
   const [imageUploaded, setImageUploaded] = useState(null);
+  const [file, setFile] = useState(null);
+
   const changeHandler = (e) => {
     const file = e.target.files[0];
-    changeHandlerImage(file, fileModel, profileImage);
+    setFile(file);
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
       setImageUploaded(reader.result);
     };
+    setImageUploaded(FileHelper.openAsDataUrl(file));
   };
 
   const initialValues = {
@@ -78,17 +83,17 @@ const EditBoardDetailsForm = ({
                 <h3>Edit Board</h3>
                 <div>
                   <img
-                    src={imageUploaded ? imageUploaded : board?.fileUrl}
                     alt="Logo"
                     className="boardImage"
+                    src={imageUploaded ? imageUploaded : board.fileUrl}
                   />
                   <div className="file-input">
                     <input
-                      ref={profileImage}
                       type="file"
                       accept="image/*"
                       className="file"
                       id="file"
+                      ref={uploadedImage}
                       onChange={(e) => changeHandler(e)}
                     />
                     <label htmlFor="file" className="buttonLabel">
