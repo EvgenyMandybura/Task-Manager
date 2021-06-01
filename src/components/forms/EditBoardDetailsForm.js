@@ -5,13 +5,19 @@ import { useRouteMatch, withRouter } from "react-router-dom";
 import FormikFormGroup from "../formik/FormikFormGroup";
 import { Field, FieldArray, Formik } from "formik";
 import FileHelper from "../../helpers/FIleHelper";
-import { changeHandlerImage } from "../../helpers/UploadImage";
-
 import {
   editBoard,
   getBoard,
   clearBoardFetched,
 } from "../../redux/boards/actions";
+import * as yup from "yup";
+import validationSchemas from "../../constants/validationSchemas";
+import fileValidation from "../../helpers/fileValidation";
+
+const validationSchema = yup.object({
+  title: validationSchemas.title,
+  description: validationSchemas.description,
+});
 
 const EditBoardDetailsForm = ({
   editBoard,
@@ -47,7 +53,7 @@ const EditBoardDetailsForm = ({
     const model = { values, history, fileModel };
     model.values.boardId = boardId;
     fileModel.files = [file];
-    editBoard(model);
+    fileValidation(model, editBoard);
   };
   const uploadedImage = useRef(null);
   const fileModel = {};
@@ -55,15 +61,11 @@ const EditBoardDetailsForm = ({
   const [imageUploaded, setImageUploaded] = useState(null);
   const [file, setFile] = useState(null);
 
-  const changeHandler = (e) => {
+  const changeHandler = async (e) => {
     const file = e.target.files[0];
     setFile(file);
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setImageUploaded(reader.result);
-    };
-    setImageUploaded(FileHelper.openAsDataUrl(file));
+    const promiseFile = await FileHelper.openAsDataUrl(file);
+    await setImageUploaded(promiseFile);
   };
 
   const initialValues = {
@@ -75,7 +77,11 @@ const EditBoardDetailsForm = ({
   return (
     <div>
       {ready && !loading && (
-        <Formik initialValues={initialValues} onSubmit={handleSubmitForm}>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmitForm}
+        >
           {(form) => {
             const { errors, touched, handleSubmit } = form;
             return (

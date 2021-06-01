@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { connect } from "react-redux";
 import { Button, Col, Form, Row } from "reactstrap";
 import { withRouter } from "react-router-dom";
@@ -6,8 +6,10 @@ import FormikFormGroup from "../formik/FormikFormGroup";
 import { Field, FieldArray, Formik } from "formik";
 import fileValidation from "../../helpers/fileValidation";
 import logoPlaceholder from "../../assets/ic-placeholder.svg";
-import { changeHandlerImage } from "../../helpers/UploadImage";
+import FileHelper from "../../helpers/FIleHelper";
 import { createBoard } from "../../redux/boards/actions";
+import * as yup from "yup";
+import validationSchemas from "../../constants/validationSchemas";
 
 const initialValues = {
   title: "",
@@ -15,22 +17,35 @@ const initialValues = {
   members: [""],
 };
 
+const validationSchema = yup.object({
+  title: validationSchemas.title,
+  description: validationSchemas.description,
+});
+
 const MakeNewPageForm = ({ createBoard, history }) => {
   const handleSubmitForm = (values) => {
     const model = { values, history, fileModel };
+    fileModel.files = [file];
     fileValidation(model, createBoard);
   };
   const fileModel = {};
-  const profileImage = useRef(logoPlaceholder);
-
-  const changeHandler = (e) => {
+  const uploadedImage = useRef(null);
+  const [imageUploaded, setImageUploaded] = useState(null);
+  const [file, setFile] = useState(null);
+  const changeHandler = async (e) => {
     const file = e.target.files[0];
-    changeHandlerImage(file, fileModel, profileImage);
+    setFile(file);
+    const promiseFile = await FileHelper.openAsDataUrl(file);
+    await setImageUploaded(promiseFile);
   };
 
   return (
     <div>
-      <Formik initialValues={initialValues} onSubmit={handleSubmitForm}>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmitForm}
+      >
         {(form) => {
           const { errors, touched, handleSubmit } = form;
           return (
@@ -38,13 +53,13 @@ const MakeNewPageForm = ({ createBoard, history }) => {
               <h3>Create new Board</h3>
               <div>
                 <img
-                  src={profileImage.current ? profileImage.current : null}
+                  src={imageUploaded ? imageUploaded : logoPlaceholder}
                   alt="Logo"
                   className="boardImage"
                 />
                 <div className="file-input">
                   <input
-                    ref={profileImage}
+                    ref={uploadedImage}
                     type="file"
                     accept="image/*"
                     className="file"

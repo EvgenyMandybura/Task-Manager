@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { connect } from "react-redux";
 import { Button, Form } from "reactstrap";
 import { Link, withRouter } from "react-router-dom";
@@ -9,7 +9,7 @@ import { Formik } from "formik";
 import validationSchemas from "../../constants/validationSchemas";
 import logoPlaceholder from "../../assets/ic-avatar-placeholder.svg";
 import fileValidation from "../../helpers/fileValidation";
-import { changeHandlerImage } from "../../helpers/UploadImage";
+import FileHelper from "../../helpers/FIleHelper";
 const validationSchema = yup.object({
   firstName: validationSchemas.name,
   lastName: validationSchemas.name,
@@ -31,15 +31,19 @@ const initialValues = {
 const SignUpForm = ({ registerUser, history }) => {
   const handleSubmitForm = (values) => {
     const model = { values, history, fileModel };
+    fileModel.files = [file];
     fileValidation(model, registerUser);
   };
   const fileModel = {};
-  const profileImage = useRef(logoPlaceholder);
-
-  const changeHandler = (e) => {
+  const uploadedImage = useRef(null);
+  const [imageUploaded, setImageUploaded] = useState(null);
+  const [file, setFile] = useState(null);
+  const changeHandler = async (e) => {
     const file = e.target.files[0];
-    changeHandlerImage(file, fileModel, profileImage)
-  }
+    setFile(file);
+    const promiseFile = await FileHelper.openAsDataUrl(file);
+    await setImageUploaded(promiseFile);
+  };
 
   return (
     <div>
@@ -56,13 +60,13 @@ const SignUpForm = ({ registerUser, history }) => {
               <h1>Sign up</h1>
               <div>
                 <img
-                  src={profileImage.current ? profileImage.current : null}
+                  src={imageUploaded ? imageUploaded : logoPlaceholder}
                   alt="Logo"
                   className="avatar"
                 />
                 <div className="file-input">
                   <input
-                    ref={profileImage}
+                    ref={uploadedImage}
                     type="file"
                     accept="image/*"
                     className="file"
