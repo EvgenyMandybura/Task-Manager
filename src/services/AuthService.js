@@ -59,9 +59,10 @@ class AuthService {
   }
 
   completeProfile(model) {
-    const { firstName, lastName } = model.values;
+    const { firstName, lastName, email } = model.values;
     const user = firebase_app.auth().currentUser;
     user.updateProfile({ displayName: `${firstName} ${lastName}` });
+    user.updateEmail(email);
     const storage = firebase.storage().ref().child(`${usersUrl}/${user.uid}`);
     const file = model.fileModel.files[0];
     const dataForStorage = {
@@ -74,7 +75,7 @@ class AuthService {
     return uploadToFirebase(
       dataForStorage,
       storage,
-      user.uid,
+      email,
       file,
       usersUrl
     ).then(function () {

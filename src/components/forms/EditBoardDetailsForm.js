@@ -58,7 +58,9 @@ const EditBoardDetailsForm = ({
   const handleSubmitForm = (values) => {
     const model = { values, history, fileModel };
     model.values.boardId = boardId;
-    model.values.members = savedMembers;
+    if (savedMembers) {
+      model.values.members = savedMembers;
+    }
     fileModel.files = [file];
     fileValidation(model, editBoard);
     clearSavedMembers();

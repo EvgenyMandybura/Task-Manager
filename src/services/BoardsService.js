@@ -3,17 +3,18 @@ import firebase from "firebase";
 import uploadToFirebase from "../helpers/uploadToFirebase";
 import { boardsUrl, usersUrl } from "../constants/urlForFiresore";
 import StorageService from "./StorageService";
+import ToastrService from "./ToastrService";
 
 class BoardsService {
   createBoard(model) {
     const timeStamp = new Date().getTime();
-    const creatorId = StorageService.user.value.uid;
-    const boardId = `${creatorId}_${timeStamp}`;
+    const creatorEmail = StorageService.user.value.email;
+    const boardId = `${creatorEmail}_${timeStamp}`;
     const storage = firebase.storage().ref().child(`${boardsUrl}/${boardId}`);
     const file = model.fileModel.files[0];
     const dataForStorage = {
       boardId,
-      creatorId,
+      creatorEmail,
       title: model.values.title,
       description: model.values.description,
       members: model.values.members,
@@ -47,11 +48,11 @@ class BoardsService {
 
   async getAllList() {
     const tempDoc = [];
-    const currentUserID = StorageService.user.value.uid;
+    const currentUserID = StorageService.user.value.email;
     const docUsersRef = firestore.collection(usersUrl);
     const docBoardRef = firestore.collection(boardsUrl);
     const query = await docBoardRef
-      .where("creatorId", "==", currentUserID)
+      .where("creatorEmail", "==", currentUserID)
       .get();
     for (const doc of query.docs) {
       const queryUser = (await docUsersRef.doc(currentUserID).get()).data();
@@ -61,13 +62,13 @@ class BoardsService {
   }
 
   editBoard(model) {
-    const creatorId = StorageService.user.value.uid;
+    const creatorEmail = StorageService.user.value.email;
     const { boardId } = model.values;
     const storage = firebase.storage().ref().child(`${boardsUrl}/${boardId}`);
     const file = model.fileModel.files[0];
     const dataForStorage = {
       boardId,
-      creatorId,
+      creatorEmail,
       title: model.values.title,
       description: model.values.description,
       members: model.values.members,
@@ -81,6 +82,29 @@ class BoardsService {
     ).then(function () {
       return boardId;
     });
+  }
+
+  async checkUniqueMembers({ members }) {
+    let error = false;
+    const docUsersRef = firestore.collection(usersUrl);
+    if (!members) {
+      return true;
+    }
+
+    for (const member of members) {
+      await docUsersRef
+        .doc(member)
+        .get()
+        .then((doc) => {
+          if (!doc.exists) {
+            ToastrService.error(`${member} don't found`);
+            error = true;
+          }
+        });
+    }
+    if (!error) {
+      return true;
+    }
   }
 }
 export default new BoardsService();

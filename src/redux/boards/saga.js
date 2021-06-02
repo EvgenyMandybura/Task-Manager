@@ -17,11 +17,17 @@ import ToastrService from "../../services/ToastrService";
 import BoardsService from "../../services/BoardsService";
 
 const createBoardAsync = async (model) => {
-  return await BoardsService.createBoard(model);
+  const response = await BoardsService.checkUniqueMembers(model.values);
+  if (response) {
+    return await BoardsService.createBoard(model);
+  }
 };
 
 const createEditAsync = async (model) => {
-  return await BoardsService.editBoard(model);
+  const response = await BoardsService.checkUniqueMembers(model.values);
+  if (response) {
+    return await BoardsService.editBoard(model);
+  }
 };
 
 const getBoardAsync = async (boadrId) => {
