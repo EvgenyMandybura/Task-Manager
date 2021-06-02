@@ -13,6 +13,9 @@ import {
   EDIT_BOARD,
   EDIT_BOARD_SUCCESS,
   EDIT_BOARD_ERROR,
+  SAVE_MEMBERS,
+  SAVE_MEMBERS_SUCCESS,
+  CLEAR_MEMBERS_SAVED_MEMBERS,
 } from "./actionTypes";
 
 export const createBoard = (model) => {
@@ -103,3 +106,16 @@ export const editBoardError = ({ message }) => ({
   type: EDIT_BOARD_ERROR,
   payload: { message },
 });
+
+export const saveMembers = (members) => {
+  return {
+    type: SAVE_MEMBERS,
+    payload: { members },
+  };
+};
+
+export const clearSavedMembers = () => {
+  return {
+    type: CLEAR_MEMBERS_SAVED_MEMBERS,
+  };
+};

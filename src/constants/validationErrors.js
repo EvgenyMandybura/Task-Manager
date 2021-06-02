@@ -11,6 +11,7 @@ import {
 // EMAIL
 export const IS_INVALID_EMAIL = "Email address is invalid";
 export const IS_REQUIRED_EMAIL = "Email address is required";
+export const IS_EMAIL_UNIQUE = "Emails must be unique";
 
 // PASSWORD
 export const IS_REQUIRED_PASSWORD = "Password is required";

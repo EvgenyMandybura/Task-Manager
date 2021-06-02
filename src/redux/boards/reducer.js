@@ -13,6 +13,9 @@ import {
   EDIT_BOARD,
   EDIT_BOARD_SUCCESS,
   EDIT_BOARD_ERROR,
+  SAVE_MEMBERS,
+  SAVE_MEMBERS_SUCCESS,
+  CLEAR_MEMBERS_SAVED_MEMBERS,
 } from "./actionTypes";
 
 const initialState = {
@@ -22,6 +25,7 @@ const initialState = {
   loading: false,
   board: null,
   boardsList: [],
+  savedMembers: [],
 };
 
 const boards = (state = initialState, action) => {
@@ -118,10 +122,24 @@ const boards = (state = initialState, action) => {
       };
       break;
 
+    case SAVE_MEMBERS:
+      state = {
+        ...state,
+        savedMembers: action.payload,
+      };
+      break;
+
+    case CLEAR_MEMBERS_SAVED_MEMBERS:
+      state = {
+        ...state,
+        savedMembers: [],
+      };
+      break;
     default:
       state = { ...state };
       break;
   }
+
   return state;
 };
 

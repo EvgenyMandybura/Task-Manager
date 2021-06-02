@@ -3,16 +3,21 @@ import { connect } from "react-redux";
 import { Button, Col, Form, Row } from "reactstrap";
 import { useRouteMatch, withRouter } from "react-router-dom";
 import FormikFormGroup from "../formik/FormikFormGroup";
-import { Field, FieldArray, Formik } from "formik";
+import { Formik } from "formik";
 import FileHelper from "../../helpers/FIleHelper";
 import {
   editBoard,
   getBoard,
   clearBoardFetched,
+  clearSavedMembers,
 } from "../../redux/boards/actions";
 import * as yup from "yup";
 import validationSchemas from "../../constants/validationSchemas";
 import fileValidation from "../../helpers/fileValidation";
+import ContainerUser from "../layout/ContainerUser";
+import useModal from "../../hook/useModal";
+import AddMemberModalDialog from "../modal/AddMemberModalDialog";
+import ListOfMembers from "../members/ListOfMembers";
 
 const validationSchema = yup.object({
   title: validationSchemas.title,
@@ -25,6 +30,7 @@ const EditBoardDetailsForm = ({
   clearBoardFetched,
   history,
   boardState,
+  clearSavedMembers,
 }) => {
   const {
     params: { boardId },
@@ -52,12 +58,13 @@ const EditBoardDetailsForm = ({
   const handleSubmitForm = (values) => {
     const model = { values, history, fileModel };
     model.values.boardId = boardId;
+    model.values.members = savedMembers;
     fileModel.files = [file];
     fileValidation(model, editBoard);
+    clearSavedMembers();
   };
   const uploadedImage = useRef(null);
   const fileModel = {};
-
   const [imageUploaded, setImageUploaded] = useState(null);
   const [file, setFile] = useState(null);
 
@@ -68,6 +75,8 @@ const EditBoardDetailsForm = ({
     await setImageUploaded(promiseFile);
   };
 
+  const [modalVisibleAdd, toggleModalAdd] = useModal();
+  const savedMembers = boardState.savedMembers.members;
   const initialValues = {
     title: board?.title,
     description: board?.description,
@@ -75,7 +84,7 @@ const EditBoardDetailsForm = ({
   };
 
   return (
-    <div>
+    <ContainerUser>
       {ready && !loading && (
         <Formik
           initialValues={initialValues}
@@ -121,41 +130,18 @@ const EditBoardDetailsForm = ({
                   label={"description"}
                   placeholder={"Add description"}
                 />
-                <FieldArray name="members" label={"Members:"}>
-                  {({ remove, push }) => (
-                    <div>
-                      {form.values.members.length > 0 &&
-                        form.values.members.map((member, index) => (
-                          <Row key={index} className="memberAdd">
-                            <Col xs="11">
-                              <Field
-                                name={`members.${index}`}
-                                placeholder="Add member by email"
-                                className="form-control"
-                                type="email"
-                              />
-                            </Col>
-                            <Col xs="1">
-                              <Button
-                                type="button"
-                                color="danger"
-                                onClick={() => remove(index)}
-                              >
-                                X
-                              </Button>
-                            </Col>
-                          </Row>
-                        ))}
-                      <Button
-                        type="button"
-                        color="success"
-                        onClick={() => push()}
-                      >
-                        Add member
-                      </Button>
-                    </div>
-                  )}
-                </FieldArray>
+                <Button color="success" onClick={() => toggleModalAdd()}>
+                  Invite / Edit members
+                </Button>
+                <ListOfMembers
+                  savedMembers={savedMembers}
+                  membersFromFirebase={board.members}
+                />
+                <AddMemberModalDialog
+                  isOpen={modalVisibleAdd}
+                  onCancel={toggleModalAdd}
+                  membersArray={board?.members}
+                />
                 <Button
                   color="success"
                   type="submit"
@@ -169,14 +155,17 @@ const EditBoardDetailsForm = ({
           }}
         </Formik>
       )}
-    </div>
+    </ContainerUser>
   );
 };
 
 const mapStateToProps = ({ boards }) => ({ boardState: boards });
 
 export default withRouter(
-  connect(mapStateToProps, { editBoard, getBoard, clearBoardFetched })(
-    EditBoardDetailsForm
-  )
+  connect(mapStateToProps, {
+    editBoard,
+    getBoard,
+    clearBoardFetched,
+    clearSavedMembers,
+  })(EditBoardDetailsForm)
 );

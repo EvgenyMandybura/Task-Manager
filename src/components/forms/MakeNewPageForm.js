@@ -1,20 +1,22 @@
 import React, { useRef, useState } from "react";
 import { connect } from "react-redux";
-import { Button, Col, Form, Row } from "reactstrap";
+import { Button, Form } from "reactstrap";
 import { withRouter } from "react-router-dom";
 import FormikFormGroup from "../formik/FormikFormGroup";
-import { Field, FieldArray, Formik } from "formik";
+import { Formik } from "formik";
 import fileValidation from "../../helpers/fileValidation";
 import logoPlaceholder from "../../assets/ic-placeholder.svg";
 import FileHelper from "../../helpers/FIleHelper";
-import { createBoard } from "../../redux/boards/actions";
+import { createBoard, clearSavedMembers } from "../../redux/boards/actions";
 import * as yup from "yup";
 import validationSchemas from "../../constants/validationSchemas";
+import useModal from "../../hook/useModal";
+import AddMemberModalDialog from "../modal/AddMemberModalDialog";
 
 const initialValues = {
   title: "",
   description: "",
-  members: [""],
+  members: [],
 };
 
 const validationSchema = yup.object({
@@ -22,11 +24,20 @@ const validationSchema = yup.object({
   description: validationSchemas.description,
 });
 
-const MakeNewPageForm = ({ createBoard, history }) => {
+const MakeNewPageForm = ({
+  createBoard,
+  history,
+  boardState,
+  clearSavedMembers,
+}) => {
   const handleSubmitForm = (values) => {
     const model = { values, history, fileModel };
     fileModel.files = [file];
+    if (!!savedMembers) {
+      model.values.members = savedMembers;
+    }
     fileValidation(model, createBoard);
+    clearSavedMembers();
   };
   const fileModel = {};
   const uploadedImage = useRef(null);
@@ -38,6 +49,9 @@ const MakeNewPageForm = ({ createBoard, history }) => {
     const promiseFile = await FileHelper.openAsDataUrl(file);
     await setImageUploaded(promiseFile);
   };
+
+  const [modalVisibleAdd, toggleModalAdd] = useModal();
+  const savedMembers = boardState.savedMembers.members;
 
   return (
     <div>
@@ -85,41 +99,17 @@ const MakeNewPageForm = ({ createBoard, history }) => {
                 label={"description"}
                 placeholder={"Add description"}
               />
-              <FieldArray name="members" label={"Members:"}>
-                {({ remove, push }) => (
-                  <div>
-                    {form.values.members.length > 0 &&
-                      form.values.members.map((member, index) => (
-                        <Row key={index} className="memberAdd">
-                          <Col xs="11">
-                            <Field
-                              name={`members.${index}`}
-                              placeholder="Add member by email"
-                              className="form-control"
-                              type="email"
-                            />
-                          </Col>
-                          <Col xs="1">
-                            <Button
-                              type="button"
-                              color="danger"
-                              onClick={() => remove(index)}
-                            >
-                              X
-                            </Button>
-                          </Col>
-                        </Row>
-                      ))}
-                    <Button
-                      type="button"
-                      color="success"
-                      onClick={() => push()}
-                    >
-                      Add member
-                    </Button>
-                  </div>
-                )}
-              </FieldArray>
+              <Button color="success" onClick={() => toggleModalAdd()}>
+                Invite members
+              </Button>
+              {savedMembers && <p className="listMembers">List of members:</p>}
+              {savedMembers &&
+                savedMembers.map((member) => <li key={member}>{member}</li>)}
+              <AddMemberModalDialog
+                isOpen={modalVisibleAdd}
+                onCancel={toggleModalAdd}
+                membersArray={[]}
+              />
               <Button
                 color="success"
                 type="submit"
@@ -136,8 +126,8 @@ const MakeNewPageForm = ({ createBoard, history }) => {
   );
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = ({ boards }) => ({ boardState: boards });
 
 export default withRouter(
-  connect(mapStateToProps, { createBoard })(MakeNewPageForm)
+  connect(mapStateToProps, { createBoard, clearSavedMembers })(MakeNewPageForm)
 );

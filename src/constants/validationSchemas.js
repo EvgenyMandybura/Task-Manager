@@ -1,4 +1,5 @@
 import * as yup from "yup";
+
 import {
   IS_INCORRECT_FORMAT_PASSWORD,
   IS_INCORRECT_LENGTH_PASSWORD,
@@ -12,6 +13,7 @@ import {
   IS_REQUIRED_TITLE,
   IS_INCORRECT_LENGTH_TITLE,
   IS_INCORRECT_LENGTH_DESCRIPTION,
+  IS_EMAIL_UNIQUE,
 } from "./validationErrors";
 import {
   PASSWORD_MAX_LENGTH,
@@ -24,6 +26,10 @@ import {
   TITLE_MIN_LENGTH,
   DESCRIPTION_MAX_LENGTH,
 } from "./validationRules";
+
+const uniqueValues = (values) => {
+  return new Set(values).size === values.length;
+};
 
 const validationSchemas = {
   email: yup.string().email(IS_INVALID_EMAIL).required(IS_REQUIRED_EMAIL),
@@ -52,6 +58,7 @@ const validationSchemas = {
   description: yup
     .string()
     .max(DESCRIPTION_MAX_LENGTH, IS_INCORRECT_LENGTH_DESCRIPTION),
+  members: yup.array().test("uniqueValues", IS_EMAIL_UNIQUE, uniqueValues),
 };
 
 export default validationSchemas;
