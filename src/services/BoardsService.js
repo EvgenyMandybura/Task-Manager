@@ -116,10 +116,25 @@ class BoardsService {
     }
   }
 
-  leaveBoard(boardId) {
-    firestore.collection(boardsUrl).doc(boardId).update({
-      boardCreatorStatus: false,
-    });
+  async leaveBoard(boardId) {
+    const currentUserEmail = StorageService.user.value.email;
+    const board = await this.getBoard(boardId);
+    const boardCreatorEmail = board.creatorEmail;
+    const boardMembers = board.members;
+    const docRef = firestore.collection(boardsUrl).doc(boardId);
+
+    if (boardCreatorEmail == currentUserEmail) {
+      docRef.update({
+        boardCreatorStatus: false,
+      });
+    }
+    const indexOfMember = boardMembers.indexOf(currentUserEmail);
+    if (indexOfMember >= 0) {
+      boardMembers.splice(indexOfMember, 1);
+      docRef.update({
+        members: boardMembers,
+      });
+    }
   }
 }
 export default new BoardsService();
