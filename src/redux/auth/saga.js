@@ -6,6 +6,7 @@ import {
   LOGOUT_USER,
   COMPLETE_PROFILE_FORM,
   REGISTER_USER,
+  GET_MEMBERS,
 } from "./actionTypes";
 
 import {
@@ -17,6 +18,8 @@ import {
   completeProfileError,
   registerUserSuccess,
   registerUserError,
+  getListMembersSuccess,
+  getListMembersError,
 } from "./actions";
 
 import ToastrService from "../../services/ToastrService";
@@ -38,6 +41,10 @@ const signOutAsync = () => {
 
 const completeProfileAsync = async (model) => {
   return AuthService.completeProfile(model);
+};
+
+const getMembersListAsync = async (members) => {
+  return await AuthService.getMemberList(members);
 };
 
 const registerWithEmailPasswordAsync = (email, password) => {
@@ -132,6 +139,14 @@ function* signUpUser({ payload }) {
     yield put(registerUserError(error));
   }
 }
+function* getMembers({ payload: { members } }) {
+  try {
+    const response = yield call(getMembersListAsync, members);
+    yield put(getListMembersSuccess(response));
+  } catch (error) {
+    yield put(getListMembersError(error));
+  }
+}
 
 export function* watchUserLoginFB() {
   yield takeEvery(LOGIN_USER_FB, loginUserWithFB);
@@ -153,6 +168,10 @@ export function* watchUserRegister() {
   yield takeEvery(REGISTER_USER, signUpUser);
 }
 
+export function* watchGetMembers() {
+  yield takeEvery(GET_MEMBERS, getMembers);
+}
+
 function* authSaga() {
   yield all([
     fork(watchUserLogin),
@@ -160,6 +179,7 @@ function* authSaga() {
     fork(watchUserLogOut),
     fork(watchUpdateProfile),
     fork(watchUserRegister),
+    fork(watchGetMembers),
   ]);
 }
 

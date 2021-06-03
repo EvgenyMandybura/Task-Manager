@@ -39,14 +39,11 @@ const Boards = ({ getListBoards, getListBoardsClear, boardState, history }) => {
       <div>
         {ready && boardsList != "" ? (
           boardsList.map((board) => (
-            <Card
-              className="cardBoards"
-              //    onClick={() => history.push(`/board-details/${board.boardId}`)}
-              key={board.boardId}
-            >
+            <Card className="cardBoards" key={board.boardId}>
               <CardImg
                 src={board.fileUrl ? board.fileUrl : imgPlaceholder}
                 alt="Card image"
+                onClick={() => history.push(`/board-details/${board.boardId}`)}
               />
               <CardBody>
                 <CardTitle tag="h5">{board.title}</CardTitle>
@@ -59,19 +56,20 @@ const Boards = ({ getListBoards, getListBoardsClear, boardState, history }) => {
                   />
                   <b>{board.queryUser.firstName}</b>
                 </CardText>
-
-                <Button
-                  color="secondary"
-                  className="cardBoardDetailsBtn"
-                  onClick={() =>
-                    history.push(`/edit-board-details/${board.boardId}`)
-                  }
-                >
-                  Edit
-                </Button>
-
-                <Button color="danger">Leave board</Button>
               </CardBody>
+              <Button
+                color="secondary"
+                className="cardBoardDetailsBtn"
+                onClick={() =>
+                  history.push(`/edit-board-details/${board.boardId}`)
+                }
+              >
+                Edit
+              </Button>
+
+              <Button color="danger" className="cardBoardDetailsBtn">
+                Leave board
+              </Button>
             </Card>
           ))
         ) : (

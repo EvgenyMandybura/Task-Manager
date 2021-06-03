@@ -18,6 +18,7 @@ import ContainerUser from "../layout/ContainerUser";
 import useModal from "../../hook/useModal";
 import AddMemberModalDialog from "../modal/AddMemberModalDialog";
 import ListOfMembers from "../members/ListOfMembers";
+import ListOfMembersDetail from "../members/ListOfMembersDetail";
 
 const validationSchema = yup.object({
   title: validationSchemas.title,
@@ -135,9 +136,8 @@ const EditBoardDetailsForm = ({
                 <Button color="success" onClick={() => toggleModalAdd()}>
                   Invite / Edit members
                 </Button>
-                <ListOfMembers
-                  savedMembers={savedMembers}
-                  membersFromFirebase={board.members}
+                <ListOfMembersDetail
+                  members={!!savedMembers ? savedMembers : board.members}
                 />
                 <AddMemberModalDialog
                   isOpen={modalVisibleAdd}

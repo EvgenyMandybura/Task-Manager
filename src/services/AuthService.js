@@ -1,8 +1,9 @@
-import { firebase_app } from "../components/Firebase/firebase";
+import { firebase_app, firestore } from "../components/Firebase/firebase";
 import firebase from "firebase";
-import { usersUrl } from "../constants/urlForFiresore";
+import { boardsUrl, usersUrl } from "../constants/urlForFiresore";
 import uploadToFirebase from "../helpers/uploadToFirebase";
 import StorageService from "./StorageService";
+import ToastrService from "./ToastrService";
 
 const USER_PLACEHOLDER = {
   firstName: "FirstName",
@@ -96,6 +97,16 @@ class AuthService {
   getUser() {
     const user = StorageService.user.value;
     return user ? user : USER_PLACEHOLDER;
+  }
+
+  async getMemberList(members) {
+    const tempDoc = [];
+    const docUsersRef = firestore.collection(usersUrl);
+    for (const member of members) {
+      const query = (await docUsersRef.doc(member).get()).data();
+      await tempDoc.push(query);
+    }
+    return tempDoc;
   }
 }
 export default new AuthService();

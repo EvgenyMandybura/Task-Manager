@@ -12,6 +12,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import ListOfMembersDetail from "../../components/members/ListOfMembersDetail";
 
 const BoardDetails = ({ getBoard, clearBoardFetched, boardState }) => {
   const {
@@ -39,31 +40,24 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState }) => {
   return (
     <ContainerUser>
       {ready && !loading && (
-        <Card className="cardBoardDetails">
+        <div className="cardBoardDetails">
+          <h3>{board.title}</h3>
           <Row>
-            <Col>
-              <CardImg
-                top
+            <Col xs="8">
+              <img
                 width="100%"
                 src={board.fileUrl}
                 alt="Board logo"
                 className="cardBoardDetailsImg"
               />
             </Col>
-            <Col>
-              <CardBody className="cardBoardDetailsBody">
-                <CardTitle tag="h5">{board.title}</CardTitle>
-                <CardText>{board.description}</CardText>
-                <CardText>List of members:</CardText>
-                <CardText>
-                  {board.members.map((member) => (
-                    <li>{member}</li>
-                  ))}
-                </CardText>
-              </CardBody>
+            <Col xs="4">
+              <h5>Description: </h5>
+              <p>{board.description}</p>
+              <ListOfMembersDetail members={board.members} />
             </Col>
           </Row>
-        </Card>
+        </div>
       )}
     </ContainerUser>
   );

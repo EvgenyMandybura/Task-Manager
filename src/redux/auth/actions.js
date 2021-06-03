@@ -12,6 +12,10 @@ import {
   LOGOUT_USER,
   LOGOUT_USER_SUCCESS,
   LOGOUT_ERROR,
+  GET_MEMBERS,
+  GET_MEMBERS_SUCCESS,
+  GET_MEMBERS_ERROR,
+  GET_MEMBERS_CLEAR,
 } from "./actionTypes";
 
 export const loginUserFB = (history) => {
@@ -97,5 +101,29 @@ export const logoutError = ({ message }) => {
   return {
     type: LOGOUT_ERROR,
     payload: { message },
+  };
+};
+
+export const getListMembers = (members) => {
+  return {
+    payload: { members },
+    type: GET_MEMBERS,
+  };
+};
+export const getListMembersSuccess = (data) => {
+  return {
+    payload: data,
+    type: GET_MEMBERS_SUCCESS,
+  };
+};
+export const getListMembersError = ({ message }) => {
+  return {
+    payload: { message },
+    type: GET_MEMBERS_ERROR,
+  };
+};
+export const getListMembersClear = () => {
+  return {
+    type: GET_MEMBERS_CLEAR,
   };
 };
