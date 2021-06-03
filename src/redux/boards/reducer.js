@@ -14,8 +14,10 @@ import {
   EDIT_BOARD_SUCCESS,
   EDIT_BOARD_ERROR,
   SAVE_MEMBERS,
-  SAVE_MEMBERS_SUCCESS,
   CLEAR_MEMBERS_SAVED_MEMBERS,
+  LEAVE_BOARD,
+  LEAVE_BOARD_SUCCESS,
+  LEAVE_BOARD_ERROR,
 } from "./actionTypes";
 
 const initialState = {
@@ -26,6 +28,7 @@ const initialState = {
   board: null,
   boardsList: [],
   savedMembers: [],
+  removed: false,
 };
 
 const boards = (state = initialState, action) => {
@@ -135,6 +138,26 @@ const boards = (state = initialState, action) => {
         savedMembers: [],
       };
       break;
+    case LEAVE_BOARD:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case LEAVE_BOARD_SUCCESS:
+      state = {
+        ...state,
+        removed: true,
+        loading: false,
+      };
+      break;
+    case LEAVE_BOARD_ERROR:
+      state = {
+        ...state,
+        loading: false,
+      };
+      break;
+
     default:
       state = { ...state };
       break;

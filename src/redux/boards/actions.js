@@ -14,8 +14,10 @@ import {
   EDIT_BOARD_SUCCESS,
   EDIT_BOARD_ERROR,
   SAVE_MEMBERS,
-  SAVE_MEMBERS_SUCCESS,
   CLEAR_MEMBERS_SAVED_MEMBERS,
+  LEAVE_BOARD,
+  LEAVE_BOARD_SUCCESS,
+  LEAVE_BOARD_ERROR,
 } from "./actionTypes";
 
 export const createBoard = (model) => {
@@ -117,5 +119,25 @@ export const saveMembers = (members) => {
 export const clearSavedMembers = () => {
   return {
     type: CLEAR_MEMBERS_SAVED_MEMBERS,
+  };
+};
+
+export const leaveBoard = (boardId) => {
+  return {
+    payload: { boardId },
+    type: LEAVE_BOARD,
+  };
+};
+
+export const leaveBoardSuccess = () => {
+  return {
+    type: LEAVE_BOARD_SUCCESS,
+  };
+};
+
+export const leaveBoardError = ({ message = "Unknown error" }) => {
+  return {
+    payload: { message },
+    type: LEAVE_BOARD_ERROR,
   };
 };

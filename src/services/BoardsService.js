@@ -16,6 +16,7 @@ class BoardsService {
     const dataForStorage = {
       boardId,
       creatorEmail,
+      boardCreatorStatus: true,
       title: model.values.title,
       description: model.values.description,
       members: model.values.members,
@@ -54,6 +55,7 @@ class BoardsService {
     const docBoardRef = firestore.collection(boardsUrl);
     const query = await docBoardRef
       .where("creatorEmail", "==", currentUserID)
+      .where("boardCreatorStatus", "==", true)
       .get();
     for (const doc of query.docs) {
       const queryUser = (await docUsersRef.doc(currentUserID).get()).data();
@@ -112,6 +114,12 @@ class BoardsService {
     if (!error) {
       return true;
     }
+  }
+
+  leaveBoard(boardId) {
+    firestore.collection(boardsUrl).doc(boardId).update({
+      boardCreatorStatus: false,
+    });
   }
 }
 export default new BoardsService();

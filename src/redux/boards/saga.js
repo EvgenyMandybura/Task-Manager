@@ -1,6 +1,12 @@
 import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 
-import { CREATE_BOARD, GET_BOARD, GET_BOARDS, EDIT_BOARD } from "./actionTypes";
+import {
+  CREATE_BOARD,
+  GET_BOARD,
+  GET_BOARDS,
+  EDIT_BOARD,
+  LEAVE_BOARD,
+} from "./actionTypes";
 
 import {
   createProductSuccess,
@@ -11,6 +17,8 @@ import {
   getListBoardsError,
   editBoardSuccess,
   editBoardError,
+  leaveBoardSuccess,
+  leaveBoardError,
 } from "./actions";
 
 import ToastrService from "../../services/ToastrService";
@@ -36,6 +44,10 @@ const getBoardAsync = async (boadrId) => {
 
 const getBoardsListAsync = async () => {
   return await BoardsService.getAllList();
+};
+
+const leaveBoardAsync = async (boardId) => {
+  return await BoardsService.leaveBoard(boardId);
 };
 
 function* createBoardProject({ payload: { model } }) {
@@ -82,6 +94,15 @@ function* getBoardsList() {
   }
 }
 
+function* leaveBoardProject({ payload: { boardId } }) {
+  try {
+    const response = yield call(leaveBoardAsync, boardId);
+    yield put(leaveBoardSuccess(response));
+  } catch (error) {
+    yield put(leaveBoardError(error));
+  }
+}
+
 export function* watchCreateBoard() {
   yield takeEvery(CREATE_BOARD, createBoardProject);
 }
@@ -98,12 +119,17 @@ export function* watchGetAllBoards() {
   yield takeEvery(GET_BOARDS, getBoardsList);
 }
 
+export function* watchLeaveBoard() {
+  yield takeEvery(LEAVE_BOARD, leaveBoardProject);
+}
+
 function* authBoards() {
   yield all([
     fork(watchCreateBoard),
     fork(watchGetBoard),
     fork(watchGetAllBoards),
     fork(watchEditBoard),
+    fork(watchLeaveBoard),
   ]);
 }
 
