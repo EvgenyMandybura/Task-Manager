@@ -63,7 +63,7 @@ const EditBoardDetailsForm = ({
       model.values.members = savedMembers;
     }
     fileModel.files = [file];
-    fileValidation(model, editBoard);
+    editBoard(model);
     clearSavedMembers();
   };
   const uploadedImage = useRef(null);

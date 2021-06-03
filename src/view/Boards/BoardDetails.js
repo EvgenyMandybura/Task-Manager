@@ -3,15 +3,7 @@ import { withRouter, useRouteMatch } from "react-router-dom";
 import { connect } from "react-redux";
 import ContainerUser from "../../components/layout/ContainerUser";
 import { getBoard, clearBoardFetched } from "../../redux/boards/actions";
-import {
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  Row,
-  Col,
-} from "reactstrap";
+import { Row, Col } from "reactstrap";
 import ListOfMembersDetail from "../../components/members/ListOfMembersDetail";
 
 const BoardDetails = ({ getBoard, clearBoardFetched, boardState }) => {

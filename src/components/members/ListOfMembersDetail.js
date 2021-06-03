@@ -11,7 +11,6 @@ const ListOfMembersDetail = ({
   getListMembersClear,
   authState,
 }) => {
-  console.log("members", members);
   const { membersList: membersList } = authState;
   const [ready, updateReady] = useState(false);
 

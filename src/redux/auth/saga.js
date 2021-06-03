@@ -62,7 +62,7 @@ function* loginUserWithFB({ payload: { history } }) {
     if (response.additionalUserInfo.isNewUser) {
       history.push("/complete-profile");
     } else if (response) {
-      history.push("/dashboard");
+      history.push("/boards");
     } else {
       history.push("/");
     }
@@ -81,7 +81,7 @@ function* loginUserWithEmailPassword({ payload: { user, history } }) {
     );
     yield put(loginSuccess(response));
     if (response) {
-      history.push("/dashboard");
+      history.push("/boards");
     } else {
       history.push("/");
     }
@@ -109,7 +109,7 @@ function* completeProfileFirebase({ payload }) {
     const result = yield call(completeProfileAsync, model);
     yield put(completeProfileSuccess(result));
     if (result) {
-      model.history.push("/dashboard");
+      model.history.push("/boards");
     }
     ToastrService.success("Profile completed");
   } catch (error) {
