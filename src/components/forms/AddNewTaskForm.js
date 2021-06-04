@@ -1,9 +1,70 @@
 import React, { useRef, useState } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import * as yup from "yup";
+import validationSchemas from "../../constants/validationSchemas";
+import { Formik } from "formik";
+import { Button, Form } from "reactstrap";
+import FormikFormGroup from "../formik/FormikFormGroup";
+
+const validationSchema = yup.object({
+  summary: validationSchemas.summary,
+  description: validationSchemas.description,
+});
+
+const initialValues = {
+  summary: "",
+  description: "",
+  assignee: "",
+  timeEstimation: "",
+};
 
 const AddNewTaskForm = () => {
-  return <div>Add new task Form</div>;
+  const handleSubmitForm = () => {};
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmitForm}
+    >
+      {(form) => {
+        const { errors, touched, handleSubmit } = form;
+
+        return (
+          <div>
+            <Form className="w-100" onSubmit={handleSubmit}>
+              <FormikFormGroup
+                errors={errors}
+                touched={touched}
+                fieldName={"summary"}
+                label={"Summary"}
+                placeholder={"Add summary"}
+              />
+              <FormikFormGroup
+                type={"textarea"}
+                errors={errors}
+                touched={touched}
+                fieldName={"description"}
+                label={"Description"}
+                placeholder={"Add description"}
+              />
+
+              <div className="d-flex justify-content-center align-items-center">
+                <Button
+                  color="success"
+                  type="submit"
+                  className="w-100 mt-3 text-uppercase"
+                  size="md"
+                >
+                  Add task
+                </Button>
+              </div>
+            </Form>
+          </div>
+        );
+      }}
+    </Formik>
+  );
 };
 
 const mapStateToProps = () => ({});

@@ -22,6 +22,7 @@ const FormikFormGroup = ({
   handleChange = () => {},
   options = [],
   isMulti = false,
+  maxLength = null,
 }) => {
   const [visible] = useState(false);
   const isInvalid = errors[fieldName] && touched[fieldName];
@@ -51,6 +52,17 @@ const FormikFormGroup = ({
             component={FormikDropdown}
             options={options}
             isMulti={isMulti}
+          />
+        );
+      case "textarea":
+        return (
+          <Field
+            component="textarea"
+            type={type}
+            className={className}
+            name={fieldName}
+            placeholder={placeholder}
+            maxLength={maxLength}
           />
         );
       default:
