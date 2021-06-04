@@ -94,9 +94,11 @@ class AuthService {
     StorageService.user.clear();
   }
 
-  getUser() {
-    const user = StorageService.user.value;
-    return user ? user : USER_PLACEHOLDER;
+  async getUser(userEmail) {
+    const userData = (
+      await firestore.collection(usersUrl).doc(userEmail).get()
+    ).data();
+    return userData;
   }
 
   async getMemberList(members) {
