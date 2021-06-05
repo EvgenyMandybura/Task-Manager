@@ -3,6 +3,9 @@ import {
   GET_TASKS_SUCCESS,
   GET_TASKS_ERROR,
   GET_TASKS_CLEAR,
+  CREATE_TASK,
+  CREATE_TASK_SUCCESS,
+  CREATE_TASK_ERROR,
 } from "./actionTypes";
 
 const initialState = {
@@ -11,6 +14,7 @@ const initialState = {
   loading: false,
   board: null,
   tasksList: [],
+  created: {},
 };
 
 const tasks = (state = initialState, action) => {
@@ -40,6 +44,25 @@ const tasks = (state = initialState, action) => {
         ...state,
         data: [],
         error: "",
+      };
+      break;
+    case CREATE_TASK:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case CREATE_TASK_SUCCESS:
+      state = {
+        ...state,
+        created: action.payload,
+        loading: false,
+      };
+      break;
+    case CREATE_TASK_ERROR:
+      state = {
+        ...state,
+        loading: false,
       };
       break;
 

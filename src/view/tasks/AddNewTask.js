@@ -1,12 +1,12 @@
 import React from "react";
-import ContainerUser from "../../components/layout/ContainerUser";
+import ContainerTask from "./ContainerTask";
 import AddNewTaskForm from "../../components/forms/AddNewTaskForm";
 
 const AddNewTask = () => {
   return (
-    <ContainerUser>
+    <ContainerTask>
       <AddNewTaskForm />
-    </ContainerUser>
+    </ContainerTask>
   );
 };
 

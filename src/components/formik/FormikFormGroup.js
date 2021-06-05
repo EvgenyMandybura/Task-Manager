@@ -5,6 +5,7 @@ import classNames from "classnames";
 import FormError from "./FormError";
 import FormikDropdown from "./FormikDropdown";
 import RichTextEditor from "./RichTextEditor";
+import DatesPicker from "./DatePicker";
 
 const FormikFormGroup = ({
   values = "",
@@ -70,6 +71,14 @@ const FormikFormGroup = ({
             name={fieldName}
             placeholder={placeholder}
             maxLength={maxLength}
+          />
+        );
+      case "datePicker":
+        return (
+          <Field
+            component={DatesPicker}
+            onChange={setFieldValue}
+            name={fieldName}
           />
         );
       default:
