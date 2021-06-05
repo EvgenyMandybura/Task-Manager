@@ -6,6 +6,9 @@ import {
   TITLE_MAX_LENGTH,
   TITLE_MIN_LENGTH,
   DESCRIPTION_MAX_LENGTH,
+  SUMMARY_MIN_LENGTH,
+  SUMMARY_MAX_LENGTH,
+  TASK_DESCRIPTION_MAX_LENGTH,
 } from "./validationRules";
 
 // EMAIL
@@ -33,3 +36,9 @@ export const IS_INCORRECT_LENGTH_TITLE = `Title must be from ${TITLE_MIN_LENGTH}
 
 //Description
 export const IS_INCORRECT_LENGTH_DESCRIPTION = `Description must be less ${DESCRIPTION_MAX_LENGTH} symbols;`;
+
+//Summary
+export const IS_INCORRECT_LENGTH_SUMMARY = `Summary must be from ${SUMMARY_MIN_LENGTH} to ${SUMMARY_MAX_LENGTH} symbols;`;
+
+//taskDescription
+export const IS_INCORRECT_LENGTH_TASK_DESCRIPTION = `Description must be less ${TASK_DESCRIPTION_MAX_LENGTH} symbols;`;

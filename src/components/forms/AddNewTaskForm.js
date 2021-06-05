@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import * as yup from "yup";
@@ -6,21 +6,23 @@ import validationSchemas from "../../constants/validationSchemas";
 import { Formik } from "formik";
 import { Button, Form } from "reactstrap";
 import FormikFormGroup from "../formik/FormikFormGroup";
+import { saveToDb } from "../../helpers/saveRichTextToDb";
 
 const validationSchema = yup.object({
   summary: validationSchemas.summary,
-  description: validationSchemas.description,
 });
 
 const initialValues = {
   summary: "",
-  description: "",
+  description: {},
   assignee: "",
   timeEstimation: "",
 };
 
 const AddNewTaskForm = () => {
-  const handleSubmitForm = () => {};
+  const handleSubmitForm = (values) => {
+    values.description = saveToDb(values.description);
+  };
   return (
     <Formik
       initialValues={initialValues}
@@ -40,15 +42,15 @@ const AddNewTaskForm = () => {
                 label={"Summary"}
                 placeholder={"Add summary"}
               />
+
               <FormikFormGroup
-                type={"textarea"}
+                type={"richEditor"}
                 errors={errors}
                 touched={touched}
                 fieldName={"description"}
                 label={"Description"}
                 placeholder={"Add description"}
               />
-
               <div className="d-flex justify-content-center align-items-center">
                 <Button
                   color="success"

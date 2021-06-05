@@ -14,6 +14,7 @@ import {
   IS_INCORRECT_LENGTH_TITLE,
   IS_INCORRECT_LENGTH_DESCRIPTION,
   IS_EMAIL_UNIQUE,
+  IS_INCORRECT_LENGTH_SUMMARY,
 } from "./validationErrors";
 import {
   PASSWORD_MAX_LENGTH,
@@ -25,6 +26,8 @@ import {
   TITLE_MAX_LENGTH,
   TITLE_MIN_LENGTH,
   DESCRIPTION_MAX_LENGTH,
+  SUMMARY_MIN_LENGTH,
+  SUMMARY_MAX_LENGTH,
 } from "./validationRules";
 
 const uniqueValues = (values) => {
@@ -59,6 +62,11 @@ const validationSchemas = {
     .string()
     .max(DESCRIPTION_MAX_LENGTH, IS_INCORRECT_LENGTH_DESCRIPTION),
   members: yup.array().test("uniqueValues", IS_EMAIL_UNIQUE, uniqueValues),
+  summary: yup
+    .string()
+    .required()
+    .min(SUMMARY_MIN_LENGTH, IS_INCORRECT_LENGTH_SUMMARY)
+    .max(SUMMARY_MAX_LENGTH, IS_INCORRECT_LENGTH_SUMMARY),
 };
 
 export default validationSchemas;
