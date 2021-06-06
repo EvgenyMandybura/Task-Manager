@@ -1,11 +1,12 @@
 import styles from "../components/tasks/index.module.scss";
+import { COMPLETED, DELETED } from "../constants/taskStatuses";
 
 const classStatus = (status) => {
   switch (status) {
-    case "completed":
+    case COMPLETED:
       return styles.tasksStatusCompleted;
       break;
-    case "deleted":
+    case DELETED:
       return styles.tasksStatusDeleted;
       break;
 

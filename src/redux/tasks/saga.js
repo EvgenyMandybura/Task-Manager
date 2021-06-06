@@ -1,6 +1,11 @@
 import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 
-import { CREATE_TASK, GET_TASKS, SEARCH_TASKS } from "./actionTypes";
+import {
+  CREATE_TASK,
+  GET_TASKS,
+  SEARCH_TASKS,
+  FILTER_TASKS,
+} from "./actionTypes";
 
 import {
   getListTasksSuccess,
@@ -9,6 +14,8 @@ import {
   createTaskError,
   searchTasksSuccess,
   searchTasksError,
+  filterTasksSuccess,
+  filterTasksError,
 } from "./actions";
 
 import ToastrService from "../../services/ToastrService";
@@ -24,6 +31,10 @@ const createTaskAsync = async (model) => {
 
 const searchTasksListAsync = async (data) => {
   return await TasksService.searchTasks(data);
+};
+
+const filterTasksListAsync = async (data) => {
+  return await TasksService.filterTasks(data);
 };
 
 function* getTasksList({ payload: boardId }) {
@@ -57,6 +68,15 @@ function* searchBoardTasks({ payload: data }) {
   }
 }
 
+function* filterBoardTasks({ payload: data }) {
+  try {
+    const response = yield call(filterTasksListAsync, data);
+    yield put(filterTasksSuccess(response));
+  } catch (error) {
+    yield put(filterTasksError(error));
+  }
+}
+
 export function* watchGetAllTasks() {
   yield takeEvery(GET_TASKS, getTasksList);
 }
@@ -69,11 +89,16 @@ export function* watchSearchTasks() {
   yield takeEvery(SEARCH_TASKS, searchBoardTasks);
 }
 
+export function* watchFilterTasks() {
+  yield takeEvery(FILTER_TASKS, filterBoardTasks);
+}
+
 function* tasksState() {
   yield all([
     fork(watchGetAllTasks),
     fork(watchCreateNewTask),
     fork(watchSearchTasks),
+    fork(watchFilterTasks),
   ]);
 }
 

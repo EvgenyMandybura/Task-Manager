@@ -9,6 +9,9 @@ import {
   SEARCH_TASKS,
   SEARCH_TASKS_SUCCESS,
   SEARCH_TASKS_ERROR,
+  FILTER_TASKS,
+  FILTER_TASKS_SUCCESS,
+  FILTER_TASKS_ERROR,
 } from "./actionTypes";
 
 const initialState = {
@@ -82,6 +85,25 @@ const tasks = (state = initialState, action) => {
       };
       break;
     case SEARCH_TASKS_ERROR:
+      state = {
+        ...state,
+        data: [],
+        error: "",
+      };
+    case FILTER_TASKS:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case FILTER_TASKS_SUCCESS:
+      state = {
+        ...state,
+        tasksList: action.payload,
+        loading: false,
+      };
+      break;
+    case FILTER_TASKS_ERROR:
       state = {
         ...state,
         data: [],

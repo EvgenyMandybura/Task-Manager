@@ -61,5 +61,26 @@ class TasksService {
     }
     return newTaskArray;
   }
+
+  async filterTasks(data) {
+    const tempDoc = [];
+    const { status, assignee } = data.values;
+    const docTaskRef = firestore.collection(tasksUrl);
+
+    const query = await docTaskRef
+      .where("boardId", "==", data.boardId)
+      .where("taskStatus", "==", status)
+      .where("assignee", "==", assignee)
+      .get();
+
+    for (const doc of query.docs) {
+      await tempDoc.push({ ...doc.data() });
+    }
+
+    for (const taskId of tempDoc) {
+      taskId.assigneeData = await AuthService.getUser(taskId.assignee);
+    }
+    return tempDoc;
+  }
 }
 export default new TasksService();

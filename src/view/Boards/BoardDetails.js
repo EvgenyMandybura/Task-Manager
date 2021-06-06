@@ -7,6 +7,7 @@ import { Row, Col, Button } from "reactstrap";
 import ListOfMembersDetail from "../../components/members/ListOfMembersDetail";
 import Search from "../../components/forms/SearchForm";
 import ListOfTasks from "../../components/tasks/ListOfTasks";
+import FilterForm from "../../components/forms/FilterForm";
 
 const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
   const {
@@ -40,6 +41,7 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
             <Col xs="8">
               <div className="search">
                 <Search />
+                <FilterForm members={board.members} />
                 <Button
                   color="success"
                   onClick={() => history.push(`/add-new-task/${board.boardId}`)}

@@ -9,6 +9,9 @@ import {
   SEARCH_TASKS,
   SEARCH_TASKS_SUCCESS,
   SEARCH_TASKS_ERROR,
+  FILTER_TASKS,
+  FILTER_TASKS_SUCCESS,
+  FILTER_TASKS_ERROR,
 } from "./actionTypes";
 
 export const getListTasks = (boardId) => {
@@ -70,5 +73,24 @@ export const searchTasksError = ({ message }) => {
   return {
     payload: { message },
     type: SEARCH_TASKS_ERROR,
+  };
+};
+
+export const filterTasks = (data) => {
+  return {
+    payload: data,
+    type: FILTER_TASKS,
+  };
+};
+export const filterTasksSuccess = (data) => {
+  return {
+    payload: data,
+    type: FILTER_TASKS_SUCCESS,
+  };
+};
+export const filterTasksError = ({ message }) => {
+  return {
+    payload: { message },
+    type: FILTER_TASKS_ERROR,
   };
 };
