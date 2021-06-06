@@ -2,10 +2,9 @@ import { firestore } from "../components/Firebase/firebase";
 import { tasksUrl, boardsUrl } from "../constants/urlForFiresore";
 import AuthService from "./AuthService";
 import StorageService from "./StorageService";
-import uploadToFirebase from "../helpers/uploadToFirebase";
+import uploadTaskToFirebase from "../helpers/uploadTaskToFirebase";
 import { PENDING } from "../constants/taskStatuses";
 import firebase from "firebase";
-//firebase_app
 
 class TasksService {
   async getAllList(data) {
@@ -27,6 +26,8 @@ class TasksService {
     const timeStamp = new Date().getTime();
     const taskId = `task_${creatorEmail}_${timeStamp}`;
     const boardId = model.values.boardId;
+    const files = model.fileModel.files;
+
     const dataForStorage = {
       creatorEmail,
       taskStatus: PENDING,
@@ -42,7 +43,7 @@ class TasksService {
       tasks: firebase.firestore.FieldValue.arrayUnion(taskId),
     });
 
-    return uploadToFirebase(dataForStorage, null, taskId, null, tasksUrl).then(
+    return uploadTaskToFirebase(dataForStorage, taskId, files, tasksUrl).then(
       function () {
         return boardId;
       }

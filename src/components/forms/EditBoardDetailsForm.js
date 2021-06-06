@@ -13,11 +13,9 @@ import {
 } from "../../redux/boards/actions";
 import * as yup from "yup";
 import validationSchemas from "../../constants/validationSchemas";
-import fileValidation from "../../helpers/fileValidation";
 import ContainerUser from "../layout/ContainerUser";
 import useModal from "../../hook/useModal";
 import AddMemberModalDialog from "../modal/AddMemberModalDialog";
-import ListOfMembers from "../members/ListOfMembers";
 import ListOfMembersDetail from "../members/ListOfMembersDetail";
 
 const validationSchema = yup.object({

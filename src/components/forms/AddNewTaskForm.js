@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useL } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import { useRouteMatch, withRouter } from "react-router-dom";
 import * as yup from "yup";
@@ -10,6 +10,8 @@ import { saveToDb } from "../../helpers/saveRichTextToDb";
 import { getBoard, clearBoardFetched } from "../../redux/boards/actions";
 import createMemberArrayForSelect from "../../helpers/createMenberArrayForSelectFormik";
 import { createTask } from "../../redux/tasks/actions";
+import FileHelper from "../../helpers/FIleHelper";
+import fileIcons from "../../helpers/fileIcons";
 
 const validationSchema = yup.object({
   summary: validationSchemas.summary,
@@ -32,7 +34,8 @@ const AddNewTaskForm = ({
   const handleSubmitForm = (values) => {
     values.description = saveToDb(values.description);
     values.boardId = boardId;
-    const model = { values, history };
+    fileModel.files = filesMy;
+    const model = { values, history, fileModel };
     createTask(model);
   };
 
@@ -58,6 +61,33 @@ const AddNewTaskForm = ({
     }
   }, []);
 
+  const fileModel = {};
+  const uploadedImage = useRef(null);
+  const [filesPreview, setFilesPreview] = useState([]);
+  const filesSelected = [];
+  const filesForDB = [];
+  async function filesForDisplay(files) {
+    for (const file of files) {
+      const promiseFile = await FileHelper.openAsDataUrlWithoutCheckingSize(
+        file
+      );
+      await filesSelected.push({
+        file: promiseFile,
+        name: file.name,
+        type: file.type,
+      });
+      await filesForDB.push(file);
+    }
+    await setFilesPreview(filesPreview.concat(filesSelected));
+    await setFilesMy(filesMy.concat(filesForDB));
+  }
+
+  const [filesMy, setFilesMy] = useState([]);
+
+  const changeHandler = (e) => {
+    const files = e.target.files;
+    filesForDisplay(files);
+  };
   return (
     <Formik
       initialValues={initialValues}
@@ -78,6 +108,41 @@ const AddNewTaskForm = ({
             {ready && !loading && (
               <Form className="w-100" onSubmit={handleSubmit}>
                 <h3>Add new task</h3>
+                <div>
+                  {filesPreview != [] ? (
+                    filesPreview?.map((image) => (
+                      <div key={image.file} className="task">
+                        <img
+                          src={
+                            image.type.includes(`image/`)
+                              ? image.file
+                              : fileIcons(image.type)
+                          }
+                          alt="Logo"
+                          className="taskImage"
+                        />
+                        <p>{image.name}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <h3>No images</h3>
+                  )}
+
+                  <div className="file-input">
+                    <input
+                      ref={uploadedImage}
+                      type="file"
+                      multiple
+                      className="file"
+                      id="file"
+                      onChange={(e) => changeHandler(e)}
+                    />
+                    <label htmlFor="file" className="buttonLabel">
+                      Select file
+                    </label>
+                    <Button>Load all files</Button>
+                  </div>
+                </div>
                 <FormikFormGroup
                   errors={errors}
                   touched={touched}

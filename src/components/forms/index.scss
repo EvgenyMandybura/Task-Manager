@@ -46,6 +46,18 @@
   }
 }
 
+.task {
+  width: 250px;
+  height: 250px;
+  display: inline-block;
+  padding: 8px;
+  text-align: center;
+  &Image {
+    margin: 8px auto 8px auto;
+    width: 200px;
+  }
+}
+
 .memberAdd {
   padding:  10px 0 10px 0;
 }

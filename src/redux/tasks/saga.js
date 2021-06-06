@@ -32,7 +32,6 @@ function* getTasksList({ payload: boardId }) {
 function* createNewTask({ payload: { model } }) {
   try {
     const response = yield call(createTaskAsync, model);
-    console.log("response in sagas", response);
     yield put(createTaskSuccess(response));
     if (response) {
       model.history.push(`/board-details/${response}`);

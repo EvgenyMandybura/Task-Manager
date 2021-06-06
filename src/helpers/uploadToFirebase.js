@@ -8,14 +8,14 @@ async function uploadToFirebase(
   collectionUrl
 ) {
   const { ...rest } = dataForStorage;
-  //  await storage?.put(file, { contentType: "image/jpeg" });
-  //  const fileUrl = await storage?.getDownloadURL();
+  await storage?.put(file, { contentType: "image/jpeg" });
+  const fileUrl = await storage?.getDownloadURL();
   await firestore
     .collection(collectionUrl)
     .doc(Id)
     .set({
       ...rest,
-      //fileUrl,
+      fileUrl,
     });
 }
 
