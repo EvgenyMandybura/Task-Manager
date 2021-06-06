@@ -9,6 +9,7 @@ import {
   SUMMARY_MIN_LENGTH,
   SUMMARY_MAX_LENGTH,
   TASK_DESCRIPTION_MAX_LENGTH,
+  KEYWORD_MIN_LENGTH,
 } from "./validationRules";
 
 // EMAIL
@@ -42,3 +43,6 @@ export const IS_INCORRECT_LENGTH_SUMMARY = `Summary must be from ${SUMMARY_MIN_L
 
 //taskDescription
 export const IS_INCORRECT_LENGTH_TASK_DESCRIPTION = `Description must be less ${TASK_DESCRIPTION_MAX_LENGTH} symbols;`;
+
+//Keyword
+export const IS_INCORRECT_LENGTH_KEYWORD = `Keyword must be more ${KEYWORD_MIN_LENGTH} symbols;`;

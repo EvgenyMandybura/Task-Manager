@@ -140,7 +140,6 @@ const AddNewTaskForm = ({
                     <label htmlFor="file" className="buttonLabel">
                       Select file
                     </label>
-                    <Button>Load all files</Button>
                   </div>
                 </div>
                 <FormikFormGroup

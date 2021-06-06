@@ -6,12 +6,10 @@ import {
   CREATE_TASK,
   CREATE_TASK_SUCCESS,
   CREATE_TASK_ERROR,
+  SEARCH_TASKS,
+  SEARCH_TASKS_SUCCESS,
+  SEARCH_TASKS_ERROR,
 } from "./actionTypes";
-import {
-  CREATE_BOARD,
-  CREATE_BOARD_ERROR,
-  CREATE_BOARD_SUCCESS,
-} from "../boards/actionTypes";
 
 export const getListTasks = (boardId) => {
   return {
@@ -55,3 +53,22 @@ export const createTaskError = ({ message }) => ({
   type: CREATE_TASK_ERROR,
   payload: { message },
 });
+
+export const searchTasks = (data) => {
+  return {
+    payload: data,
+    type: SEARCH_TASKS,
+  };
+};
+export const searchTasksSuccess = (data) => {
+  return {
+    payload: data,
+    type: SEARCH_TASKS_SUCCESS,
+  };
+};
+export const searchTasksError = ({ message }) => {
+  return {
+    payload: { message },
+    type: SEARCH_TASKS_ERROR,
+  };
+};

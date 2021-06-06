@@ -21,3 +21,6 @@ export const TASK_DESCRIPTION_MAX_LENGTH = 3000;
 //Summary
 export const SUMMARY_MIN_LENGTH = 3;
 export const SUMMARY_MAX_LENGTH = 100;
+
+//Keyword
+export const KEYWORD_MIN_LENGTH = 3;

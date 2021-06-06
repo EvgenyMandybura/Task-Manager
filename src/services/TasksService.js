@@ -49,5 +49,17 @@ class TasksService {
       }
     );
   }
+
+  async searchTasks(data) {
+    const { keyword } = data.values;
+    const tasksArray = await this.getAllList(data);
+    const newTaskArray = [];
+    for (let task of tasksArray) {
+      if (task.summary.includes(keyword)) {
+        newTaskArray.push(task);
+      }
+    }
+    return newTaskArray;
+  }
 }
 export default new TasksService();

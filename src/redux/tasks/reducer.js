@@ -6,6 +6,9 @@ import {
   CREATE_TASK,
   CREATE_TASK_SUCCESS,
   CREATE_TASK_ERROR,
+  SEARCH_TASKS,
+  SEARCH_TASKS_SUCCESS,
+  SEARCH_TASKS_ERROR,
 } from "./actionTypes";
 
 const initialState = {
@@ -65,6 +68,25 @@ const tasks = (state = initialState, action) => {
         loading: false,
       };
       break;
+    case SEARCH_TASKS:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case SEARCH_TASKS_SUCCESS:
+      state = {
+        ...state,
+        tasksList: action.payload,
+        loading: false,
+      };
+      break;
+    case SEARCH_TASKS_ERROR:
+      state = {
+        ...state,
+        data: [],
+        error: "",
+      };
 
     default:
       state = { ...state };
