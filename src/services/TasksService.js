@@ -67,12 +67,33 @@ class TasksService {
     const { status, assignee } = data.values;
     const docTaskRef = firestore.collection(tasksUrl);
 
-    const query = await docTaskRef
+    let query = [];
+    if (!status && assignee) {
+      query = await docTaskRef
+        .where("boardId", "==", data.boardId)
+        .where("assignee", "==", assignee)
+        .get();
+    }
+    if (status && !assignee) {
+      query = await docTaskRef
+        .where("boardId", "==", data.boardId)
+        .where("taskStatus", "==", status)
+        .get();
+    }
+    if (status && assignee) {
+      query = await docTaskRef
+        .where("boardId", "==", data.boardId)
+        .where("taskStatus", "==", status)
+        .where("assignee", "==", assignee)
+        .get();
+    }
+
+    /* const query = await docTaskRef
       .where("boardId", "==", data.boardId)
       .where("taskStatus", "==", status)
       .where("assignee", "==", assignee)
       .get();
-
+*/
     for (const doc of query.docs) {
       await tempDoc.push({ ...doc.data() });
     }
