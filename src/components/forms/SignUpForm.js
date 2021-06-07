@@ -1,7 +1,7 @@
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import { connect } from "react-redux";
 import { Button, Form } from "reactstrap";
-import {Link, withRouter} from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { registerUser } from "../../redux/auth/actions";
 import * as yup from "yup";
 import FormikFormGroup from "../formik/FormikFormGroup";
@@ -20,13 +20,13 @@ const validationSchema = yup.object({
 });
 
 const initialValues = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    description: "",
-    phone: "",
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+  description: "",
+  phone: "",
 };
 
 const SignUpForm = ({ registerUser, history }) => {
@@ -56,19 +56,15 @@ const SignUpForm = ({ registerUser, history }) => {
         };
     };
 
-    return (
-        <div>
-            <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={handleSubmitForm}
-            >
-                {(form) => {
-                    const {
-                        errors,
-                        touched,
-                        handleSubmit,
-                    } = form;
+  return (
+    <div>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmitForm}
+      >
+        {(form) => {
+          const { errors, touched, handleSubmit } = form;
 
                     return (
                         <Form className="w-100" onSubmit={handleSubmit}>
@@ -167,5 +163,5 @@ const SignUpForm = ({ registerUser, history }) => {
 const mapStateToProps = () => ({});
 
 export default withRouter(
-    connect(mapStateToProps, { registerUser })(SignUpForm)
+  connect(mapStateToProps, { registerUser })(SignUpForm)
 );
