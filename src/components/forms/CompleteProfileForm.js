@@ -7,7 +7,7 @@ import FormikFormGroup from "../formik/FormikFormGroup";
 import { Formik } from "formik";
 import * as yup from "yup";
 import validationSchemas from "../../constants/validationSchemas";
-import splitter from "../../helpers/splitter";
+import splitterFullName from "../../helpers/splitter";
 import { firebase_app } from "../Firebase/firebase";
 import "./index.scss";
 import FileHelper from "../../helpers/FIleHelper";
@@ -25,11 +25,11 @@ const CompleteProfileForm = ({ completeProfile, history }) => {
     firebase_app.auth().currentUser;
 
   const initialValues = {
-    firstName: displayName ? splitter(displayName)[0] : "",
-    lastName: displayName ? splitter(displayName)[1] : "",
+    firstName: displayName && splitterFullName(displayName)[0],
+    lastName: displayName && splitterFullName(displayName)[1],
     description: "",
-    email: email ? email : "",
-    phone: phoneNumber ? phoneNumber : "",
+    email: email || "",
+    phone: phoneNumber || "",
   };
   const handleSubmitForm = (values) => {
     const model = { values, history, fileModel };
@@ -53,13 +53,11 @@ const CompleteProfileForm = ({ completeProfile, history }) => {
       validationSchema={validationSchema}
       onSubmit={handleSubmitForm}
     >
-      {(form) => {
-        const { errors, touched, handleSubmit } = form;
-
+      {({ errors, touched, handleSubmit }) => {
         return (
           <div>
             <Row>
-              <Col md={{ size: 10, offset: 1 }} md={{ size: 8, offset: 2 }}>
+              <Col md={{ size: 8, offset: 2 }}>
                 <h3>Complete Profile</h3>
                 <div>
                   <img
@@ -74,7 +72,7 @@ const CompleteProfileForm = ({ completeProfile, history }) => {
                       accept="image/*"
                       className="file"
                       id="file"
-                      onChange={(e) => changeHandler(e)}
+                      onChange={changeHandler}
                     />
                     <label htmlFor="file" className="buttonLabel">
                       Select file

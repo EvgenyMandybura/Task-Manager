@@ -1,5 +1,6 @@
-const splitter = (fullName) => {
-    return fullName.trim().replace(/[ ]+/g, ' ').split(' ');
+const splitterFullName = (fullName) => {
+  const response = fullName.trim().replace(/[ ]+/g, " ").split(" ");
+  return response || "";
 };
 
-export default splitter;
+export default splitterFullName;

@@ -28,15 +28,15 @@ const AddMembersForm = ({ membersArray, saveMembers }) => {
         validationSchema={validationSchema}
         onSubmit={handleSubmitForm}
       >
-        {(form) => {
-          const { errors, handleSubmit } = form;
+        {({ errors, handleSubmit, values }) => {
+
           return (
             <Form className="w-100" onSubmit={handleSubmit}>
               <FieldArray name="members" label={"Members:"}>
                 {({ remove, push }) => (
                   <div>
-                    {form.values.members.length > 0 &&
-                      form.values.members.map((member, index) => (
+                    {values.members.length > 0 &&
+                      values.members.map((member, index) => (
                         <Row key={index} className="memberAdd">
                           <Col xs="10">
                             <Field

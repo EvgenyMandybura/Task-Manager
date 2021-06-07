@@ -1,4 +1,4 @@
-import { minSize, maxSize } from "../constants/imageSize";
+import { minSize, maxSize, imageSizeRules } from "../constants/imageSize";
 import ToastrService from "../services/ToastrService";
 
 const FileHelper = class BaseFileHelper {
@@ -21,7 +21,7 @@ const FileHelper = class BaseFileHelper {
           ) {
             return resolve(reader.result);
           } else {
-            ToastrService.warn("Image size must be more 100px and less 1000px");
+            ToastrService.warn(imageSizeRules);
           }
         };
       };

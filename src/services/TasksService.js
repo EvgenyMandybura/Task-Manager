@@ -88,12 +88,6 @@ class TasksService {
         .get();
     }
 
-    /* const query = await docTaskRef
-      .where("boardId", "==", data.boardId)
-      .where("taskStatus", "==", status)
-      .where("assignee", "==", assignee)
-      .get();
-*/
     for (const doc of query.docs) {
       await tempDoc.push({ ...doc.data() });
     }

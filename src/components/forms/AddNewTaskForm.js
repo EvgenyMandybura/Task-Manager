@@ -43,7 +43,7 @@ const AddNewTaskForm = ({
     params: { boardId },
   } = useRouteMatch("/add-new-task/:boardId");
   const [ready, updateReady] = useState(false);
-  const { loading, board: board } = boardState;
+  const { loading, board } = boardState;
   const fetchBoard = () => {
     getBoard(boardId);
   };
@@ -66,7 +66,7 @@ const AddNewTaskForm = ({
   const [filesPreview, setFilesPreview] = useState([]);
   const filesSelected = [];
   const filesForDB = [];
-  async function filesForDisplay(files) {
+  const filesForDisplay = async (files) => {
     for (const file of files) {
       const promiseFile = await FileHelper.openAsDataUrlWithoutCheckingSize(
         file
@@ -80,7 +80,7 @@ const AddNewTaskForm = ({
     }
     await setFilesPreview(filesPreview.concat(filesSelected));
     await setFilesMy(filesMy.concat(filesForDB));
-  }
+  };
 
   const [filesMy, setFilesMy] = useState([]);
 
@@ -94,15 +94,7 @@ const AddNewTaskForm = ({
       validationSchema={validationSchema}
       onSubmit={handleSubmitForm}
     >
-      {(form) => {
-        const {
-          errors,
-          touched,
-          handleSubmit,
-          setFieldTouched,
-          setFieldValue,
-        } = form;
-
+      {({ errors, touched, handleSubmit, setFieldTouched, setFieldValue }) => {
         return (
           <div>
             {ready && !loading && (

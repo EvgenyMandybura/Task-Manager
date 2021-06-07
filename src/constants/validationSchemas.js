@@ -45,7 +45,7 @@ const validationSchemas = {
     .matches(PASSWORD_PATTERN, IS_INCORRECT_FORMAT_PASSWORD)
     .required(IS_REQUIRED_PASSWORD),
   confirmPassword: yup.string().when("password", {
-    is: (val) => ((val && val.length) > 0 ? true : false),
+    is: (val) => (val && val.length) > 0,
     then: yup.string().oneOf([yup.ref("password")], PASSWORD_DOES_NOT_MATCH),
   }),
   passwordNoPattern: yup.string().required(IS_REQUIRED_PASSWORD),

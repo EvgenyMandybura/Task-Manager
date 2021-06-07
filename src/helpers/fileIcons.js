@@ -6,8 +6,6 @@ const fileIcons = (fileType) => {
   switch (fileType) {
     case "application/pdf":
       return pdfIcon;
-    case "application/pdf":
-      return pdfIcon;
     case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
       return docxIcon;
     default:
