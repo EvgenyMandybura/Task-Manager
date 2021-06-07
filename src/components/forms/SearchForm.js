@@ -31,8 +31,7 @@ const Search = ({ searchTasks }) => {
       validationSchema={validationSchema}
       onSubmit={handleSubmitSearch}
     >
-      {(form) => {
-        const { errors, touched, handleSubmit } = form;
+      {({ errors, touched, handleSubmit }) => {
         return (
           <Form className="w-100" onSubmit={handleSubmit}>
             <Row>

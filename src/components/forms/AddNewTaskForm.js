@@ -19,7 +19,7 @@ const validationSchema = yup.object({
 
 const initialValues = {
   summary: "",
-  description: {},
+  description: "",
   assignee: "",
   timeEstimation: "",
 };

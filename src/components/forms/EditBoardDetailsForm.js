@@ -92,8 +92,8 @@ const EditBoardDetailsForm = ({
           validationSchema={validationSchema}
           onSubmit={handleSubmitForm}
         >
-          {(form) => {
-            const { errors, touched, handleSubmit } = form;
+          {({errors, touched, handleSubmit }) => {
+
             return (
               <Form className="w-100" onSubmit={handleSubmit}>
                 <h3>Edit Board</h3>

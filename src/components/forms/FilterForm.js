@@ -25,15 +25,7 @@ const FilterForm = ({ members, filterTasks }) => {
 
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmitForm}>
-      {(form) => {
-        const {
-          errors,
-          touched,
-          handleSubmit,
-          setFieldTouched,
-          setFieldValue,
-        } = form;
-
+      {({ errors, touched, handleSubmit, setFieldTouched, setFieldValue }) => {
         return (
           <div>
             <Form className="w-100" onSubmit={handleSubmit}>

@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import "yup-phone";
 
 import {
   IS_INCORRECT_FORMAT_PASSWORD,
@@ -8,7 +9,6 @@ import {
   IS_REQUIRED_EMAIL,
   IS_REQUIRED_PASSWORD,
   IS_REQUIRED_USERNAME,
-  IS_INCORRECT_PHONE,
   PASSWORD_DOES_NOT_MATCH,
   IS_REQUIRED_TITLE,
   IS_INCORRECT_LENGTH_TITLE,
@@ -23,7 +23,6 @@ import {
   PASSWORD_PATTERN,
   USERNAME_MAX_LENGTH,
   USERNAME_MIN_LENGTH,
-  PHONE_PATTERN,
   TITLE_MAX_LENGTH,
   TITLE_MIN_LENGTH,
   DESCRIPTION_MAX_LENGTH,
@@ -54,7 +53,7 @@ const validationSchemas = {
     .min(USERNAME_MIN_LENGTH, IS_INCORRECT_LENGTH_USERNAME)
     .max(USERNAME_MAX_LENGTH, IS_INCORRECT_LENGTH_USERNAME)
     .required(IS_REQUIRED_USERNAME),
-  phone: yup.string().matches(PHONE_PATTERN, IS_INCORRECT_PHONE),
+  phone: yup.string().phone().required(),
   title: yup
     .string()
     .min(TITLE_MIN_LENGTH, IS_INCORRECT_LENGTH_TITLE)

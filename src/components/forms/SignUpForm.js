@@ -16,6 +16,7 @@ const validationSchema = yup.object({
   email: validationSchemas.email,
   password: validationSchemas.password,
   confirmPassword: validationSchemas.confirmPassword,
+  phone: validationSchemas.phone,
 });
 
 const initialValues = {
