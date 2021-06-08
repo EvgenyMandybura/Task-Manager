@@ -44,7 +44,7 @@ class TasksService {
     });
 
     return uploadTaskToFirebase(dataForStorage, taskId, files, tasksUrl).then(
-      function () {
+       () => {
         return boardId;
       }
     );

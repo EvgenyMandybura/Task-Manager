@@ -1,12 +1,12 @@
 import { firestore } from "../components/Firebase/firebase";
 
-async function uploadToFirebase(
+const uploadToFirebase = async (
   dataForStorage,
   storage,
   Id,
   file,
   collectionUrl
-) {
+) => {
   const { ...rest } = dataForStorage;
   await storage?.put(file, { contentType: "image/jpeg" });
   const fileUrl = await storage?.getDownloadURL();

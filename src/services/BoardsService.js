@@ -27,7 +27,7 @@ class BoardsService {
       boardId,
       file,
       boardsUrl
-    ).then(function () {
+    ).then( () => {
       return boardId;
     });
   }
@@ -88,7 +88,7 @@ class BoardsService {
       boardId,
       file,
       boardsUrl
-    ).then(function () {
+    ).then( () => {
       return boardId;
     });
   }
