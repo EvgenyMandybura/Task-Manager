@@ -5,7 +5,7 @@ import { withRouter, Link } from "react-router-dom";
 import * as yup from "yup";
 import FormikFormGroup from "../formik/FormikFormGroup";
 import { Formik } from "formik";
-import {loginUser} from "../../redux/auth/actions";
+import { loginUser } from "../../redux/auth/actions";
 import validationSchemas from "../../constants/validationSchemas";
 import "./index.scss";
 
@@ -29,9 +29,7 @@ const SignInForm = ({ loginUser, history }) => {
       validationSchema={validationSchema}
       onSubmit={handleSubmitForm}
     >
-      {(form) => {
-        const { errors, touched, handleSubmit } = form;
-
+      {({ errors, touched, handleSubmit }) => {
         return (
           <div>
             <Form className="w-100" onSubmit={handleSubmit}>
@@ -62,7 +60,9 @@ const SignInForm = ({ loginUser, history }) => {
               </div>
             </Form>
             <div className="signInItems">
-              <Link to="/sign-up" className="text-decoration-none">Don't have an account? Sign Up</Link>
+              <Link to="/sign-up" className="text-decoration-none">
+                Don't have an account? Sign Up
+              </Link>
             </div>
           </div>
         );
@@ -73,4 +73,4 @@ const SignInForm = ({ loginUser, history }) => {
 
 const mapStateToProps = () => ({});
 
-export default withRouter(connect(mapStateToProps, {loginUser})(SignInForm));
+export default withRouter(connect(mapStateToProps, { loginUser })(SignInForm));

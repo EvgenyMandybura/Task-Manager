@@ -6,6 +6,7 @@ import {
   LOGOUT_USER,
   COMPLETE_PROFILE_FORM,
   REGISTER_USER,
+  GET_MEMBERS,
 } from "./actionTypes";
 
 import {
@@ -17,6 +18,8 @@ import {
   completeProfileError,
   registerUserSuccess,
   registerUserError,
+  getListMembersSuccess,
+  getListMembersError,
 } from "./actions";
 
 import ToastrService from "../../services/ToastrService";
@@ -40,6 +43,10 @@ const completeProfileAsync = async (model) => {
   return AuthService.completeProfile(model);
 };
 
+const getMembersListAsync = async (members) => {
+  return await AuthService.getMemberList(members);
+};
+
 const registerWithEmailPasswordAsync = (email, password) => {
   const authUser = AuthService.register({
     email,
@@ -55,7 +62,7 @@ function* loginUserWithFB({ payload: { history } }) {
     if (response.additionalUserInfo.isNewUser) {
       history.push("/complete-profile");
     } else if (response) {
-      history.push("/dashboard");
+      history.push("/boards");
     } else {
       history.push("/");
     }
@@ -74,7 +81,7 @@ function* loginUserWithEmailPassword({ payload: { user, history } }) {
     );
     yield put(loginSuccess(response));
     if (response) {
-      history.push("/dashboard");
+      history.push("/boards");
     } else {
       history.push("/");
     }
@@ -84,10 +91,11 @@ function* loginUserWithEmailPassword({ payload: { user, history } }) {
   }
 }
 
-function* logoutUser() {
+function* logoutUser({ payload: { history } }) {
   try {
     yield call(signOutAsync);
     yield put(logoutUserSuccess());
+    history.push("/sign-in");
   } catch (error) {
     ToastrService.error(error.message);
     yield put(logoutError(error));
@@ -101,7 +109,7 @@ function* completeProfileFirebase({ payload }) {
     const result = yield call(completeProfileAsync, model);
     yield put(completeProfileSuccess(result));
     if (result) {
-      model.history.push("/dashboard");
+      model.history.push("/boards");
     }
     ToastrService.success("Profile completed");
   } catch (error) {
@@ -131,6 +139,14 @@ function* signUpUser({ payload }) {
     yield put(registerUserError(error));
   }
 }
+function* getMembers({ payload: { members } }) {
+  try {
+    const response = yield call(getMembersListAsync, members);
+    yield put(getListMembersSuccess(response));
+  } catch (error) {
+    yield put(getListMembersError(error));
+  }
+}
 
 export function* watchUserLoginFB() {
   yield takeEvery(LOGIN_USER_FB, loginUserWithFB);
@@ -152,6 +168,10 @@ export function* watchUserRegister() {
   yield takeEvery(REGISTER_USER, signUpUser);
 }
 
+export function* watchGetMembers() {
+  yield takeEvery(GET_MEMBERS, getMembers);
+}
+
 function* authSaga() {
   yield all([
     fork(watchUserLogin),
@@ -159,6 +179,7 @@ function* authSaga() {
     fork(watchUserLogOut),
     fork(watchUpdateProfile),
     fork(watchUserRegister),
+    fork(watchGetMembers),
   ]);
 }
 

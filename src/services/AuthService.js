@@ -1,58 +1,114 @@
-import {firebase_app, firestore, firebase_storage} from "../components/Firebase/firebase";
+import { firebase_app, firestore } from "../components/Firebase/firebase";
 import firebase from "firebase";
+import { boardsUrl, usersUrl } from "../constants/urlForFiresore";
+import uploadToFirebase from "../helpers/uploadToFirebase";
+import StorageService from "./StorageService";
+import ToastrService from "./ToastrService";
 
+const USER_PLACEHOLDER = {
+  firstName: "FirstName",
+  lastName: "LastName",
+};
+
+const REMEMBER_ME_DEFAULT = true;
 
 class AuthService {
-    login({ email, password }) {
-        return firebase_app.auth().signInWithEmailAndPassword(email, password);
-    }
-
-    loginWithFacebook() {
-        const provider = new firebase.auth.FacebookAuthProvider();
-        return firebase_app.auth()
-            .signInWithPopup(provider)
-            .then((result) => {
-                let credential = result.credential;
-                let user = result.user;
-                let accessToken = credential.accessToken;
-                return result;
-            })
-            .catch((error) => {
-                let errorCode = error.code;
-                let errorMessage = error.message;
-                let email = error.email;
-                let credential = error.credential;
-            });
-    }
-
-    logout() {
-        return firebase_app.auth().signOut();
-    }
-
-    async register({ name, email, password }) {
-        return await firebase_app.auth().createUserWithEmailAndPassword(email, password);
-    }
-
-    completeProfile(model) {
-        const { firstName, lastName, description, email, phone } = model.values;
+  login({ email, password, remember = REMEMBER_ME_DEFAULT }) {
+    this.clearUser();
+    return firebase_app
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((authUser) => {
         const user = firebase_app.auth().currentUser;
-        user.updateProfile({displayName:`${firstName} ${lastName}`});
+        this.storeUser(user, remember);
+        return authUser;
+      });
+  }
 
-        firestore.collection("users").add({
-            firstName: firstName,
-            lastName: lastName,
-            description: description,
-            email: email,
-            phone: phone,
-        })
+  loginWithFacebook(remember = REMEMBER_ME_DEFAULT) {
+    this.clearUser();
+    const provider = new firebase.auth.FacebookAuthProvider();
+    return firebase_app
+      .auth()
+      .signInWithPopup(provider)
+      .then((authUser) => {
+        const user = firebase_app.auth().currentUser;
+        this.storeUser(user, remember);
+        return authUser;
+      });
+  }
 
-        return firebase.storage().ref().child(`images/${user.uid}/avatar`)
-            .put(model.fileModel.files[0], {contentType: 'image/jpeg',
-            }).then( function (){
-                    return true;
-                }
-            )
+  logout() {
+    return firebase_app
+      .auth()
+      .signOut()
+      .then(() => {
+        this.clearUser();
+      });
+  }
+
+  async register({ name, email, password, remember = REMEMBER_ME_DEFAULT }) {
+    this.clearUser();
+    return await firebase_app
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((authUser) => {
+        const user = firebase_app.auth().currentUser;
+        this.storeUser(user, remember);
+        return authUser;
+      });
+  }
+
+  completeProfile(model) {
+    const { firstName, lastName, email } = model.values;
+    const user = firebase_app.auth().currentUser;
+    user.updateProfile({ displayName: `${firstName} ${lastName}` });
+    user.updateEmail(email);
+    const storage = firebase.storage().ref().child(`${usersUrl}/${user.uid}`);
+    const file = model.fileModel.files[0];
+    const dataForStorage = {
+      firstName,
+      lastName,
+      email: model.values.email,
+      phone: model.values.phone,
+      description: model.values.description,
+    };
+    return uploadToFirebase(
+      dataForStorage,
+      storage,
+      email,
+      file,
+      usersUrl
+    ).then(function () {
+      return true;
+    });
+  }
+
+  storeUser(userData, remember = false) {
+    const storage = remember ? localStorage : sessionStorage;
+    StorageService.user.storage = storage;
+    StorageService.user.value = userData;
+  }
+
+  clearUser() {
+    StorageService.user.clear();
+  }
+
+  async getUser(userEmail) {
+    const userData = (
+      await firestore.collection(usersUrl).doc(userEmail).get()
+    ).data();
+    return userData;
+  }
+
+  async getMemberList(members) {
+    const tempDoc = [];
+    const docUsersRef = firestore.collection(usersUrl);
+    for (const member of members) {
+      const query = (await docUsersRef.doc(member).get()).data();
+      await tempDoc.push(query);
     }
-
+    return tempDoc;
+  }
 }
 export default new AuthService();

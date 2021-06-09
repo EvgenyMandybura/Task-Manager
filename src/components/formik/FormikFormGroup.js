@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 import { Field } from "formik";
-import {
-  FormGroup,
-  InputGroup,
-  Label,
-  Input,
-  InputGroupAddon,
-  Button,
-} from "reactstrap";
+import { FormGroup, InputGroup, Label } from "reactstrap";
 import classNames from "classnames";
 import FormError from "./FormError";
 import FormikDropdown from "./FormikDropdown";
+import RichTextEditor from "./RichTextEditor";
+import DatesPicker from "./DatePicker";
 
 const FormikFormGroup = ({
+  values = "",
   errors,
   touched,
   fieldName,
@@ -22,6 +18,8 @@ const FormikFormGroup = ({
   handleChange = () => {},
   options = [],
   isMulti = false,
+  maxLength = null,
+  setFieldValue,
 }) => {
   const [visible] = useState(false);
   const isInvalid = errors[fieldName] && touched[fieldName];
@@ -51,6 +49,36 @@ const FormikFormGroup = ({
             component={FormikDropdown}
             options={options}
             isMulti={isMulti}
+          />
+        );
+      case "textarea":
+        return (
+          <Field
+            component="textarea"
+            type={type}
+            className={className}
+            name={fieldName}
+            placeholder={placeholder}
+            maxLength={maxLength}
+          />
+        );
+      case "richEditor":
+        return (
+          <Field
+            component={RichTextEditor}
+            editorState={values.editorState}
+            onChange={setFieldValue}
+            name={fieldName}
+            placeholder={placeholder}
+            maxLength={maxLength}
+          />
+        );
+      case "datePicker":
+        return (
+          <Field
+            component={DatesPicker}
+            onChange={setFieldValue}
+            name={fieldName}
           />
         );
       default:

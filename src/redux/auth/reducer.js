@@ -12,6 +12,10 @@ import {
   REGISTER_USER,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_ERROR,
+  GET_MEMBERS,
+  GET_MEMBERS_SUCCESS,
+  GET_MEMBERS_ERROR,
+  GET_MEMBERS_CLEAR,
 } from "./actionTypes";
 
 const initialState = {
@@ -19,6 +23,7 @@ const initialState = {
   message: "",
   user: null,
   loading: false,
+  membersList: [],
 };
 
 const auth = (state = initialState, action) => {
@@ -82,6 +87,34 @@ const auth = (state = initialState, action) => {
       return { ...state, loading: false, user: action.payload, error: "" };
     case REGISTER_USER_ERROR:
       return { ...state, loading: false };
+
+    case GET_MEMBERS:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case GET_MEMBERS_SUCCESS:
+      state = {
+        ...state,
+        membersList: action.payload,
+        loading: false,
+      };
+      break;
+    case GET_MEMBERS_CLEAR:
+      state = {
+        ...state,
+        loading: false,
+        membersList: [],
+      };
+      break;
+    case GET_MEMBERS_ERROR:
+      state = {
+        ...state,
+        data: [],
+        error: "",
+      };
+      break;
 
     default:
       state = { ...state };
