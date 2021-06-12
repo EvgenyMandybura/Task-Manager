@@ -3,20 +3,24 @@ import { tasksUrl, boardsUrl } from "../constants/urlForFiresore";
 import AuthService from "./AuthService";
 import StorageService from "./StorageService";
 import uploadTaskToFirebase from "../helpers/uploadTaskToFirebase";
-import { PENDING } from "../constants/taskStatuses";
+import { TODO } from "../constants/taskStatuses";
 import firebase from "firebase";
 
 class TasksService {
   async getAllList(data) {
-    const { boardId } = data;
+    console.log(data)
+    const { boardId, sortField } = data;
     const tempDoc = [];
-    const docBoardRef = firestore.collection(boardsUrl);
     const docTaskRef = firestore.collection(tasksUrl);
-    const boardTasksIds = (await docBoardRef.doc(boardId).get()).data().tasks;
-    for (const taskId of boardTasksIds) {
-      const boardTask = (await docTaskRef.doc(taskId).get()).data();
-      boardTask.assigneeData = await AuthService.getUser(boardTask.assignee);
-      await tempDoc.push(boardTask);
+    const query = await (!sortField
+        ? docTaskRef.where("boardId", "==", boardId).get()
+        : await docTaskRef
+            .where("boardId", "==", boardId)
+            .orderBy(sortField)
+            .get());
+    for (const doc of query.docs) {
+      const assigneeData = await AuthService.getUser(doc.data().assignee);
+      tempDoc.push({ assigneeData, ...doc.data() });
     }
     return tempDoc;
   }
@@ -30,7 +34,7 @@ class TasksService {
 
     const dataForStorage = {
       creatorEmail,
-      taskStatus: PENDING,
+      taskStatus: TODO,
       boardId: model.values.boardId,
       assignee: model.values.assignee,
       summary: model.values.summary,

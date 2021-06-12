@@ -14,9 +14,9 @@ import {
   FILTER_TASKS_ERROR,
 } from "./actionTypes";
 
-export const getListTasks = (boardId) => {
+export const getListTasks = (model) => {
   return {
-    payload: { boardId },
+    payload: { model },
     type: GET_TASKS,
   };
 };

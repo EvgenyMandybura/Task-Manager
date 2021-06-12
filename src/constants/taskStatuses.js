@@ -1,9 +1,9 @@
-export const PENDING = "pending";
-export const COMPLETED = "completed";
-export const DELETED = "deleted";
+export const TODO = "todo";
+export const INPROGRESS = "inProgress";
+export const DONE = "done";
 
 export const allStatus = [
-  { label: PENDING, value: PENDING },
-  { label: COMPLETED, value: COMPLETED },
-  { label: DELETED, value: DELETED },
+  { label: TODO, value: TODO },
+  { label: INPROGRESS, value: INPROGRESS },
+  { label: DONE, value: DONE },
 ];

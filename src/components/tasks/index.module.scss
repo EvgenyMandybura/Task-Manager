@@ -13,13 +13,13 @@
     font-style: italic;
     display: inline-block;
 
-    &Pending{
+    &InProgress{
       color: blue;
     }
-    &Completed{
+    &Done{
       color: green;
     }
-    &Deleted{
+    &Todo{
       color: red;
     }
   }
