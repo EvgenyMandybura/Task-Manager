@@ -12,14 +12,25 @@ import {
   FILTER_TASKS,
   FILTER_TASKS_SUCCESS,
   FILTER_TASKS_ERROR,
+  GET_TASK,
+  GET_TASK_SUCCESS,
+  GET_TASK_CLEAR,
+  GET_TASK_ERROR,
+  GET_TASKS_FILES,
+  GET_TASKS_FILES_SUCCESS,
+  GET_TASKS_FILES_ERROR,
+  GET_TASKS_FILES_CLEAR,
 } from "./actionTypes";
 
 const initialState = {
   error: "",
   message: "",
   loading: false,
+  loadingFiles: false,
+  files: {},
   board: null,
   tasksList: [],
+  task: {},
   created: {},
 };
 
@@ -109,6 +120,58 @@ const tasks = (state = initialState, action) => {
         data: [],
         error: "",
       };
+    case GET_TASK:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case GET_TASK_SUCCESS:
+      state = {
+        ...state,
+        task: action.payload,
+        loading: false,
+      };
+      break;
+    case GET_TASK_ERROR:
+      state = {
+        ...state,
+        loading: false,
+      };
+      break;
+    case GET_TASK_CLEAR:
+      state = {
+        ...state,
+        task: null,
+        loading: false,
+      };
+    case GET_TASKS_FILES:
+      state = {
+        ...state,
+        loadingFiles: true,
+      };
+      break;
+    case GET_TASKS_FILES_SUCCESS:
+      state = {
+        ...state,
+        files: action.payload,
+        loadingFiles: false,
+      };
+      break;
+    case GET_TASKS_FILES_CLEAR:
+      state = {
+        ...state,
+        loadingFiles: false,
+        files: [],
+      };
+      break;
+    case GET_TASKS_FILES_ERROR:
+      state = {
+        ...state,
+        files: [],
+        error: "",
+      };
+      break;
 
     default:
       state = { ...state };

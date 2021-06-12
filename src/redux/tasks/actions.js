@@ -12,6 +12,14 @@ import {
   FILTER_TASKS,
   FILTER_TASKS_SUCCESS,
   FILTER_TASKS_ERROR,
+  GET_TASK,
+  GET_TASK_SUCCESS,
+  GET_TASK_CLEAR,
+  GET_TASK_ERROR,
+  GET_TASKS_FILES,
+  GET_TASKS_FILES_SUCCESS,
+  GET_TASKS_FILES_ERROR,
+  GET_TASKS_FILES_CLEAR,
 } from "./actionTypes";
 
 export const getListTasks = (model) => {
@@ -92,5 +100,55 @@ export const filterTasksError = ({ message }) => {
   return {
     payload: { message },
     type: FILTER_TASKS_ERROR,
+  };
+};
+export const getTaskDetails = (taskId) => {
+  return {
+    payload: { taskId },
+    type: GET_TASK,
+  };
+};
+
+export const getTaskSuccess = (data) => {
+  return {
+    payload: data,
+    type: GET_TASK_SUCCESS,
+  };
+};
+
+export const getTaskError = ({ message = "Unknown error" }) => {
+  return {
+    payload: { message },
+    type: GET_TASK_ERROR,
+  };
+};
+
+export const clearTaskDetails = () => {
+  return {
+    type: GET_TASK_CLEAR,
+  };
+};
+
+export const getTaskFiles = (model) => {
+  return {
+    payload: { model },
+    type: GET_TASKS_FILES,
+  };
+};
+export const getTaskFilesSuccess = (data) => {
+  return {
+    payload: data,
+    type: GET_TASKS_FILES_SUCCESS,
+  };
+};
+export const getTaskFilesError = ({ message }) => {
+  return {
+    payload: { message },
+    type: GET_TASKS_FILES_ERROR,
+  };
+};
+export const clearTaskFiles = () => {
+  return {
+    type: GET_TASKS_FILES_CLEAR,
   };
 };

@@ -30,5 +30,18 @@
   }
 }
 
+.task{
+  &Header{
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  &Description{
+    padding: 12px;
+    margin-bottom: 24px;
+    border: 1px double lightgray;
+    border-radius: 8px;
+
+  }
+}
 
 
