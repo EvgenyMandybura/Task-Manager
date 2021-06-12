@@ -44,4 +44,27 @@
   }
 }
 
+.container {
+  width: 250px;
+  height: 300px;
+
+  &TextStatus {
+    position: absolute;
+  }
+
+  &ChangeStatus {
+    opacity: 0;
+    position: absolute;
+    transition: all .2s;
+  }
+}
+
+.container:hover .containerChangeStatus {
+  opacity: 1;
+}
+
+.container:hover .containerTextStatus {
+  opacity: 0;
+}
+
 

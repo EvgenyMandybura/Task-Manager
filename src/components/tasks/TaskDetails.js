@@ -7,12 +7,15 @@ import MemberDetails from "../members/MemberDetails";
 import styles from "./index.module.scss";
 import dateFormat from "../../helpers/dateHelper";
 import FilesDetails from "./fileDetails";
+import classNames from "classnames";
+import classStatus from "../../helpers/statusColor";
+import ChangeTaskStatusForm from "../forms/ChangeTaskStatusForm";
 
 const TaskDetail = ({ getTaskDetails, clearTaskDetails, tasksState }) => {
   const {
     params: { taskId },
   } = useRouteMatch("/task-details/:taskId");
-  const { loading, task } = tasksState;
+  const { loading, task, taskStatus } = tasksState;
   const [ready, updateReady] = useState(false);
   const fetchTask = () => {
     getTaskDetails(taskId);
@@ -45,13 +48,29 @@ const TaskDetail = ({ getTaskDetails, clearTaskDetails, tasksState }) => {
               <FilesDetails fileUrls={task[0]?.fileUrls} />
             </Col>
             <Col xs="4">
-              <p> Assignee:: </p>
-              <MemberDetails member={task[0]?.assigneeData} />
               <div>
                 <p className="d-inline">Time estimation: </p>
                 <p className={styles.tasksDate}>
-                  {dateFormat(task[0]?.timeEstimation.seconds)}
+                  {dateFormat(task[0].timeEstimation?.seconds)}
                 </p>
+              </div>
+              <p> Assignee:: </p>
+              <MemberDetails member={task[0].assigneeData} />
+              <div className={styles.container}>
+                <p className="d-inline">Status: </p>
+                <div className={styles.containerTextStatus}>
+                  <p
+                    className={classNames(
+                      styles.tasksStatus,
+                      classStatus(taskStatus || task[0].taskStatus)
+                    )}
+                  >
+                    {taskStatus || task[0].taskStatus}
+                  </p>
+                </div>
+                <div className={styles.containerChangeStatus}>
+                  <ChangeTaskStatusForm />
+                </div>
               </div>
             </Col>
           </Row>

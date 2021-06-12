@@ -6,6 +6,7 @@ import uploadTaskToFirebase from "../helpers/uploadTaskToFirebase";
 import { TODO } from "../constants/taskStatuses";
 import firebase from "firebase";
 import fileIcons from "../helpers/fileIcons";
+import updateFirestoreDocument from "../helpers/updateFirestoreDocument";
 
 class TasksService {
   async getAllList(data) {
@@ -13,11 +14,11 @@ class TasksService {
     const tempDoc = [];
     const docTaskRef = firestore.collection(tasksUrl);
     const query = await (!sortField
-        ? docTaskRef.where("boardId", "==", boardId).get()
-        : await docTaskRef
-            .where("boardId", "==", boardId)
-            .orderBy(sortField)
-            .get());
+      ? docTaskRef.where("boardId", "==", boardId).get()
+      : await docTaskRef
+          .where("boardId", "==", boardId)
+          .orderBy(sortField)
+          .get());
     for (const doc of query.docs) {
       const assigneeData = await AuthService.getUser(doc.data().assignee);
       tempDoc.push({ assigneeData, ...doc.data() });
@@ -49,7 +50,7 @@ class TasksService {
     });
 
     return uploadTaskToFirebase(dataForStorage, taskId, files, tasksUrl).then(
-       () => {
+      () => {
         return boardId;
       }
     );
@@ -137,6 +138,22 @@ class TasksService {
       tempDoc.push({ urlDB, ...dataForDisplay });
     }
     return tempDoc;
+  }
+
+  async editTask(model) {
+    const { taskId, taskStatus } = model;
+    const dataForStorage = {
+      taskStatus,
+    };
+    return updateFirestoreDocument(
+      dataForStorage,
+      null,
+      taskId,
+      null,
+      tasksUrl
+    ).then(() => {
+      return { taskId, ...dataForStorage };
+    });
   }
 }
 export default new TasksService();

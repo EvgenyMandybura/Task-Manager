@@ -20,6 +20,9 @@ import {
   GET_TASKS_FILES_SUCCESS,
   GET_TASKS_FILES_ERROR,
   GET_TASKS_FILES_CLEAR,
+  EDIT_TASK,
+  EDIT_TASK_SUCCESS,
+  EDIT_TASK_ERROR,
 } from "./actionTypes";
 
 export const getListTasks = (model) => {
@@ -152,3 +155,22 @@ export const clearTaskFiles = () => {
     type: GET_TASKS_FILES_CLEAR,
   };
 };
+
+export const editTask = (model) => {
+  return {
+    type: EDIT_TASK,
+    payload: { model },
+  };
+};
+
+export const editTaskSuccess = (board) => {
+  return {
+    type: EDIT_TASK_SUCCESS,
+    payload: board,
+  };
+};
+
+export const editTaskError = ({ message }) => ({
+  type: EDIT_TASK_ERROR,
+  payload: { message },
+});
