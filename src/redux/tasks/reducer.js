@@ -23,18 +23,25 @@ import {
   EDIT_TASK,
   EDIT_TASK_SUCCESS,
   EDIT_TASK_ERROR,
+  GET_ACTIVITIES_LOG,
+  GET_ACTIVITIES_LOG_SUCCESS,
+  GET_ACTIVITIES_LOG_CLEAR,
+  GET_ACTIVITIES_LOG_ERROR,
 } from "./actionTypes";
 
 const initialState = {
   error: "",
   message: "",
   loading: false,
+  activityLoaded: false,
   loadingFiles: false,
   files: {},
   board: null,
   tasksList: [],
   task: {},
   created: {},
+  taskStatus: "",
+  activitiesLog: [],
 };
 
 const tasks = (state = initialState, action) => {
@@ -192,6 +199,33 @@ const tasks = (state = initialState, action) => {
       state = {
         ...state,
         loading: false,
+      };
+      break;
+    case GET_ACTIVITIES_LOG:
+      state = {
+        ...state,
+        activityLoaded: true,
+      };
+      break;
+    case GET_ACTIVITIES_LOG_SUCCESS:
+      state = {
+        ...state,
+        activitiesLog: action.payload,
+        activityLoaded: false,
+      };
+      break;
+    case GET_ACTIVITIES_LOG_CLEAR:
+      state = {
+        ...state,
+        activityLoaded: false,
+        activitiesLog: [],
+      };
+      break;
+    case GET_ACTIVITIES_LOG_ERROR:
+      state = {
+        ...state,
+        activitiesLog: [],
+        error: "",
       };
       break;
 

@@ -6,10 +6,10 @@ import { getTaskDetails, clearTaskDetails } from "../../redux/tasks/actions";
 import MemberDetails from "../members/MemberDetails";
 import styles from "./index.module.scss";
 import dateFormat from "../../helpers/dateHelper";
-import FilesDetails from "./fileDetails";
 import classNames from "classnames";
 import classStatus from "../../helpers/statusColor";
 import ChangeTaskStatusForm from "../forms/ChangeTaskStatusForm";
+import TabForPage from "../layout/TabsForPage";
 
 const TaskDetail = ({ getTaskDetails, clearTaskDetails, tasksState }) => {
   const {
@@ -45,7 +45,7 @@ const TaskDetail = ({ getTaskDetails, clearTaskDetails, tasksState }) => {
                 className={styles.taskDescription}
                 dangerouslySetInnerHTML={{ __html: task[0]?.description }}
               />
-              <FilesDetails fileUrls={task[0]?.fileUrls} />
+              <TabForPage />
             </Col>
             <Col xs="4">
               <div>

@@ -23,6 +23,10 @@ import {
   EDIT_TASK,
   EDIT_TASK_SUCCESS,
   EDIT_TASK_ERROR,
+  GET_ACTIVITIES_LOG,
+  GET_ACTIVITIES_LOG_SUCCESS,
+  GET_ACTIVITIES_LOG_CLEAR,
+  GET_ACTIVITIES_LOG_ERROR,
 } from "./actionTypes";
 
 export const getListTasks = (model) => {
@@ -174,3 +178,27 @@ export const editTaskError = ({ message }) => ({
   type: EDIT_TASK_ERROR,
   payload: { message },
 });
+
+export const getActivitiesLog = (taskId) => {
+  return {
+    payload: { taskId },
+    type: GET_ACTIVITIES_LOG,
+  };
+};
+export const getActivitiesLogSuccess = (data) => {
+  return {
+    payload: data,
+    type: GET_ACTIVITIES_LOG_SUCCESS,
+  };
+};
+export const getActivitiesLogError = ({ message }) => {
+  return {
+    payload: { message },
+    type: GET_ACTIVITIES_LOG_ERROR,
+  };
+};
+export const clearActivitiesLog = () => {
+  return {
+    type: GET_ACTIVITIES_LOG_CLEAR,
+  };
+};
