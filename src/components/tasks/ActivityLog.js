@@ -43,7 +43,7 @@ const ActivityLog = ({ getActivitiesLog, clearActivitiesLog, tasksState }) => {
       <tbody>
         {ready &&
           activitiesLog?.map((activity) => (
-            <tr>
+            <tr key={activity.timeStamp}>
               <td>{activity.activityCreator}</td>
               <td>Change task status to {activity.taskStatus}</td>
               <td>{dateFormat(activity.timeStamp / milliseconds)}</td>

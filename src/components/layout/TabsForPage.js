@@ -4,6 +4,7 @@ import classnames from "classnames";
 import ActivityLog from "../tasks/ActivityLog";
 import FilesDetails from "../tasks/fileDetails";
 import LeaveCommentForm from "../forms/AddCommentForm";
+import CommentsList from "../comments/CommentsList";
 import styles from "./index.module.scss";
 
 const TabForPage = () => {
@@ -55,8 +56,8 @@ const TabForPage = () => {
           <ActivityLog />
         </TabPane>
         <TabPane tabId="3" className={styles.tabContainer}>
-          <div>dskgfjslhgjds lsd gsdf dsg oe</div>
           <LeaveCommentForm />
+          <CommentsList />
         </TabPane>
       </TabContent>
     </div>
