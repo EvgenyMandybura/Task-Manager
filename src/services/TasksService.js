@@ -4,6 +4,7 @@ import {
   boardsUrl,
   activitiesUrl,
   logUrl,
+  commentsUrl,
 } from "../constants/urlForFiresore";
 import AuthService from "./AuthService";
 import StorageService from "./StorageService";
@@ -13,6 +14,7 @@ import firebase from "firebase";
 import fileIcons from "../helpers/fileIcons";
 import updateFirestoreDocument from "../helpers/updateFirestoreDocument";
 import uploadActivitiesToFirebase from "../helpers/UploadActivitiesToFirebase";
+import uploadCommentsToFirebase from "../helpers/UploadCommentToFirebase";
 
 class TasksService {
   async getAllList(data) {
@@ -183,6 +185,26 @@ class TasksService {
       tempDoc.push(doc.data());
     }
     return tempDoc;
+  }
+
+  async addComment(model) {
+    const { taskId, description } = model.comment;
+    const currentUser = StorageService.user.value.email;
+    const timeStamp = new Date().getTime();
+
+    const commentDataForStorage = {
+      commentCreator: currentUser,
+      description,
+      timeStamp,
+      taskId,
+    };
+    return uploadCommentsToFirebase(
+      commentDataForStorage,
+      taskId,
+      commentsUrl
+    ).then(() => {
+      return { taskId };
+    });
   }
 }
 export default new TasksService();
