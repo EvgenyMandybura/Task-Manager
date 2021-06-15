@@ -210,8 +210,6 @@ class TasksService {
 
   async getComments(model) {
     let { taskId, lastVisible } = model;
-    console.log("taskId", taskId);
-    console.log("lastVisible", lastVisible);
     const commentsLimit = [];
     const query = await firestore
       .collection(commentsUrl)

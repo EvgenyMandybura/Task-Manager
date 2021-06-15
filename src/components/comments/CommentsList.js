@@ -7,6 +7,7 @@ import {
 } from "../../redux/comments/actions";
 import { useRouteMatch } from "react-router-dom";
 import styles from "./styles.scss";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const CommentsList = ({ getTaskComments, getTaskCommentsClear, Comments }) => {
   const {
@@ -17,11 +18,19 @@ const CommentsList = ({ getTaskComments, getTaskCommentsClear, Comments }) => {
     const model = { taskId, lastVisible: lastVisible };
     getTaskComments(model);
   };
-  const [ready, updateReady] = useState(false);
+  const [allList, setAllList] = useState(null);
+  useEffect(() => {
+    if (comments.length != 0 && lastVisible != null) {
+      setAllList(comments);
+    }
+  }, [comments]);
+  const fetchMoreData = async () => {
+    fetchTaskComments();
+    await setAllList(allList.concat(comments));
+  };
 
   useEffect(() => {
     fetchTaskComments();
-    updateReady(true);
     return () => {
       getTaskCommentsClear();
     };
@@ -36,29 +45,35 @@ const CommentsList = ({ getTaskComments, getTaskCommentsClear, Comments }) => {
   return (
     <Container>
       <h4>Comments:</h4>
-      {ready && !loading ? (
-        comments &&
-        comments?.map((comment) => (
-          <div key={comment.timeStamp} className={styles.commentContainer}>
-            <Row>
-              <Col xs={2}>
-                <div className="userAvatarWr">
-                  <img src={comment.creatorData.fileUrl} alt="User logo" />
-                </div>
-              </Col>
+      {!!allList && (
+        <div>
+          <InfiniteScroll
+            dataLength={allList.length}
+            next={fetchMoreData}
+            hasMore={true}
+            loader={<h4>Loading...</h4>}
+          >
+            {allList.map((comment) => (
+              <div key={comment.timeStamp} className={styles.commentContainer}>
+                <Row>
+                  <Col xs={2}>
+                    <div className="userAvatarWr">
+                      <img src={comment.creatorData.fileUrl} alt="User logo" />
+                    </div>
+                  </Col>
 
-              <Col xs={8}>
-                <div>
-                  <p>{comment.commentCreator}</p>
-                  <p>{new Date(comment.timeStamp).toLocaleDateString()}</p>
-                  <p> {comment.description}</p>
-                </div>
-              </Col>
-            </Row>
-          </div>
-        ))
-      ) : (
-        <p>There are no comments for this product.</p>
+                  <Col xs={8}>
+                    <div>
+                      <p>{comment.commentCreator}</p>
+                      <p>{new Date(comment.timeStamp).toLocaleDateString()}</p>
+                      <p> {comment.description}</p>
+                    </div>
+                  </Col>
+                </Row>
+              </div>
+            ))}
+          </InfiniteScroll>
+        </div>
       )}
     </Container>
   );
