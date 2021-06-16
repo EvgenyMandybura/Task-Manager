@@ -234,22 +234,41 @@ class TasksService {
   }
 
   async editTaskDetails(model) {
-    const { taskId, values } = model;
+    const { taskId, values, currentTask } = model;
+
+    let changedValues = {};
+    if (currentTask.summary != values.summary) {
+      changedValues.summary = values.summary;
+    }
+    if (currentTask.description != values.description) {
+      changedValues.description = values.description;
+    }
+    if (currentTask.assignee != values.assignee) {
+      changedValues.assignee = values.assignee;
+    }
+    if (currentTask.timeEstimation != values.timeEstimation) {
+      changedValues.timeEstimation = values.timeEstimation;
+    }
+
     const currentUser = StorageService.user.value.email;
     const timeStamp = new Date().getTime();
-    /*    const activityDataForStorage = {
+    const activityDataForStorage = {
       activityCreator: currentUser,
-      values,
+      changedValues,
       timeStamp,
       taskId,
     };
     uploadActivitiesToFirebase(activityDataForStorage, taskId, activitiesUrl);
-*/
-    return updateFirestoreDocument(values, null, taskId, null, tasksUrl).then(
-      () => {
-        return { taskId, values };
-      }
-    );
+
+    return updateFirestoreDocument(
+      changedValues,
+      null,
+      taskId,
+      null,
+      tasksUrl
+    ).then(() => {
+      return { taskId, values };
+    });
   }
 }
 export default new TasksService();

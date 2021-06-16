@@ -30,7 +30,8 @@ const ChangeTaskForm = ({
   history,
 }) => {
   const { task, taskStatus } = tasksState;
-  const { boardId } = task[0];
+  const currentTask = task[0];
+  const { boardId } = currentTask;
   const { loading, board } = boardsState;
   const fetchBoard = () => {
     getBoard(boardId);
@@ -49,17 +50,17 @@ const ChangeTaskForm = ({
   }, []);
 
   const initialValues = {
-    summary: task[0].summary,
-    description: task[0].description,
-    assignee: task[0].assignee,
-    timeEstimation: task[0].timeEstimation,
+    summary: currentTask.summary,
+    description: currentTask.description,
+    assignee: currentTask.assignee,
+    timeEstimation: currentTask.timeEstimation,
   };
 
   const handleSubmitForm = (values) => {
-    if (task[0].description != values.description) {
+    if (currentTask.description != values.description) {
       values.description = saveToDb(values.description);
     }
-    const model = { taskId: task[0].taskId, values, history };
+    const model = { taskId: currentTask.taskId, values, history, currentTask };
     editTaskDetails(model);
   };
 
