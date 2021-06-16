@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Col, Row, Button, Form } from "reactstrap";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import MemberDetails from "../members/MemberDetails";
 import styles from "../tasks/index.module.scss";
-import dateFormat from "../../helpers/dateHelper";
 import classNames from "classnames";
 import classStatus from "../../helpers/statusColor";
 import ChangeTaskStatusForm from "../forms/ChangeTaskStatusForm";
@@ -16,26 +14,48 @@ import createMemberArrayForSelect from "../../helpers/createMenberArrayForSelect
 import { saveToDb } from "../../helpers/saveRichTextToDb";
 import * as yup from "yup";
 import validationSchemas from "../../constants/validationSchemas";
+import { clearBoardFetched, getBoard } from "../../redux/boards/actions";
 
 const validationSchema = yup.object({
   summary: validationSchemas.summary,
 });
 
-const ChangeTaskForm = ({ tasksState, boardsState }) => {
+const ChangeTaskForm = ({
+  tasksState,
+  boardsState,
+  getBoard,
+  clearBoardFetched,
+}) => {
   const { task, taskStatus } = tasksState;
-  const { board } = boardsState;
+  const { boardId } = task[0];
+  const { loading, board } = boardsState;
+  const fetchBoard = () => {
+    getBoard(boardId);
+  };
+  useEffect(() => {
+    fetchBoard();
+    return () => {
+      clearBoardFetched();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!loading) {
+      fetchBoard();
+    }
+  }, []);
 
   const initialValues = {
-    summary: "",
-    description: "",
-    assignee: "",
-    timeEstimation: "",
+    summary: task[0].summary,
+    description: task[0].description,
+    assignee: task[0].assignee,
+    timeEstimation: task[0].timeEstimation,
   };
 
   const handleSubmitForm = (values) => {
     values.description = saveToDb(values.description);
     const model = { values, history };
-    editTaskDetails(model);
+    //editTaskDetails(model);
   };
 
   return (
@@ -44,7 +64,14 @@ const ChangeTaskForm = ({ tasksState, boardsState }) => {
       validationSchema={validationSchema}
       onSubmit={handleSubmitForm}
     >
-      {({ errors, touched, handleSubmit, setFieldTouched, setFieldValue }) => {
+      {({
+        values,
+        errors,
+        touched,
+        handleSubmit,
+        setFieldTouched,
+        setFieldValue,
+      }) => {
         return (
           <div>
             <Form className="w-100" onSubmit={handleSubmit}>
@@ -62,39 +89,41 @@ const ChangeTaskForm = ({ tasksState, boardsState }) => {
                 <Col xs="8">
                   <h4>Task description:</h4>
                   <FormikFormGroup
+                    editorState={initialValues.description}
                     type={"richEditor"}
                     errors={errors}
                     touched={touched}
                     fieldName={"description"}
-                    label={"Description"}
                     placeholder={"Add description"}
                   />
                 </Col>
                 <Col xs="4">
                   <div>
-                    <p className="d-inline">Time estimation: </p>
                     <FormikFormGroup
                       errors={errors}
                       touched={touched}
                       fieldName={"timeEstimation"}
-                      label={"Set Due date:    "}
+                      label={"Time estimation:    "}
                       setFieldTouched={setFieldTouched}
                       setFieldValue={setFieldValue}
                       type={"datePicker"}
                     />
                   </div>
-                  <p> Assignee:: </p>
-                  <FormikFormGroup
-                    errors={errors}
-                    touched={touched}
-                    fieldName={"assignee"}
-                    label={"Add assignee"}
-                    placeholder={"Select assignee"}
-                    options={createMemberArrayForSelect(board?.members)}
-                    setFieldTouched={setFieldTouched}
-                    setFieldValue={setFieldValue}
-                    type={"select"}
-                  />
+
+                  {!!board && (
+                    <FormikFormGroup
+                      errors={errors}
+                      touched={touched}
+                      fieldName={"assignee"}
+                      label={"Change assignee"}
+                      placeholder={"Select assignee"}
+                      options={createMemberArrayForSelect(board?.members)}
+                      setFieldTouched={setFieldTouched}
+                      setFieldValue={setFieldValue}
+                      type={"select"}
+                    />
+                  )}
+
                   <div className={styles.container}>
                     <p className="d-inline">Status: </p>
                     <div className={styles.containerTextStatus}>
@@ -136,4 +165,6 @@ const mapStateToProps = ({ tasks, boards }) => ({
   tasksState: tasks,
   boardsState: boards,
 });
-export default withRouter(connect(mapStateToProps, {})(ChangeTaskForm));
+export default withRouter(
+  connect(mapStateToProps, { getBoard, clearBoardFetched })(ChangeTaskForm)
+);
