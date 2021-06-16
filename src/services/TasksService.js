@@ -232,5 +232,24 @@ class TasksService {
 
     return { commentsLimit, lastVisible };
   }
+
+  async editTaskDetails(model) {
+    const { taskId, values } = model;
+    const currentUser = StorageService.user.value.email;
+    const timeStamp = new Date().getTime();
+    /*    const activityDataForStorage = {
+      activityCreator: currentUser,
+      values,
+      timeStamp,
+      taskId,
+    };
+    uploadActivitiesToFirebase(activityDataForStorage, taskId, activitiesUrl);
+*/
+    return updateFirestoreDocument(values, null, taskId, null, tasksUrl).then(
+      () => {
+        return { taskId, values };
+      }
+    );
+  }
 }
 export default new TasksService();

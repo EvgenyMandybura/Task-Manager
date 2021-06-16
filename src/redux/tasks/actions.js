@@ -27,6 +27,9 @@ import {
   GET_ACTIVITIES_LOG_SUCCESS,
   GET_ACTIVITIES_LOG_CLEAR,
   GET_ACTIVITIES_LOG_ERROR,
+  EDIT_TASK_DETAILS,
+  EDIT_TASK_DETAILS_SUCCESS,
+  EDIT_TASK_DETAILS_ERROR,
 } from "./actionTypes";
 
 export const getListTasks = (model) => {
@@ -202,3 +205,22 @@ export const clearActivitiesLog = () => {
     type: GET_ACTIVITIES_LOG_CLEAR,
   };
 };
+
+export const editTaskDetails = (model) => {
+  return {
+    type: EDIT_TASK_DETAILS,
+    payload: { model },
+  };
+};
+
+export const editTaskDetailsSuccess = (board) => {
+  return {
+    type: EDIT_TASK_DETAILS_SUCCESS,
+    payload: board,
+  };
+};
+
+export const editTaskDetailsError = ({ message }) => ({
+  type: EDIT_TASK_DETAILS_ERROR,
+  payload: { message },
+});

@@ -15,6 +15,7 @@ import { saveToDb } from "../../helpers/saveRichTextToDb";
 import * as yup from "yup";
 import validationSchemas from "../../constants/validationSchemas";
 import { clearBoardFetched, getBoard } from "../../redux/boards/actions";
+import { editTaskDetails } from "../../redux/tasks/actions";
 
 const validationSchema = yup.object({
   summary: validationSchemas.summary,
@@ -25,6 +26,8 @@ const ChangeTaskForm = ({
   boardsState,
   getBoard,
   clearBoardFetched,
+  editTaskDetails,
+  history,
 }) => {
   const { task, taskStatus } = tasksState;
   const { boardId } = task[0];
@@ -53,9 +56,11 @@ const ChangeTaskForm = ({
   };
 
   const handleSubmitForm = (values) => {
-    values.description = saveToDb(values.description);
-    const model = { values, history };
-    //editTaskDetails(model);
+    if (task[0].description != values.description) {
+      values.description = saveToDb(values.description);
+    }
+    const model = { taskId: task[0].taskId, values, history };
+    editTaskDetails(model);
   };
 
   return (
@@ -64,17 +69,14 @@ const ChangeTaskForm = ({
       validationSchema={validationSchema}
       onSubmit={handleSubmitForm}
     >
-      {({
-        values,
-        errors,
-        touched,
-        handleSubmit,
-        setFieldTouched,
-        setFieldValue,
-      }) => {
+      {({ errors, touched, handleSubmit, setFieldTouched, setFieldValue }) => {
         return (
           <div>
             <Form className="w-100" onSubmit={handleSubmit}>
+              <Button color="success" type="submit" size="md">
+                Save Changes
+              </Button>
+
               <Row>
                 <h3 className={styles.taskHeader}>
                   {" "}
@@ -142,17 +144,6 @@ const ChangeTaskForm = ({
                   </div>
                 </Col>
               </Row>
-
-              <div className="d-flex justify-content-center align-items-center">
-                <Button
-                  color="success"
-                  type="submit"
-                  className="buttonLabel"
-                  size="md"
-                >
-                  Add task
-                </Button>
-              </div>
             </Form>
           </div>
         );
@@ -166,5 +157,7 @@ const mapStateToProps = ({ tasks, boards }) => ({
   boardsState: boards,
 });
 export default withRouter(
-  connect(mapStateToProps, { getBoard, clearBoardFetched })(ChangeTaskForm)
+  connect(mapStateToProps, { getBoard, clearBoardFetched, editTaskDetails })(
+    ChangeTaskForm
+  )
 );

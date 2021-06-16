@@ -13,6 +13,7 @@ async function updateFirestoreDocument(
     dataForStorage.fileUrl = fileUrl;
   }
   const { ...rest } = dataForStorage;
+
   await firestore
     .collection(collectionUrl)
     .doc(Id)
