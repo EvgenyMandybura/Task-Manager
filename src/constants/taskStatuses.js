@@ -7,3 +7,9 @@ export const allStatus = [
   { label: INPROGRESS, value: INPROGRESS },
   { label: DONE, value: DONE },
 ];
+
+export const COLUMN_NAMES = {
+  TODO,
+  INPROGRESS,
+  DONE,
+};
