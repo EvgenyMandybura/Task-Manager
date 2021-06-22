@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { getBoard, clearBoardFetched } from "../../redux/boards/actions";
 import { Table, Button } from "reactstrap";
 import ContainerUser from "../layout/ContainerUser";
+import AddColumnModal from "../modal/AddColumn";
+import useModal from "../../hook/useModal";
 
 const ColumnsList = ({ boardsState, getBoard, clearBoardFetched }) => {
   const {
@@ -28,10 +30,17 @@ const ColumnsList = ({ boardsState, getBoard, clearBoardFetched }) => {
     }
   }, []);
 
-  const statuses = boardsState.board?.statuses;
+  const [modalVisibleAdd, toggleModalAdd] = useModal();
+  const onConfirmed = () => {
+    toggleModalAdd();
+  };
+
+  const statuses = board?.statuses;
   return (
     <ContainerUser>
-      <Button color="success">Add column</Button>
+      <Button color="success" onClick={() => toggleModalAdd()}>
+        Add column
+      </Button>
       <Table striped>
         <thead>
           <tr>
@@ -51,6 +60,11 @@ const ColumnsList = ({ boardsState, getBoard, clearBoardFetched }) => {
             ))}
         </tbody>
       </Table>
+      <AddColumnModal
+        isOpen={modalVisibleAdd}
+        onCancel={toggleModalAdd}
+        onConfirm={onConfirmed}
+      />
     </ContainerUser>
   );
 };
