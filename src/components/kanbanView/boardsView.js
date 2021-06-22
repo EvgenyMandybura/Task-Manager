@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import styles from "./kanban.scss";
-import { COLUMN_NAMES } from "../../constants/taskStatuses";
 import { useRouteMatch, withRouter } from "react-router-dom";
 import { getListTasks, getListTasksClear } from "../../redux/tasks/actions";
 import { connect } from "react-redux";
@@ -42,6 +41,7 @@ export const BoardKanbanView = ({
   getListTasks,
   getListTasksClear,
   tasksState,
+  boardsState,
 }) => {
   const { tasksList, loading } = tasksState;
   const {
@@ -93,15 +93,11 @@ export const BoardKanbanView = ({
       ));
   };
 
-  const { ...rest } = COLUMN_NAMES;
-  const tempArray = [];
-  Object.keys(rest).forEach((key) => tempArray.push(rest[key]));
-
   return (
     <div className="containerKanban">
       {tasksList.length > 0 && (
         <DndProvider backend={HTML5Backend}>
-          {tempArray.map((column) => (
+          {boardsState.board.statuses?.map((column) => (
             <Column title={column} className="column" key={column}>
               {returnItemsForColumn(column)}
             </Column>
@@ -112,8 +108,9 @@ export const BoardKanbanView = ({
   );
 };
 
-const mapStateToProps = ({ tasks }) => ({
+const mapStateToProps = ({ tasks, boards }) => ({
   tasksState: tasks,
+  boardsState: boards,
 });
 
 export default withRouter(

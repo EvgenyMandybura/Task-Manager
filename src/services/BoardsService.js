@@ -5,6 +5,7 @@ import { boardsUrl, usersUrl } from "../constants/urlForFiresore";
 import StorageService from "./StorageService";
 import ToastrService from "./ToastrService";
 import updateFirestoreDocument from "../helpers/updateFirestoreDocument";
+import { COLUMN_NAMES_ARRAY } from "../constants/taskStatuses";
 
 class BoardsService {
   createBoard(model) {
@@ -20,6 +21,7 @@ class BoardsService {
       title: model.values.title,
       description: model.values.description,
       members: model.values.members,
+      statuses: COLUMN_NAMES_ARRAY,
     };
     return uploadToFirebase(
       dataForStorage,
@@ -27,7 +29,7 @@ class BoardsService {
       boardId,
       file,
       boardsUrl
-    ).then( () => {
+    ).then(() => {
       return boardId;
     });
   }
@@ -88,7 +90,7 @@ class BoardsService {
       boardId,
       file,
       boardsUrl
-    ).then( () => {
+    ).then(() => {
       return boardId;
     });
   }

@@ -8,8 +8,4 @@ export const allStatus = [
   { label: DONE, value: DONE },
 ];
 
-export const COLUMN_NAMES = {
-  TODO,
-  INPROGRESS,
-  DONE,
-};
+export const COLUMN_NAMES_ARRAY = [TODO, INPROGRESS, DONE];

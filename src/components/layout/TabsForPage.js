@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import classnames from "classnames";
 import ActivityLog from "../tasks/ActivityLog";
-import FilesDetails from "../tasks/fileDetails";
 import LeaveCommentForm from "../forms/AddCommentForm";
 import CommentsList from "../comments/CommentsList";
 import styles from "./index.module.scss";
