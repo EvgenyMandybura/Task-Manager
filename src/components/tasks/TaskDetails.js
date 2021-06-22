@@ -43,7 +43,7 @@ const TaskDetail = ({ getTaskDetails, clearTaskDetails, tasksState }) => {
 
   return (
     <>
-      {ready && !loading && (
+      {ready && !loading && !!task && (
         <div>
           <Button color="success" onClick={editTaskDetails}>
             {editState ? "Save changes" : "Edit task"}
@@ -64,7 +64,7 @@ const TaskDetail = ({ getTaskDetails, clearTaskDetails, tasksState }) => {
                 <div>
                   <p className="d-inline">Time estimation: </p>
                   <p className={styles.tasksDate}>
-                    {dateFormat(task[0].timeEstimation?.seconds)}
+                    {dateFormat(task[0]?.timeEstimation?.seconds)}
                   </p>
                 </div>
                 <p> Assignee:: </p>

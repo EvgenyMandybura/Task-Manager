@@ -134,8 +134,8 @@ function* editTask({ payload: { model } }) {
   try {
     const response = yield call(editTaskAsync, model);
     yield put(editTaskSuccess(response));
-    if (response) {
-      model.history.push(`/task-details/${response.taskId}`);
+    if (response && model.boardId) {
+      model.history.go(0);
     }
   } catch (error) {
     ToastrService.error(error.message);
