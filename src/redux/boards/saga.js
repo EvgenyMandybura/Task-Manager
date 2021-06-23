@@ -7,6 +7,7 @@ import {
   EDIT_BOARD,
   LEAVE_BOARD,
   CHANGE_STATUSES,
+  DELETE_STATUSES,
 } from "./actionTypes";
 
 import {
@@ -22,6 +23,8 @@ import {
   leaveBoardError,
   changeStatusesSuccess,
   changeStatusesError,
+  deleteStatusSuccess,
+  deleteStatusError,
 } from "./actions";
 
 import ToastrService from "../../services/ToastrService";
@@ -55,6 +58,10 @@ const leaveBoardAsync = async (boardId) => {
 
 const changeStatusesAsync = async (model) => {
   return await BoardsService.changeStatuses(model);
+};
+
+const deleteStatusesAsync = async (model) => {
+  return await BoardsService.deleteStatuses(model);
 };
 
 function* createBoardProject({ payload: { model } }) {
@@ -119,6 +126,15 @@ function* changeBoardStatuses({ payload: { model } }) {
   }
 }
 
+function* deleteBoardStatuses({ payload: { model } }) {
+  try {
+    const response = yield call(deleteStatusesAsync, model);
+    yield put(deleteStatusSuccess(response));
+  } catch (error) {
+    yield put(deleteStatusError(error));
+  }
+}
+
 export function* watchCreateBoard() {
   yield takeEvery(CREATE_BOARD, createBoardProject);
 }
@@ -143,6 +159,10 @@ export function* watchChangeStatuses() {
   yield takeEvery(CHANGE_STATUSES, changeBoardStatuses);
 }
 
+export function* watchDeleteStatuses() {
+  yield takeEvery(DELETE_STATUSES, deleteBoardStatuses);
+}
+
 function* authBoards() {
   yield all([
     fork(watchCreateBoard),
@@ -151,6 +171,7 @@ function* authBoards() {
     fork(watchEditBoard),
     fork(watchLeaveBoard),
     fork(watchChangeStatuses),
+    fork(watchDeleteStatuses),
   ]);
 }
 

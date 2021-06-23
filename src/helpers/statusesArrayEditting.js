@@ -8,3 +8,15 @@ export const statusesArrayEdditing = (statuses, newStatus) => {
   statuses.push(newStatus);
   return statuses;
 };
+
+export const removeStatusesFromArray = (statuses, currentStatus) => {
+  if (statuses.length < 2) {
+    ToastrService.warn("The last column cannot be deleted");
+    return false;
+  }
+  let index = statuses.indexOf(currentStatus);
+  if (index > -1) {
+    statuses.splice(index, 1);
+  }
+  return statuses;
+};

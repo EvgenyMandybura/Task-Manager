@@ -21,6 +21,9 @@ import {
   CHANGE_STATUSES,
   CHANGE_STATUSES_SUCCESS,
   CHANGE_STATUSES_ERROR,
+  DELETE_STATUSES,
+  DELETE_STATUSES_SUCCESS,
+  DELETE_STATUSES_ERROR,
 } from "./actionTypes";
 
 export const createBoard = (model) => {
@@ -163,3 +166,23 @@ export const changeStatusesError = ({ message }) => ({
   type: CHANGE_STATUSES_ERROR,
   payload: { message },
 });
+
+export const deleteStatus = (model) => {
+  return {
+    payload: { model },
+    type: DELETE_STATUSES,
+  };
+};
+
+export const deleteStatusSuccess = () => {
+  return {
+    type: DELETE_STATUSES_SUCCESS,
+  };
+};
+
+export const deleteStatusError = ({ message = "Unknown error" }) => {
+  return {
+    payload: { message },
+    type: DELETE_STATUSES_ERROR,
+  };
+};
