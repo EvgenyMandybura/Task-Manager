@@ -20,3 +20,11 @@ export const removeStatusesFromArray = (statuses, currentStatus) => {
   }
   return statuses;
 };
+
+export const renameStatusInArray = (statuses, oldStatus, newStatus) => {
+  let index = statuses.indexOf(oldStatus);
+  if (index > -1) {
+    statuses.splice(index, 1, newStatus);
+  }
+  return statuses;
+};

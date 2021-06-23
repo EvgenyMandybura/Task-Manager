@@ -24,6 +24,9 @@ import {
   DELETE_STATUSES,
   DELETE_STATUSES_SUCCESS,
   DELETE_STATUSES_ERROR,
+  RENAME_STATUS,
+  RENAME_STATUS_SUCCESS,
+  RENAME_STATUS_ERROR,
 } from "./actionTypes";
 
 const initialState = {
@@ -200,7 +203,24 @@ const boards = (state = initialState, action) => {
         ...state,
       };
       break;
-
+    case RENAME_STATUS:
+      state = {
+        ...state,
+        loadingStatuses: true,
+      };
+      break;
+    case RENAME_STATUS_SUCCESS:
+      state = {
+        ...state,
+        loadingStatuses: false,
+      };
+      break;
+    case RENAME_STATUS_ERROR:
+      state = {
+        ...state,
+        loadingStatuses: false,
+      };
+      break;
     default:
       state = { ...state };
       break;

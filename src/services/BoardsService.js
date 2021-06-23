@@ -168,5 +168,20 @@ class BoardsService {
     }
     return boardId;
   }
+
+  async renameStatus(model) {
+    this.changeStatuses(model);
+    const { boardId, tasks, oldStatus, newStatus } = model;
+    if (tasks.length > 0) {
+      for (const task of tasks) {
+        let taskData = await TasksService.getTask(task);
+        if (taskData[0].taskStatus == oldStatus) {
+          const model = { taskId: task, taskStatus: newStatus };
+          await TasksService.editTask(model);
+        }
+      }
+    }
+    return boardId;
+  }
 }
 export default new BoardsService();

@@ -5,6 +5,7 @@ import { getBoard, clearBoardFetched } from "../../redux/boards/actions";
 import { Table, Button } from "reactstrap";
 import ContainerUser from "../layout/ContainerUser";
 import AddColumnModal from "../modal/AddColumn";
+import RenameColumnModal from "../modal/RenameColumn";
 import useModal from "../../hook/useModal";
 import ConfirmationDialog from "../modal/ConfirmationDialog";
 import { deleteStatus } from "../../redux/boards/actions";
@@ -62,6 +63,15 @@ const ColumnsList = ({
     toggleModalDelete();
   };
 
+  const [modalVisibleRename, toggleModalRename] = useModal();
+  const onConfirmedRename = () => {
+    toggleModalRename();
+  };
+  const showModalRename = (status) => {
+    setStatus(status);
+    toggleModalRename();
+  };
+
   return (
     <ContainerUser>
       <Button color="success" onClick={() => toggleModalAdd()}>
@@ -71,6 +81,7 @@ const ColumnsList = ({
         <thead>
           <tr>
             <th>List of statuses</th>
+            <th>Rename Column</th>
             <th>Remove</th>
           </tr>
         </thead>
@@ -79,6 +90,14 @@ const ColumnsList = ({
             statuses?.map((status) => (
               <tr key={status}>
                 <td> {status}</td>
+                <td>
+                  <Button
+                    color="warning"
+                    onClick={() => showModalRename(status)}
+                  >
+                    Rename
+                  </Button>
+                </td>
                 <td>
                   <Button color="danger" onClick={() => showModal(status)}>
                     Delete
@@ -101,6 +120,12 @@ const ColumnsList = ({
         confirmButtonText="Delete"
         onCancel={toggleModalDelete}
         onConfirm={onDeleteConfirmed}
+      />
+      <RenameColumnModal
+        isOpen={modalVisibleRename}
+        onCancel={toggleModalRename}
+        onConfirm={onConfirmedRename}
+        oldStatus={status}
       />
     </ContainerUser>
   );
