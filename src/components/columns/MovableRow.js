@@ -9,20 +9,12 @@ const DND_ITEM_TYPE = "row";
 const MovableRow = ({
   index,
   moveRow,
-  setRecords,
   status,
   showModalRename,
   showModal,
+  statuses,
+  setRecords,
 }) => {
-  const changeColumn = (currentItem, columnName) => {
-    setRecords((prevState) => {
-      return prevState.map((e) => {
-        console.log(setRecords);
-        //  editTask(model);
-      });
-    });
-  };
-
   const dropRef = useRef(null);
   const dragRef = useRef(null);
   const [, drop] = useDrop({
@@ -54,7 +46,6 @@ const MovableRow = ({
 
   const [{ isDragging }, drag, preview] = useDrag({
     item: { type: DND_ITEM_TYPE, index },
-
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),

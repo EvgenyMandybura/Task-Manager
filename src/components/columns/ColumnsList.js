@@ -75,22 +75,21 @@ const ColumnsList = ({
     toggleModalRename();
   };
 
-  let [statuses, setStatuses] = useState(board?.statuses);
+  let statuses = board?.statuses;
+
   const [records, setRecords] = useState(null);
+
   useEffect(() => {
-    setStatuses(board?.statuses);
     setRecords(board?.statuses);
   }, [board]);
 
   const moveRow = (dragIndex, hoverIndex) => {
-    setRecords(statuses);
     const dragRecord = records[dragIndex];
     if (dragRecord) {
       setRecords((prevState) => {
         const coppiedStateArray = [...prevState];
         const prevItem = coppiedStateArray.splice(hoverIndex, 1, dragRecord);
         coppiedStateArray.splice(dragIndex, 1, prevItem[0]);
-        setRecords(coppiedStateArray);
         return coppiedStateArray;
       });
     }
@@ -106,6 +105,8 @@ const ColumnsList = ({
         status={status}
         showModalRename={showModalRename}
         showModal={showModal}
+        statuses={statuses}
+        setRecords={setRecords}
       />
     );
   };
