@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
+import React, { useEffect, useState } from "react";
+import { DndProvider, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import styles from "./kanban.scss";
 import { useRouteMatch, withRouter } from "react-router-dom";
