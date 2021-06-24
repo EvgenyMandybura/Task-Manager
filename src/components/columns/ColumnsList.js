@@ -10,7 +10,7 @@ import useModal from "../../hook/useModal";
 import ConfirmationDialog from "../modal/ConfirmationDialog";
 import { deleteStatus } from "../../redux/boards/actions";
 import { removeStatusesFromArray } from "../../helpers/statusesArrayEditting";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
+import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import MovableRow from "./MovableRow";
 
@@ -105,8 +105,8 @@ const ColumnsList = ({
         status={status}
         showModalRename={showModalRename}
         showModal={showModal}
-        statuses={statuses}
-        setRecords={setRecords}
+        records={records}
+        boardId={boardId}
       />
     );
   };

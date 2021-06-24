@@ -3,6 +3,7 @@ import { useDrag, useDrop } from "react-dnd";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Button } from "reactstrap";
+import { changeStatuses } from "../../redux/boards/actions";
 
 const DND_ITEM_TYPE = "row";
 
@@ -12,8 +13,9 @@ const MovableRow = ({
   status,
   showModalRename,
   showModal,
-  statuses,
-  setRecords,
+  records,
+  boardId,
+  changeStatuses,
 }) => {
   const dropRef = useRef(null);
   const dragRef = useRef(null);
@@ -46,6 +48,10 @@ const MovableRow = ({
 
   const [{ isDragging }, drag, preview] = useDrag({
     item: { type: DND_ITEM_TYPE, index },
+    end: () => {
+      const model = { boardId, statuses: records };
+      changeStatuses(model);
+    },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -77,4 +83,6 @@ const MovableRow = ({
 
 const mapStateToProps = () => ({});
 
-export default withRouter(connect(mapStateToProps)(MovableRow));
+export default withRouter(
+  connect(mapStateToProps, { changeStatuses })(MovableRow)
+);
