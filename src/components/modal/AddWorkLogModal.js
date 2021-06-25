@@ -37,7 +37,7 @@ const AddWorkLogModal = ({
   return (
     <Modal isOpen={isOpen} centered toggle={() => onCancel()}>
       <ModalBody>
-        <p className={modalTitleStyles}>Add column:</p>
+        <p className={modalTitleStyles}>Add workLog:</p>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}

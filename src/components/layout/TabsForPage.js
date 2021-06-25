@@ -4,6 +4,7 @@ import classnames from "classnames";
 import ActivityLog from "../tasks/ActivityLog";
 import LeaveCommentForm from "../forms/AddCommentForm";
 import CommentsList from "../comments/CommentsList";
+import TaskWorkLogs from "../workLog/TaskWorkLogs";
 import styles from "./index.module.scss";
 
 const TabForPage = () => {
@@ -36,6 +37,16 @@ const TabForPage = () => {
             Comments
           </NavLink>
         </NavItem>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: activeTab === "3" })}
+            onClick={() => {
+              toggle("3");
+            }}
+          >
+            WorkLogs
+          </NavLink>
+        </NavItem>
       </Nav>
       <TabContent activeTab={activeTab}>
         <TabPane tabId="1" className={styles.tabContainer}>
@@ -44,6 +55,9 @@ const TabForPage = () => {
         <TabPane tabId="2" className={styles.tabContainer}>
           <LeaveCommentForm />
           <CommentsList />
+        </TabPane>
+        <TabPane tabId="3" className={styles.tabContainer}>
+          <TaskWorkLogs />
         </TabPane>
       </TabContent>
     </div>
