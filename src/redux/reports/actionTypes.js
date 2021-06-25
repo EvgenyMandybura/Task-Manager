@@ -1,0 +1,4 @@
+export const GET_ALL_LOGS = "GET_ALL_LOGS";
+export const GET_ALL_LOGS_SUCCESS = "GET_ALL_LOGS_SUCCESS";
+export const GET_ALL_LOGS_ERROR = "GET_ALL_LOGS_ERROR";
+export const ALL_LOGS__CLEAR = "ALL_LOGS__CLEAR";

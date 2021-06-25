@@ -8,6 +8,7 @@ import BoardDetails from "../view/Boards/BoardDetails";
 import EditBoardDetails from "../view/Boards/EditBoardDetails";
 import AddNewTask from "../view/tasks/AddNewTask";
 import TaskDetails from "../view/tasks/TaskDetails";
+import ReportDetails from "../view/reports/ReportDetails";
 
 const userRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -18,6 +19,7 @@ const userRoutes = [
   { path: "/edit-board-details", component: EditBoardDetails },
   { path: "/add-new-task", component: AddNewTask },
   { path: "/task-details", component: TaskDetails },
+  { path: "/reports", component: ReportDetails },
   { path: "", exact: true, component: Boards },
 ];
 

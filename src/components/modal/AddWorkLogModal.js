@@ -3,7 +3,7 @@ import { Button, Modal, ModalBody, Form } from "reactstrap";
 import classNames from "classnames";
 import styles from "./index.module.scss";
 import { Formik } from "formik";
-import { useRouteMatch, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import * as yup from "yup";
 import validationSchemas from "../../constants/validationSchemas";
@@ -25,6 +25,7 @@ const AddWorkLogModal = ({
   const handleSubmitForm = (values) => {
     values.loggedTime = stringToMinutes(values.loggedTime);
     values.taskId = tasksStatus.tasks.task[0].taskId;
+    values.boardId = tasksStatus.tasks.task[0].boardId;
     addWorkLog(values);
   };
 

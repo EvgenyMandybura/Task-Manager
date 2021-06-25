@@ -5,6 +5,7 @@ import BoardsSaga from "./boards/saga";
 import TasksSaga from "./tasks/saga";
 import commentsSaga from "./comments/saga";
 import workLogs from "./workLog/saga";
+import reportsLog from "./reports/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -13,5 +14,6 @@ export default function* rootSaga() {
     TasksSaga(),
     commentsSaga(),
     workLogs(),
+    reportsLog(),
   ]);
 }
