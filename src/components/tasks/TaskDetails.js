@@ -12,12 +12,23 @@ import ChangeTaskStatusForm from "../forms/ChangeTaskStatusForm";
 import TabForPage from "../layout/TabsForPage";
 import FilesDetails from "./fileDetails";
 import ChangeTaskForm from "../forms/ChangeTaskForm";
+import useModal from "../../hook/useModal";
+import AddWorkLogModal from "../modal/AddWorkLogModal";
+import { getLogWorksData } from "../../redux/workLog/actions";
+import { minutesToString } from "../../helpers/workLogTimeHelper";
 
-const TaskDetail = ({ getTaskDetails, clearTaskDetails, tasksState }) => {
+const TaskDetail = ({
+  getTaskDetails,
+  clearTaskDetails,
+  tasksState,
+  getLogWorksData,
+  workLogsState,
+}) => {
   const {
     params: { taskId },
   } = useRouteMatch("/task-details/:taskId");
   const { loading, task, taskStatus } = tasksState;
+
   const [ready, updateReady] = useState(false);
   const fetchTask = () => {
     getTaskDetails(taskId);
@@ -35,20 +46,43 @@ const TaskDetail = ({ getTaskDetails, clearTaskDetails, tasksState }) => {
     }
   }, []);
 
+  const { loadingWorkLog, totalWorkLog, workLogs } = workLogsState;
+  const fetchWorkLogs = () => {
+    getLogWorksData(taskId);
+  };
+  useEffect(() => {
+    if (!loadingWorkLog) {
+      fetchWorkLogs();
+    }
+  }, []);
+
   const [editState, setEditState] = useState(false);
   const editTaskDetails = (e) => {
     e.preventDefault();
     setEditState(!editState);
   };
 
+  const [modalVisibleWorkLogAdd, toggleModalWorkLogAdd] = useModal();
+  const onConfirmed = () => {
+    toggleModalWorkLogAdd();
+    fetchWorkLogs();
+  };
+
   return (
     <>
-      {ready && !loading && !!task && (
+      {ready && !loading && (
         <div>
           <Button color="success" onClick={editTaskDetails}>
             {editState ? "Save changes" : "Edit task"}
           </Button>
-
+          <Button color="info" onClick={() => toggleModalWorkLogAdd()}>
+            Add worklog
+          </Button>
+          <AddWorkLogModal
+            isOpen={modalVisibleWorkLogAdd}
+            onCancel={toggleModalWorkLogAdd}
+            onConfirm={onConfirmed}
+          />
           {!editState ? (
             <Row>
               <h3 className={styles.taskHeader}>{task[0]?.summary}</h3>
@@ -62,11 +96,19 @@ const TaskDetail = ({ getTaskDetails, clearTaskDetails, tasksState }) => {
               </Col>
               <Col xs="4">
                 <div>
-                  <p className="d-inline">Time estimation: </p>
+                  <p className="d-inline">Due date: </p>
                   <p className={styles.tasksDate}>
                     {dateFormat(task[0]?.timeEstimation?.seconds)}
                   </p>
                 </div>
+                {!!workLogs && !loadingWorkLog && (
+                  <div>
+                    <p className="d-inline">Total logged: </p>
+                    <p className={styles.tasksDate}>
+                      {minutesToString(totalWorkLog)}
+                    </p>
+                  </div>
+                )}
                 <p> Assignee:: </p>
                 <MemberDetails member={task[0].assigneeData} />
                 <div className={styles.container}>
@@ -98,10 +140,14 @@ const TaskDetail = ({ getTaskDetails, clearTaskDetails, tasksState }) => {
   );
 };
 
-const mapStateToProps = ({ tasks }) => ({ tasksState: tasks });
+const mapStateToProps = ({ tasks, workLogs }) => ({
+  tasksState: tasks,
+  workLogsState: workLogs,
+});
 export default withRouter(
   connect(mapStateToProps, {
     getTaskDetails,
     clearTaskDetails,
+    getLogWorksData,
   })(TaskDetail)
 );
