@@ -31,6 +31,7 @@ class ReportsService {
         await tempWorkLogArray.push(model);
       }
     }
+    await tempWorkLogArray.sort((a, b) => b.timeStamp - a.timeStamp);
     return tempWorkLogArray;
   }
 }

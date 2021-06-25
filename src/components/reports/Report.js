@@ -32,7 +32,6 @@ const Reports = ({ getAllLogs, allLogsClear, reportsState }) => {
         <Table bordered>
           <thead>
             <tr>
-              <th>#</th>
               <th>Board name</th>
               <th>Task Name</th>
               <th>Comment</th>
@@ -44,7 +43,6 @@ const Reports = ({ getAllLogs, allLogsClear, reportsState }) => {
             {!!workLogs &&
               workLogs.map((log) => (
                 <tr key={log.timeStamp}>
-                  <th scope="row">1</th>
                   <td>{log.boardTitle}</td>
                   <td>{log.taskTitle}</td>
                   <td>{log.workLogComment}</td>
