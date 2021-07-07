@@ -29,7 +29,7 @@ const Boards = ({
   leaveBoard,
   history,
 }) => {
-  const { boardsList: boardsList, removed: removed } = boardState;
+  const { boardsList, removed, loading } = boardState;
   const [ready, updateReady] = useState(false);
   const fetchBoards = () => {
     getListBoards();
@@ -63,7 +63,7 @@ const Boards = ({
         <Button color="success">Add New Board</Button>
       </Link>
       <div>
-        {ready && boardsList != "" ? (
+        {ready && boardsList != "" && !loading ? (
           boardsList.map((board) => (
             <Card className="cardBoards" key={board.boardId}>
               <CardImg

@@ -1,5 +1,5 @@
 import { workLogsUrl, tasksUrl } from "../constants/urlForFiresore";
-import { firestore } from "../components/Firebase/firebase";
+import { firestore } from "../Firebase/firebase";
 import StorageService from "./StorageService";
 import BoardsService from "./BoardsService";
 import { ALL_REPORTS, FILTERED_BY_BOARD } from "../constants/reportsQuery";

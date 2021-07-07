@@ -12,17 +12,12 @@ import createMemberArrayForSelect from "../../helpers/createMenberArrayForSelect
 import { createTask } from "../../redux/tasks/actions";
 import FileHelper from "../../helpers/FIleHelper";
 import fileIcons from "../../helpers/fileIcons";
+import StorageService from "../../services/StorageService";
 
 const validationSchema = yup.object({
   summary: validationSchemas.summary,
 });
 
-const initialValues = {
-  summary: "",
-  description: "",
-  assignee: "",
-  timeEstimation: "",
-};
 
 const AddNewTaskForm = ({
   createTask,
@@ -88,6 +83,14 @@ const AddNewTaskForm = ({
     const files = e.target.files;
     filesForDisplay(files);
   };
+
+  const initialValues = {
+    summary: "",
+    description: "",
+    assignee: StorageService.user.value.email,
+    timeEstimation: "",
+  };
+
   return (
     <Formik
       initialValues={initialValues}

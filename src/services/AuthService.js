@@ -1,4 +1,4 @@
-import { firebase_app, firestore } from "../components/Firebase/firebase";
+import { firebase_app, firestore } from "../Firebase/firebase";
 import firebase from "firebase";
 import { usersUrl } from "../constants/urlForFiresore";
 import uploadToFirebase from "../helpers/uploadToFirebase";

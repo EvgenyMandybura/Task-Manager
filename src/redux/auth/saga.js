@@ -130,7 +130,7 @@ function* signUpUser({ payload }) {
     const responseCompleteProfile = yield call(completeProfileAsync, model);
     yield put(registerUserSuccess(responseRegister));
     if (responseRegister && responseCompleteProfile) {
-      model.history.push("/dashboard");
+      model.history.push("/boards");
     } else {
       model.history.push("/");
     }
