@@ -7,6 +7,7 @@ import FormikFormGroup from "../formik/FormikFormGroup";
 import { Formik } from "formik";
 import { loginUser } from "../../redux/auth/actions";
 import validationSchemas from "../../constants/validationSchemas";
+import { useTranslation } from "react-i18next";
 import "./index.scss";
 
 const validationSchema = yup.object({
@@ -22,7 +23,7 @@ const SignInForm = ({ loginUser, history }) => {
   const handleSubmitForm = (values) => {
     loginUser(values, history);
   };
-
+  const { t } = useTranslation();
   return (
     <Formik
       initialValues={initialValues}
@@ -33,20 +34,20 @@ const SignInForm = ({ loginUser, history }) => {
         return (
           <div>
             <Form className="w-100" onSubmit={handleSubmit}>
-              <h3>Log in Task Manager</h3>
+              <h3>{t("logIn.logInTaskManager")}</h3>
               <FormikFormGroup
                 type={"email"}
                 errors={errors}
                 touched={touched}
                 fieldName={"email"}
-                placeholder={"Enter email"}
+                placeholder={t("logIn.enterEmail")}
               />
               <FormikFormGroup
                 type={"password"}
                 errors={errors}
                 touched={touched}
                 fieldName={"password"}
-                placeholder={"Enter password"}
+                placeholder={t("logIn.enterPassword")}
               />
               <div className="d-flex justify-content-center align-items-center">
                 <Button
@@ -55,13 +56,13 @@ const SignInForm = ({ loginUser, history }) => {
                   className="w-100 mt-3 text-uppercase"
                   size="md"
                 >
-                  Sign In
+                  {t("logIn.signIn")}
                 </Button>
               </div>
             </Form>
             <div className="signInItems">
               <Link to="/sign-up" className="text-decoration-none">
-                Don't have an account? Sign Up
+                {t("logIn.dontHaveAccount")}
               </Link>
             </div>
           </div>
