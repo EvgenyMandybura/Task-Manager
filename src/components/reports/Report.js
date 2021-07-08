@@ -7,10 +7,12 @@ import {
   ALL_REPORTS,
   FILTERED_BY_TASK,
   FILTERED_BY_BOARD,
+  FILTERED_BY_DATE,
 } from "../../constants/reportsQuery";
 import { Button } from "reactstrap";
 import ReportsFilteredByTasks from "./FilteredByTasks";
 import ReportsFilteredByBoards from "./FilteredByBoard";
+import ReportsFilteredByDate from "./FilteredByDate";
 import styles from "./reports.scss";
 
 const Reports = ({ getAllLogs, allLogsClear, reportsState }) => {
@@ -54,6 +56,12 @@ const Reports = ({ getAllLogs, allLogsClear, reportsState }) => {
     getAllLogs(ALL_REPORTS);
   };
 
+  const getFilteredByDate = (e) => {
+    e.preventDefault();
+    setQueryReports(FILTERED_BY_DATE);
+    getAllLogs(FILTERED_BY_TASK);
+  };
+
   return (
     <Container>
       {ready && !loading ? (
@@ -70,6 +78,9 @@ const Reports = ({ getAllLogs, allLogsClear, reportsState }) => {
           </Button>
           <Button color="success" onClick={getGroupedBoards}>
             Group by boards
+          </Button>
+          <Button color="success" onClick={getFilteredByDate}>
+            Filter by date
           </Button>
           {queryReports == ALL_REPORTS && (
             <Table bordered>
@@ -98,6 +109,7 @@ const Reports = ({ getAllLogs, allLogsClear, reportsState }) => {
           )}
           {queryReports == FILTERED_BY_TASK && <ReportsFilteredByTasks />}
           {queryReports == FILTERED_BY_BOARD && <ReportsFilteredByBoards />}
+          {queryReports == FILTERED_BY_DATE && <ReportsFilteredByDate />}
         </div>
       ) : (
         <h5>Reports loading...</h5>
