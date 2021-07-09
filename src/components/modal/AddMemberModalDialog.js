@@ -3,6 +3,7 @@ import { Button, Col, Modal, ModalBody, Row, ModalFooter } from "reactstrap";
 import classNames from "classnames";
 import styles from "./index.module.scss";
 import AddMembersForm from "../forms/AddMembersForm";
+import { useTranslation } from "react-i18next";
 
 const AddMemberModalDialog = ({ isOpen, onCancel, membersArray }) => {
   const modalTitleStyles = classNames(styles.modalTitle, "text-center");
@@ -10,7 +11,7 @@ const AddMemberModalDialog = ({ isOpen, onCancel, membersArray }) => {
     styles.modalBtn,
     "w-100 no-shadow text-uppercase"
   );
-
+  const { t } = useTranslation();
   return (
     <Modal
       isOpen={isOpen}
@@ -19,7 +20,9 @@ const AddMemberModalDialog = ({ isOpen, onCancel, membersArray }) => {
       toggle={() => onCancel()}
     >
       <ModalBody>
-        <p className={modalTitleStyles}>List of members:</p>
+        <p className={modalTitleStyles}>
+          {t("addMemberModalDialog.listOfMembers")}
+        </p>
         <AddMembersForm membersArray={membersArray} />
       </ModalBody>
       <ModalFooter>
@@ -28,7 +31,7 @@ const AddMemberModalDialog = ({ isOpen, onCancel, membersArray }) => {
           className={modalBtnStyles}
           onClick={() => onCancel()}
         >
-          Return to board
+          {t("addMemberModalDialog.returnToBoard")}
         </Button>
       </ModalFooter>
     </Modal>

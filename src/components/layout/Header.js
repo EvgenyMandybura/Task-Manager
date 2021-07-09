@@ -21,6 +21,7 @@ import {
 import SubMenu from "./SubMenu";
 import { usersUrl } from "../../constants/urlForFiresore";
 import StorageService from "../../services/StorageService";
+import SelectLanguage from "../forms/SelectLanguageForm";
 import { useTranslation } from "react-i18next";
 
 const Header = ({ logoutUser, history, authState }) => {
@@ -47,11 +48,7 @@ const Header = ({ logoutUser, history, authState }) => {
         setImageAvatar(url);
       });
   }
-
-  const { t, i18n } = useTranslation();
-  const changeLanguage = (language) => {
-    i18n.changeLanguage(language);
-  };
+  const { t } = useTranslation();
 
   return (
     <div>
@@ -60,8 +57,6 @@ const Header = ({ logoutUser, history, authState }) => {
         expand="md"
         className={`navbar light ${HeaderStyles.navbar}`}
       >
-        <Button onClick={() => changeLanguage("en")}>EN</Button>
-        <Button onClick={() => changeLanguage("ru")}>RU</Button>
         {!user && (
           <NavbarBrand href="/" className="nav navbar-brand mx-auto">
             {" "}
@@ -101,6 +96,7 @@ const Header = ({ logoutUser, history, authState }) => {
             </Collapse>
           </>
         )}
+        <SelectLanguage />
       </Navbar>
       {isOpenNavBar && <SubMenu />}
     </div>

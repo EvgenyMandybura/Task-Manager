@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
-import { Button, Col, Form, Row } from "reactstrap";
+import { Button, Form } from "reactstrap";
 import { useRouteMatch, withRouter } from "react-router-dom";
 import FormikFormGroup from "../formik/FormikFormGroup";
 import { Formik } from "formik";
@@ -17,6 +17,7 @@ import ContainerUser from "../layout/ContainerUser";
 import useModal from "../../hook/useModal";
 import AddMemberModalDialog from "../modal/AddMemberModalDialog";
 import ListOfMembersDetail from "../members/ListOfMembersDetail";
+import { useTranslation } from "react-i18next";
 
 const validationSchema = yup.object({
   title: validationSchemas.title,
@@ -82,7 +83,7 @@ const EditBoardDetailsForm = ({
     description: board?.description,
     members: board?.members,
   };
-
+  const { t } = useTranslation();
   return (
     <ContainerUser>
       {ready && !loading && (
@@ -94,7 +95,7 @@ const EditBoardDetailsForm = ({
           {({ errors, touched, handleSubmit }) => {
             return (
               <Form className="w-100" onSubmit={handleSubmit}>
-                <h3>Edit Board</h3>
+                <h3>{t("editBoardDetailsForm.editBoard")}</h3>
                 <div>
                   <img
                     alt="Logo"
@@ -111,7 +112,7 @@ const EditBoardDetailsForm = ({
                       onChange={(e) => changeHandler(e)}
                     />
                     <label htmlFor="file" className="buttonLabel">
-                      Select file
+                      {t("editBoardDetailsForm.selectFile")}
                     </label>
                   </div>
                 </div>
@@ -119,18 +120,18 @@ const EditBoardDetailsForm = ({
                   errors={errors}
                   touched={touched}
                   fieldName={"title"}
-                  label={"title"}
-                  placeholder={"Add title"}
+                  label={t("editBoardDetailsForm.titleLabel")}
+                  placeholder={t("editBoardDetailsForm.titlePlaceholder")}
                 />
                 <FormikFormGroup
                   errors={errors}
                   touched={touched}
                   fieldName={"description"}
-                  label={"description"}
-                  placeholder={"Add description"}
+                  label={t("editBoardDetailsForm.descriptionLabel")}
+                  placeholder={t("editBoardDetailsForm.descriptionPlaceholder")}
                 />
                 <Button color="success" onClick={() => toggleModalAdd()}>
-                  Invite / Edit members
+                  {t("editBoardDetailsForm.inviteEditMembers")}
                 </Button>
                 <ListOfMembersDetail
                   members={!!savedMembers ? savedMembers : board.members}
@@ -146,7 +147,7 @@ const EditBoardDetailsForm = ({
                   className="buttonLabel"
                   size="md"
                 >
-                  Continue
+                  {t("editBoardDetailsForm.continue")}
                 </Button>
               </Form>
             );

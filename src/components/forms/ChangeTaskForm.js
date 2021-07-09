@@ -16,6 +16,7 @@ import * as yup from "yup";
 import validationSchemas from "../../constants/validationSchemas";
 import { clearBoardFetched, getBoard } from "../../redux/boards/actions";
 import { editTaskDetails } from "../../redux/tasks/actions";
+import { useTranslation } from "react-i18next";
 
 const validationSchema = yup.object({
   summary: validationSchemas.summary,
@@ -63,7 +64,7 @@ const ChangeTaskForm = ({
     const model = { taskId: currentTask.taskId, values, history, currentTask };
     editTaskDetails(model);
   };
-
+  const { t } = useTranslation();
   return (
     <Formik
       initialValues={initialValues}
@@ -75,7 +76,7 @@ const ChangeTaskForm = ({
           <div>
             <Form className="w-100" onSubmit={handleSubmit}>
               <Button color="success" type="submit" size="md">
-                Save Changes
+                {t("changeTaskForm.saveChanges")}
               </Button>
 
               <Row>
@@ -85,19 +86,19 @@ const ChangeTaskForm = ({
                     errors={errors}
                     touched={touched}
                     fieldName={"summary"}
-                    label={"Summary"}
-                    placeholder={"Add summary"}
+                    label={t("changeTaskForm.labelSummary")}
+                    placeholder={t("changeTaskForm.placeholderSummary")}
                   />
                 </h3>
                 <Col xs="8">
-                  <h4>Task description:</h4>
+                  <h4>{t("changeTaskForm.taskDescription")}</h4>
                   <FormikFormGroup
                     editorState={initialValues.description}
                     type={"richEditor"}
                     errors={errors}
                     touched={touched}
                     fieldName={"description"}
-                    placeholder={"Add description"}
+                    placeholder={t("changeTaskForm.placeholderDescription")}
                   />
                 </Col>
                 <Col xs="4">
@@ -106,7 +107,7 @@ const ChangeTaskForm = ({
                       errors={errors}
                       touched={touched}
                       fieldName={"timeEstimation"}
-                      label={"Time estimation:    "}
+                      label={t("changeTaskForm.labelDate")}
                       setFieldTouched={setFieldTouched}
                       setFieldValue={setFieldValue}
                       type={"datePicker"}
@@ -118,8 +119,8 @@ const ChangeTaskForm = ({
                       errors={errors}
                       touched={touched}
                       fieldName={"assignee"}
-                      label={"Change assignee"}
-                      placeholder={"Select assignee"}
+                      label={t("changeTaskForm.labelAssignee")}
+                      placeholder={t("changeTaskForm.placeholderAssignee")}
                       options={createMemberArrayForSelect(board?.members)}
                       setFieldTouched={setFieldTouched}
                       setFieldValue={setFieldValue}
@@ -128,7 +129,7 @@ const ChangeTaskForm = ({
                   )}
 
                   <div className={styles.container}>
-                    <p className="d-inline">Status: </p>
+                    <p className="d-inline">{t("changeTaskForm.status")}: </p>
                     <div className={styles.containerTextStatus}>
                       <p
                         className={classNames(

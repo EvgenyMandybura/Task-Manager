@@ -10,6 +10,7 @@ import ListOfTasks from "../../components/tasks/ListOfTasks";
 import FilterForm from "../../components/forms/FilterForm";
 import SortForm from "../../components/forms/SortForm";
 import BoardKanbanView from "../../components/kanbanView/boardsView";
+import { useTranslation } from "react-i18next";
 
 const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
   const {
@@ -35,11 +36,11 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
       fetchBoard();
     }
   }, []);
-
+  const { t } = useTranslation();
   return (
     <ContainerUser>
       <Button onClick={changeBoardView} color="success">
-        {listView ? "Grid view" : "List view"}
+        {listView ? t("boardDetails.gridView") : t("boardDetails.listView")}
       </Button>
       {listView ? (
         <div>
@@ -58,7 +59,7 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
                         history.push(`/add-new-task/${board.boardId}`)
                       }
                     >
-                      Add New Task
+                      {t("boardDetails.addNewTask")}
                     </Button>
                   </div>
                   <ListOfTasks />
@@ -70,7 +71,7 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
                     alt="Board logo"
                     className="cardBoardDetailsImg"
                   />
-                  <h5>Description: </h5>
+                  <h5>{t("boardDetails.description")}</h5>
                   <p>{board.description}</p>
                   <ListOfMembersDetail members={board.members} />
                 </Col>

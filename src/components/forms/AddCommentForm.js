@@ -6,6 +6,7 @@ import { useRouteMatch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { createComment } from "../../redux/comments/actions";
 import styles from "./index.scss";
+import { useTranslation } from "react-i18next";
 
 const LeaveCommentForm = ({ createComment }) => {
   const {
@@ -16,7 +17,7 @@ const LeaveCommentForm = ({ createComment }) => {
     values.taskId = taskId;
     createComment(values);
   };
-
+  const { t } = useTranslation();
   const initialValues = {
     description: "",
   };
@@ -33,11 +34,11 @@ const LeaveCommentForm = ({ createComment }) => {
               errors={errors}
               touched={touched}
               fieldName={"description"}
-              placeholder={"Add comment"}
+              placeholder={t("leaveCommentForm.placeholder")}
             />
             <div className="d-flex justify-content-center align-items-center">
               <Button color="success" type="submit" size="md">
-                Comment
+                {t("leaveCommentForm.comment")}
               </Button>
             </div>
           </Form>

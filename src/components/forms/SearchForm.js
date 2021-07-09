@@ -8,6 +8,7 @@ import { Row, Col } from "reactstrap";
 import validationSchemas from "../../constants/validationSchemas";
 import * as yup from "yup";
 import { searchTasks } from "../../redux/tasks/actions";
+import { useTranslation } from "react-i18next";
 
 const validationSchema = yup.object({
   keyword: validationSchemas.keyword,
@@ -25,6 +26,7 @@ const Search = ({ searchTasks }) => {
     const data = { boardId, values };
     searchTasks(data);
   };
+  const { t } = useTranslation();
   return (
     <Formik
       initialValues={initialValues}
@@ -40,7 +42,7 @@ const Search = ({ searchTasks }) => {
                   errors={errors}
                   touched={touched}
                   fieldName={"keyword"}
-                  placeholder={"Search tasks"}
+                  placeholder={t("search.placeholder")}
                 />
               </Col>
               <Col>
@@ -50,7 +52,7 @@ const Search = ({ searchTasks }) => {
                   className="searchBtn"
                   size="md"
                 >
-                  Search
+                  {t("search.search")}
                 </Button>
               </Col>
             </Row>

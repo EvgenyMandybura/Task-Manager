@@ -7,6 +7,7 @@ import { Form } from "formik";
 import { editTask } from "../../redux/tasks/actions";
 import { allStatus } from "../../constants/taskStatuses";
 import styles from "./index.scss";
+import { useTranslation } from "react-i18next";
 
 const ChangeTaskStatusForm = ({ editTask, tasksState, history }) => {
   const handleSubmitForm = (values) => {
@@ -16,7 +17,7 @@ const ChangeTaskStatusForm = ({ editTask, tasksState, history }) => {
   };
   const { task } = tasksState;
   const { taskStatus, taskId } = task[0];
-
+  const { t } = useTranslation();
   const initialValues = {
     taskStatus: taskStatus,
   };
@@ -36,7 +37,7 @@ const ChangeTaskStatusForm = ({ editTask, tasksState, history }) => {
                 setFieldValue={setFieldValue}
                 className={styles.btnStatus}
                 type={"selectAddon"}
-                buttonText={"Change"}
+                buttonText={t("changeTaskStatusForm.buttonText")}
               />
             </Form>
           </div>
