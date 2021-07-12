@@ -12,7 +12,6 @@ const ListOfMembersDetail = ({
 }) => {
   const { membersList: membersList } = authState;
   const [ready, updateReady] = useState(false);
-
   const fetchMembers = () => {
     getListMembers(members);
   };
@@ -28,7 +27,7 @@ const ListOfMembersDetail = ({
     <>
       <h5>List of members:</h5>
       {ready && membersList != "" ? (
-        membersList.map((member) => <MemberDetails member={member} />)
+        membersList.map((member) => <MemberDetails member={member} key={member.email}/>)
       ) : (
         <h3>No members</h3>
       )}

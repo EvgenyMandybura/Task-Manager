@@ -5,6 +5,8 @@ import {
   GET_TASKS,
   SEARCH_TASKS,
   FILTER_TASKS,
+  GET_TASK,
+  GET_TASKS_FILES,
 } from "./actionTypes";
 
 import {
@@ -16,6 +18,10 @@ import {
   searchTasksError,
   filterTasksSuccess,
   filterTasksError,
+  getTaskSuccess,
+  getTaskError,
+  getTaskFilesSuccess,
+  getTaskFilesError,
 } from "./actions";
 
 import ToastrService from "../../services/ToastrService";
@@ -35,6 +41,14 @@ const searchTasksListAsync = async (data) => {
 
 const filterTasksListAsync = async (data) => {
   return await TasksService.filterTasks(data);
+};
+
+const getTaskAsync = async (taskId) => {
+  return await TasksService.getTask(taskId);
+};
+
+const getTaskFilesAsync = async (model) => {
+  return await TasksService.getFiles(model);
 };
 
 function* getTasksList({ payload: { model } }) {
@@ -77,6 +91,24 @@ function* filterBoardTasks({ payload: data }) {
   }
 }
 
+function* getTaskDetail({ payload: { taskId } }) {
+  try {
+    const response = yield call(getTaskAsync, taskId);
+    yield put(getTaskSuccess(response));
+  } catch (error) {
+    yield put(getTaskError(error));
+  }
+}
+
+function* getTaskFiles({ payload: { model } }) {
+  try {
+    const response = yield call(getTaskFilesAsync, model);
+    yield put(getTaskFilesSuccess(response));
+  } catch (error) {
+    yield put(getTaskFilesError(error));
+  }
+}
+
 export function* watchGetAllTasks() {
   yield takeEvery(GET_TASKS, getTasksList);
 }
@@ -93,12 +125,22 @@ export function* watchFilterTasks() {
   yield takeEvery(FILTER_TASKS, filterBoardTasks);
 }
 
+export function* watchGetTask() {
+  yield takeEvery(GET_TASK, getTaskDetail);
+}
+
+export function* watchGetTaskFiles() {
+  yield takeEvery(GET_TASKS_FILES, getTaskFiles);
+}
+
 function* tasksState() {
   yield all([
     fork(watchGetAllTasks),
     fork(watchCreateNewTask),
     fork(watchSearchTasks),
     fork(watchFilterTasks),
+    fork(watchGetTask),
+    fork(watchGetTaskFiles),
   ]);
 }
 

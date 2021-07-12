@@ -5,10 +5,10 @@ import StorageService from "./StorageService";
 import uploadTaskToFirebase from "../helpers/uploadTaskToFirebase";
 import { TODO } from "../constants/taskStatuses";
 import firebase from "firebase";
+import fileIcons from "../helpers/fileIcons";
 
 class TasksService {
   async getAllList(data) {
-    console.log(data)
     const { boardId, sortField } = data;
     const tempDoc = [];
     const docTaskRef = firestore.collection(tasksUrl);
@@ -34,6 +34,7 @@ class TasksService {
 
     const dataForStorage = {
       creatorEmail,
+      taskId,
       taskStatus: TODO,
       boardId: model.values.boardId,
       assignee: model.values.assignee,
@@ -98,6 +99,42 @@ class TasksService {
 
     for (const taskId of tempDoc) {
       taskId.assigneeData = await AuthService.getUser(taskId.assignee);
+    }
+    return tempDoc;
+  }
+
+  async getTask(taskId) {
+    const docRef = await firestore.collection(tasksUrl).doc(taskId).get();
+    const tempDoc = [];
+    const assigneeData = await AuthService.getUser(docRef.data().assignee);
+    tempDoc.push({ ...docRef.data(), assigneeData });
+    return tempDoc;
+  }
+
+  async getFiles(model) {
+    const getFileMetaData = async (urlDB) => {
+      await firebase.storage().refFromURL(urlDB).getMetadata();
+      const metaData = await firebase.storage().refFromURL(urlDB).getMetadata();
+      return metaData;
+    };
+    const checkFileType = async (metaData, urlDB) => {
+      const { contentType } = metaData;
+      if (contentType.includes(`image/`)) {
+        return urlDB;
+      } else {
+        return fileIcons(contentType);
+      }
+    };
+    const getUrlForDisplay = async (urlDB) => {
+      const metaData = await getFileMetaData(urlDB);
+      const { name } = metaData;
+      const urlForDisplay = await checkFileType(metaData, urlDB);
+      return { urlForDisplay, name };
+    };
+    const tempDoc = [];
+    for (const urlDB of model) {
+      const dataForDisplay = await getUrlForDisplay(urlDB);
+      tempDoc.push({ urlDB, ...dataForDisplay });
     }
     return tempDoc;
   }
