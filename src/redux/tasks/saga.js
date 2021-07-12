@@ -21,8 +21,8 @@ import {
 import ToastrService from "../../services/ToastrService";
 import TasksService from "../../services/TasksService";
 
-const getTasksListAsync = async (boardId) => {
-  return await TasksService.getAllList(boardId);
+const getTasksListAsync = async (model) => {
+  return await TasksService.getAllList(model);
 };
 
 const createTaskAsync = async (model) => {
@@ -37,9 +37,9 @@ const filterTasksListAsync = async (data) => {
   return await TasksService.filterTasks(data);
 };
 
-function* getTasksList({ payload: boardId }) {
+function* getTasksList({ payload: { model } }) {
   try {
-    const response = yield call(getTasksListAsync, boardId);
+    const response = yield call(getTasksListAsync, model);
     yield put(getListTasksSuccess(response));
   } catch (error) {
     yield put(getListTasksError(error));

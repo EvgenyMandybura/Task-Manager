@@ -1,17 +1,17 @@
 import styles from "../components/tasks/index.module.scss";
-import { COMPLETED, DELETED } from "../constants/taskStatuses";
+import { DONE, INPROGRESS } from "../constants/taskStatuses";
 
 const classStatus = (status) => {
   switch (status) {
-    case COMPLETED:
-      return styles.tasksStatusCompleted;
+    case DONE:
+      return styles.tasksStatusDone;
       break;
-    case DELETED:
-      return styles.tasksStatusDeleted;
+    case INPROGRESS:
+      return styles.tasksStatusInProgress;
       break;
 
     default:
-      return styles.tasksStatusPending;
+      return styles.tasksStatusTodo;
   }
 };
 

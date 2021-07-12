@@ -6,16 +6,18 @@ import styles from "./index.module.scss";
 import MemberDetails from "../members/MemberDetails";
 import classStatus from "../../helpers/statusColor";
 import dateFormat from "../../helpers/dateHelper";
+import { SUMMARY } from "../../constants/sortFields";
 import classNames from "classnames";
 
-const ListOfTasks = ({ getListTasks, getListTasksClear, tasksState }) => {
-  const { tasksList: tasksList } = tasksState;
+const ListOfTasks = ({ getListTasks, getListTasksClear, tasksState, history }) => {
+  const { tasksList } = tasksState;
   const [ready, updateReady] = useState(false);
   const {
     params: { boardId },
   } = useRouteMatch("/board-details/:boardId");
   const fetchTasks = () => {
-    getListTasks(boardId);
+    const model = { boardId, SUMMARY };
+    getListTasks(model);
   };
   useEffect(() => {
     fetchTasks();
@@ -30,7 +32,9 @@ const ListOfTasks = ({ getListTasks, getListTasksClear, tasksState }) => {
       {ready && tasksList != "" ? (
         tasksList.map((task) => (
           <div key={task.summary} className={styles.tasksBody}>
-            <h5>{task.summary}</h5>
+            <h5 onClick={() => history.push(`/task-details/${task.taskId}`)}>
+              {task.summary}
+            </h5>
             <p>Assignee:</p>
             <MemberDetails member={task.assigneeData} />
             <div>

@@ -8,6 +8,7 @@ import ListOfMembersDetail from "../../components/members/ListOfMembersDetail";
 import Search from "../../components/forms/SearchForm";
 import ListOfTasks from "../../components/tasks/ListOfTasks";
 import FilterForm from "../../components/forms/FilterForm";
+import SortForm from "../../components/forms/SortForm";
 
 const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
   const {
@@ -42,6 +43,7 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
               <div className="search">
                 <Search />
                 <FilterForm members={board.members} />
+                <SortForm />
                 <Button
                   color="success"
                   onClick={() => history.push(`/add-new-task/${board.boardId}`)}
