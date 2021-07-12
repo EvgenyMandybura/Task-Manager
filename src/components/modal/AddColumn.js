@@ -10,6 +10,7 @@ import validationSchemas from "../../constants/validationSchemas";
 import FormikFormGroup from "../formik/FormikFormGroup";
 import { changeStatuses } from "../../redux/boards/actions";
 import { statusesArrayEdditing } from "../../helpers/statusesArrayEditting";
+import { useTranslation } from "react-i18next";
 
 const validationSchema = yup.object({
   column: validationSchemas.column,
@@ -36,11 +37,11 @@ const AddColumnModal = ({
     column: "",
   };
   const modalTitleStyles = classNames(styles.modalTitle, "text-center");
-
+  const { t } = useTranslation();
   return (
     <Modal isOpen={isOpen} centered toggle={() => onCancel()}>
       <ModalBody>
-        <p className={modalTitleStyles}>Add column:</p>
+        <p className={modalTitleStyles}>{t("kanban.addColumn")}</p>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -53,8 +54,8 @@ const AddColumnModal = ({
                   errors={errors}
                   touched={touched}
                   fieldName={"column"}
-                  label={"Column"}
-                  placeholder={"Add column"}
+                  label={t("kanban.labelColumn")}
+                  placeholder={t("kanban.placeholderColumn")}
                 />
                 <div>
                   <Button
@@ -72,7 +73,7 @@ const AddColumnModal = ({
                     onClick={() => onCancel()}
                     className={styles.modalColumnBtn}
                   >
-                    Cancel
+                    {t("kanban.cancel")}
                   </Button>
                 </div>
               </Form>

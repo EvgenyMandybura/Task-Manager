@@ -10,6 +10,7 @@ import validationSchemas from "../../constants/validationSchemas";
 import FormikFormGroup from "../formik/FormikFormGroup";
 import { stringToMinutes } from "../../helpers/workLogTimeHelper";
 import { addWorkLog } from "../../redux/workLog/actions";
+import { useTranslation } from "react-i18next";
 
 const validationSchema = yup.object({
   workLogComment: validationSchemas.workLogComment,
@@ -34,11 +35,11 @@ const AddWorkLogModal = ({
     loggedTime: "",
   };
   const modalTitleStyles = classNames(styles.modalTitle, "text-center");
-
+  const { t } = useTranslation();
   return (
     <Modal isOpen={isOpen} centered toggle={() => onCancel()}>
       <ModalBody>
-        <p className={modalTitleStyles}>Add workLog:</p>
+        <p className={modalTitleStyles}>{t("modal.addWorkLog")}</p>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -51,16 +52,16 @@ const AddWorkLogModal = ({
                   errors={errors}
                   touched={touched}
                   type={"textarea"}
-                  fieldName={"workLogComment"}
-                  label={"Comment"}
-                  placeholder={"Add comment"}
+                  fieldName={"placeholderComment"}
+                  label={t("modal.labelComment")}
+                  placeholder={t("modal.placeholderComment")}
                 />
                 <FormikFormGroup
                   errors={errors}
                   touched={touched}
                   fieldName={"loggedTime"}
-                  label={"Logged Time"}
-                  placeholder={"Add Logged Time"}
+                  label={t("modal.labelLogged")}
+                  placeholder={t("modal.placeholderLogged")}
                 />
                 <div>
                   <Button
@@ -70,7 +71,7 @@ const AddWorkLogModal = ({
                     className={styles.modalColumnBtn}
                     onClick={() => onConfirm()}
                   >
-                    Save
+                    {t("modal.save")}
                   </Button>
                   <Button
                     color="danger"
@@ -78,7 +79,7 @@ const AddWorkLogModal = ({
                     onClick={() => onCancel()}
                     className={styles.modalColumnBtn}
                   >
-                    Cancel
+                    {t("modal.cancel")}
                   </Button>
                 </div>
               </Form>

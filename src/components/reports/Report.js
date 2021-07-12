@@ -14,6 +14,7 @@ import ReportsFilteredByTasks from "./FilteredByTasks";
 import ReportsFilteredByBoards from "./FilteredByBoard";
 import ReportsFilteredByDate from "./FilteredByDate";
 import styles from "./reports.scss";
+import { useTranslation } from "react-i18next";
 
 const Reports = ({ getAllLogs, allLogsClear, reportsState }) => {
   const { loading, workLogs } = reportsState;
@@ -61,7 +62,7 @@ const Reports = ({ getAllLogs, allLogsClear, reportsState }) => {
     setQueryReports(FILTERED_BY_DATE);
     getAllLogs(FILTERED_BY_TASK);
   };
-
+  const { t } = useTranslation();
   return (
     <Container>
       {ready && !loading ? (
@@ -74,23 +75,23 @@ const Reports = ({ getAllLogs, allLogsClear, reportsState }) => {
             onClick={getGroupedTasks}
             className={styles.btn}
           >
-            Group by tasks
+            {t("reports.groupByTasks")}
           </Button>
           <Button color="success" onClick={getGroupedBoards}>
-            Group by boards
+            {t("reports.groupByBoards")}
           </Button>
           <Button color="success" onClick={getFilteredByDate}>
-            Filter by date
+            {t("reports.filterByDate")}
           </Button>
           {queryReports == ALL_REPORTS && (
             <Table bordered>
               <thead>
                 <tr>
-                  <th>Board name</th>
-                  <th>Task Name</th>
-                  <th>Comment</th>
-                  <th>Logged time</th>
-                  <th>Date</th>
+                  <th> {t("reports.boardName")}</th>
+                  <th>{t("reports.taskName")}</th>
+                  <th>{t("reports.comment")}</th>
+                  <th>{t("reports.loggedTime")}</th>
+                  <th>{t("reports.date")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -112,7 +113,7 @@ const Reports = ({ getAllLogs, allLogsClear, reportsState }) => {
           {queryReports == FILTERED_BY_DATE && <ReportsFilteredByDate />}
         </div>
       ) : (
-        <h5>Reports loading...</h5>
+        <h5>{t("reports.loading")}</h5>
       )}
     </Container>
   );

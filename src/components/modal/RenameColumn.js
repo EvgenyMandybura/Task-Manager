@@ -10,6 +10,7 @@ import validationSchemas from "../../constants/validationSchemas";
 import FormikFormGroup from "../formik/FormikFormGroup";
 import { renameStatus } from "../../redux/boards/actions";
 import { renameStatusInArray } from "../../helpers/statusesArrayEditting";
+import { useTranslation } from "react-i18next";
 
 const validationSchema = yup.object({
   newStatus: validationSchemas.column,
@@ -37,7 +38,7 @@ const RenameColumnModal = ({
     column: "",
   };
   const modalTitleStyles = classNames(styles.modalTitle, "text-center");
-
+  const { t } = useTranslation();
   return (
     <Modal isOpen={isOpen} centered toggle={() => onCancel()}>
       <ModalBody>
@@ -54,8 +55,8 @@ const RenameColumnModal = ({
                   errors={errors}
                   touched={touched}
                   fieldName={"newStatus"}
-                  label={"Column"}
-                  placeholder={"Rename column"}
+                  label={t("kanban.labelColumn")}
+                  placeholder={t("kanban.placeholderColumn")}
                 />
                 <div>
                   <Button
@@ -65,7 +66,7 @@ const RenameColumnModal = ({
                     className={styles.modalColumnBtn}
                     onClick={() => onConfirm()}
                   >
-                    Save
+                    {t("kanban.save")}
                   </Button>
                   <Button
                     color="danger"
@@ -73,7 +74,7 @@ const RenameColumnModal = ({
                     onClick={() => onCancel()}
                     className={styles.modalColumnBtn}
                   >
-                    Cancel
+                    {t("kanban.cancel")}
                   </Button>
                 </div>
               </Form>

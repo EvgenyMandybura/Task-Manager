@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Table, Container } from "reactstrap";
 import { useHistory } from "react-router-dom";
 import { minutesToString } from "../../helpers/workLogTimeHelper";
+import { useTranslation } from "react-i18next";
 
 const ReportsFilteredByTasks = ({ reportsState }) => {
   const { workLogs } = reportsState;
@@ -10,14 +11,15 @@ const ReportsFilteredByTasks = ({ reportsState }) => {
   const handleRowClick = (taskId) => {
     history.push(`/task-details/${taskId}`);
   };
+  const { t } = useTranslation();
   return (
     <Container>
       <Table bordered striped>
         <thead>
           <tr>
-            <th>Task Name</th>
-            <th>Task Logged time</th>
-            <th>Logs</th>
+            <th>{t("reports.taskName")}</th>
+            <th>{t("reports.taskLogged")}</th>
+            <th>{t("reports.logs")}</th>
           </tr>
         </thead>
         <tbody>
