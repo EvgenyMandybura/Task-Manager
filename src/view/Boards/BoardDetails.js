@@ -22,9 +22,6 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
   useEffect(() => {
     fetchBoard();
     updateReady(true);
-    return () => {
-      clearBoardFetched();
-    };
   }, []);
 
   useEffect(() => {

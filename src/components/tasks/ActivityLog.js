@@ -45,7 +45,11 @@ const ActivityLog = ({ getActivitiesLog, clearActivitiesLog, tasksState }) => {
           activitiesLog?.map((activity) => (
             <tr key={activity.timeStamp}>
               <td>{activity.activityCreator}</td>
-              <td>Change task status to {activity.taskStatus}</td>
+              {!!activity.taskStatus ? (
+                <td>Change task status to {activity.taskStatus}</td>
+              ) : (
+                <td>Change task details</td>
+              )}
               <td>{dateFormat(activity.timeStamp / milliseconds)}</td>
             </tr>
           ))}

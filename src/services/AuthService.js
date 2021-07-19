@@ -1,14 +1,8 @@
 import { firebase_app, firestore } from "../components/Firebase/firebase";
 import firebase from "firebase";
-import { boardsUrl, usersUrl } from "../constants/urlForFiresore";
+import { usersUrl } from "../constants/urlForFiresore";
 import uploadToFirebase from "../helpers/uploadToFirebase";
 import StorageService from "./StorageService";
-import ToastrService from "./ToastrService";
-
-const USER_PLACEHOLDER = {
-  firstName: "FirstName",
-  lastName: "LastName",
-};
 
 const REMEMBER_ME_DEFAULT = true;
 

@@ -27,6 +27,9 @@ import {
   GET_ACTIVITIES_LOG_SUCCESS,
   GET_ACTIVITIES_LOG_CLEAR,
   GET_ACTIVITIES_LOG_ERROR,
+  EDIT_TASK_DETAILS,
+  EDIT_TASK_DETAILS_SUCCESS,
+  EDIT_TASK_DETAILS_ERROR,
 } from "./actionTypes";
 
 const initialState = {
@@ -228,7 +231,24 @@ const tasks = (state = initialState, action) => {
         error: "",
       };
       break;
-
+    case EDIT_TASK_DETAILS:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case EDIT_TASK_DETAILS_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+      };
+      break;
+    case EDIT_TASK_DETAILS_ERROR:
+      state = {
+        ...state,
+        loading: false,
+      };
+      break;
     default:
       state = { ...state };
       break;

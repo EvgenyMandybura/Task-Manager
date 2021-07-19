@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { EditorState, convertToRaw } from "draft-js";
+import React, { useState, useEffect } from "react";
+import { EditorState, ContentState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import htmlToDraft from "html-to-draftjs";
 
 const RichTextEditor = ({ field, form, placeholder }) => {
   const { setFieldTouched, setFieldValue } = form;
@@ -12,6 +13,21 @@ const RichTextEditor = ({ field, form, placeholder }) => {
     setEditorState(state);
     setFieldValue(field.name, editorState);
   };
+
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    if (!loaded) {
+      const blocksFromHtml = htmlToDraft(field.value);
+      const { contentBlocks, entityMap } = blocksFromHtml;
+      const contentState = ContentState.createFromBlockArray(
+        contentBlocks,
+        entityMap
+      );
+      const editorStateInit = EditorState.createWithContent(contentState);
+      setEditorState(editorStateInit);
+      setLoaded(true);
+    }
+  }, [loaded]);
 
   return (
     <div className="App">
