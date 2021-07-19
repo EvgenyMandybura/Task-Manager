@@ -6,8 +6,19 @@ import { Table, Button } from "reactstrap";
 import ContainerUser from "../layout/ContainerUser";
 import AddColumnModal from "../modal/AddColumn";
 import useModal from "../../hook/useModal";
+import ConfirmationDialog from "../modal/ConfirmationDialog";
+import { deleteStatus } from "../../redux/boards/actions";
+import { removeStatusesFromArray } from "../../helpers/statusesArrayEditting";
 
-const ColumnsList = ({ boardsState, getBoard, clearBoardFetched }) => {
+const REMOVE_COLUMN_MODAL_TITLE = "Delete Column";
+const REMOVE_COLUMN_MODAL_DESCRIPTION = "Do you want to delete column?";
+
+const ColumnsList = ({
+  boardsState,
+  getBoard,
+  clearBoardFetched,
+  deleteStatus,
+}) => {
   const {
     params: { boardId },
   } = useRouteMatch("/edit-board-details/:boardId");
@@ -29,13 +40,28 @@ const ColumnsList = ({ boardsState, getBoard, clearBoardFetched }) => {
       fetchBoard();
     }
   }, []);
-
+  let statuses = board?.statuses;
   const [modalVisibleAdd, toggleModalAdd] = useModal();
   const onConfirmed = () => {
     toggleModalAdd();
   };
+  const [modalVisibleDelete, toggleModalDelete] = useModal();
+  const onDeleteConfirmed = () => {
+    statuses = removeStatusesFromArray(statuses, status);
+    if (statuses) {
+      let tasksList = board?.tasks;
+      const model = { statuses, boardId, tasksList };
+      deleteStatus(model);
+    }
+    toggleModalDelete();
+  };
 
-  const statuses = board?.statuses;
+  const [status, setStatus] = useState(null);
+  const showModal = (status) => {
+    setStatus(status);
+    toggleModalDelete();
+  };
+
   return (
     <ContainerUser>
       <Button color="success" onClick={() => toggleModalAdd()}>
@@ -51,10 +77,12 @@ const ColumnsList = ({ boardsState, getBoard, clearBoardFetched }) => {
         <tbody>
           {ready &&
             statuses?.map((status) => (
-              <tr>
+              <tr key={status}>
                 <td> {status}</td>
                 <td>
-                  <Button color="danger">Delete</Button>
+                  <Button color="danger" onClick={() => showModal(status)}>
+                    Delete
+                  </Button>
                 </td>
               </tr>
             ))}
@@ -65,10 +93,21 @@ const ColumnsList = ({ boardsState, getBoard, clearBoardFetched }) => {
         onCancel={toggleModalAdd}
         onConfirm={onConfirmed}
       />
+      <ConfirmationDialog
+        isOpen={modalVisibleDelete}
+        titleText={REMOVE_COLUMN_MODAL_TITLE}
+        contentText={REMOVE_COLUMN_MODAL_DESCRIPTION}
+        cancelButtonText="Cancel"
+        confirmButtonText="Delete"
+        onCancel={toggleModalDelete}
+        onConfirm={onDeleteConfirmed}
+      />
     </ContainerUser>
   );
 };
 const mapStateToProps = ({ boards }) => ({ boardsState: boards });
 export default withRouter(
-  connect(mapStateToProps, { getBoard, clearBoardFetched })(ColumnsList)
+  connect(mapStateToProps, { getBoard, clearBoardFetched, deleteStatus })(
+    ColumnsList
+  )
 );

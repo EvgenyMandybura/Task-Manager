@@ -1,4 +1,4 @@
-import { firebase_app, firestore } from "../components/Firebase/firebase";
+import { firestore } from "../components/Firebase/firebase";
 import firebase from "firebase";
 import uploadToFirebase from "../helpers/uploadToFirebase";
 import { boardsUrl, usersUrl } from "../constants/urlForFiresore";
@@ -6,6 +6,7 @@ import StorageService from "./StorageService";
 import ToastrService from "./ToastrService";
 import updateFirestoreDocument from "../helpers/updateFirestoreDocument";
 import { COLUMN_NAMES_ARRAY } from "../constants/taskStatuses";
+import TasksService from "./TasksService";
 
 class BoardsService {
   createBoard(model) {
@@ -140,7 +141,6 @@ class BoardsService {
   }
 
   changeStatuses(model) {
-    console.log("model in service", model);
     const { boardId, statuses } = model;
 
     const dataForStorage = {
@@ -155,6 +155,18 @@ class BoardsService {
     ).then(() => {
       return boardId;
     });
+  }
+
+  async deleteStatuses(model) {
+    this.changeStatuses(model);
+    const { boardId, statuses, tasksList } = model;
+    if (tasksList.length > 0) {
+      for (const task of tasksList) {
+        const model = { taskId: task, taskStatus: statuses[0] };
+        await TasksService.editTask(model);
+      }
+    }
+    return boardId;
   }
 }
 export default new BoardsService();

@@ -21,6 +21,9 @@ import {
   CHANGE_STATUSES,
   CHANGE_STATUSES_SUCCESS,
   CHANGE_STATUSES_ERROR,
+  DELETE_STATUSES,
+  DELETE_STATUSES_SUCCESS,
+  DELETE_STATUSES_ERROR,
 } from "./actionTypes";
 
 const initialState = {
@@ -179,6 +182,22 @@ const boards = (state = initialState, action) => {
       state = {
         ...state,
         loadingStatuses: false,
+      };
+      break;
+    case DELETE_STATUSES:
+      state = {
+        ...state,
+      };
+      break;
+    case DELETE_STATUSES_SUCCESS:
+      state = {
+        ...state,
+        removed: true,
+      };
+      break;
+    case DELETE_STATUSES_ERROR:
+      state = {
+        ...state,
       };
       break;
 
