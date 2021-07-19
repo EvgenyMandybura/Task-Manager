@@ -17,7 +17,7 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
   } = useRouteMatch("/board-details/:boardId");
   const { loading, board: board } = boardState;
   const [ready, updateReady] = useState(false);
-  const [listView, setListView] = useState(true);
+  const [listView, setListView] = useState(false);
   const changeBoardView = (e) => {
     e.preventDefault();
     setListView(!listView);
