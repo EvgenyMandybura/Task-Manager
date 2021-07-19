@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink as NavLinkRoute, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import HeaderStyles from "./index.module.scss";
-import { firebase_app } from "../../components/Firebase/firebase";
+import { firebase_app } from "../../Firebase/firebase";
 import { logoutUser } from "../../redux/auth/actions";
 import avatarPlaceHolder from "../../assets/ic-avatar-placeholder.svg";
 import {
@@ -84,7 +84,7 @@ const Header = ({ logoutUser, history, authState }) => {
                     </DropdownItem>
                     <DropdownItem divider />
                     <DropdownItem onClick={onSubmitLogOut}>
-                      <NavLink>LogOut</NavLink>
+                      <NavLink>Log out</NavLink>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>

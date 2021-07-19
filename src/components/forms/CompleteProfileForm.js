@@ -8,7 +8,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import validationSchemas from "../../constants/validationSchemas";
 import splitterFullName from "../../helpers/splitter";
-import { firebase_app } from "../Firebase/firebase";
+import { firebase_app } from "../../Firebase/firebase";
 import "./index.scss";
 import FileHelper from "../../helpers/FIleHelper";
 import fileValidation from "../../helpers/fileValidation";
@@ -84,15 +84,15 @@ const CompleteProfileForm = ({ completeProfile, history }) => {
                     errors={errors}
                     touched={touched}
                     fieldName={"firstName"}
-                    label={"firstName"}
-                    placeholder={"Enter firstName"}
+                    label={"first name"}
+                    placeholder={"Enter first name"}
                   />
                   <FormikFormGroup
                     errors={errors}
                     touched={touched}
                     fieldName={"lastName"}
-                    label={"lastName"}
-                    placeholder={"Enter lastName"}
+                    label={"last name"}
+                    placeholder={"Enter last name"}
                   />
                   <FormikFormGroup
                     errors={errors}

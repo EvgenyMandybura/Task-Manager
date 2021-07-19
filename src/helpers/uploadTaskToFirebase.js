@@ -1,4 +1,4 @@
-import { firestore } from "../components/Firebase/firebase";
+import { firestore } from "../Firebase/firebase";
 import { tasksUrl } from "../constants/urlForFiresore";
 import firebase from "firebase";
 

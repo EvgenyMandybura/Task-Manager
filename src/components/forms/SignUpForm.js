@@ -83,15 +83,15 @@ const SignUpForm = ({ registerUser, history }) => {
                 errors={errors}
                 touched={touched}
                 fieldName={"firstName"}
-                label={"firstName"}
-                placeholder={"Enter firstName"}
+                label={"first name"}
+                placeholder={"Enter first name"}
               />
               <FormikFormGroup
                 errors={errors}
                 touched={touched}
                 fieldName={"lastName"}
-                label={"lastName"}
-                placeholder={"Enter lastName"}
+                label={"last name"}
+                placeholder={"Enter last name"}
               />
               <FormikFormGroup
                 errors={errors}
