@@ -54,7 +54,7 @@ const CommentsList = ({ getTaskComments, getTaskCommentsClear, Comments }) => {
             loader={<h4>Loading...</h4>}
           >
             {allList.map((comment) => (
-              <div key={comment.timeStamp} className={styles.commentContainer}>
+              <div key={comment.timeStamp} className="commentContainer">
                 <Row>
                   <Col xs={2}>
                     <div className="userAvatarWr">
