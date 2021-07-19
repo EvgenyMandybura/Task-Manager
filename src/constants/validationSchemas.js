@@ -17,6 +17,7 @@ import {
   IS_INCORRECT_LENGTH_SUMMARY,
   IS_INCORRECT_LENGTH_KEYWORD,
   IS_INCORRECT_LENGTH_COLUMN,
+  IS_INCORRECT_WORK_LOG_COMMENT,
 } from "./validationErrors";
 import {
   PASSWORD_MAX_LENGTH,
@@ -32,6 +33,8 @@ import {
   KEYWORD_MIN_LENGTH,
   COLUMN_MAX_LENGTH,
   COLUMN_MIN_LENGTH,
+  WORK_LOG_COMMENT_MAX_LENGTH,
+  WORK_LOG_COMMENT_MIN_LENGTH,
 } from "./validationRules";
 
 const uniqueValues = (values) => {
@@ -77,6 +80,10 @@ const validationSchemas = {
     .required()
     .min(COLUMN_MIN_LENGTH, IS_INCORRECT_LENGTH_COLUMN)
     .max(COLUMN_MAX_LENGTH, IS_INCORRECT_LENGTH_COLUMN),
+  workLogComment: yup
+    .string()
+    .min(WORK_LOG_COMMENT_MIN_LENGTH, IS_INCORRECT_WORK_LOG_COMMENT)
+    .max(WORK_LOG_COMMENT_MAX_LENGTH, IS_INCORRECT_WORK_LOG_COMMENT),
 };
 
 export default validationSchemas;

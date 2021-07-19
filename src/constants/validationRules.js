@@ -6,10 +6,6 @@ export const PASSWORD_MAX_LENGTH = 50;
 export const USERNAME_MIN_LENGTH = 2;
 export const USERNAME_MAX_LENGTH = 30;
 
-// Phone
-export const PHONE_PATTERN =
-  /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
-
 // Title
 export const TITLE_MAX_LENGTH = 60;
 export const TITLE_MIN_LENGTH = 3;
@@ -28,3 +24,7 @@ export const KEYWORD_MIN_LENGTH = 3;
 // Column title
 export const COLUMN_MIN_LENGTH = 3;
 export const COLUMN_MAX_LENGTH = 20;
+
+//workLogComment
+export const WORK_LOG_COMMENT_MIN_LENGTH = 1;
+export const WORK_LOG_COMMENT_MAX_LENGTH = 500;

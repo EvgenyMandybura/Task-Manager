@@ -12,6 +12,8 @@ import {
   KEYWORD_MIN_LENGTH,
   COLUMN_MIN_LENGTH,
   COLUMN_MAX_LENGTH,
+  WORK_LOG_COMMENT_MAX_LENGTH,
+  WORK_LOG_COMMENT_MIN_LENGTH,
 } from "./validationRules";
 
 // EMAIL
@@ -51,3 +53,9 @@ export const IS_INCORRECT_LENGTH_KEYWORD = `Keyword must be more ${KEYWORD_MIN_L
 
 //Column title
 export const IS_INCORRECT_LENGTH_COLUMN = `Summary must be from ${COLUMN_MIN_LENGTH} to ${COLUMN_MAX_LENGTH} symbols;`;
+
+//workLogComment
+export const IS_INCORRECT_WORK_LOG_COMMENT = `Summary must be from ${WORK_LOG_COMMENT_MIN_LENGTH} to ${WORK_LOG_COMMENT_MAX_LENGTH} symbols;`;
+
+//loggedTime
+export const IS_INCORRECT_LOGGED_TIME = `Data must be in "3w 5d 10h 30m" format`;
