@@ -34,7 +34,6 @@ const EditBoardDetailsForm = ({
   const {
     params: { boardId },
   } = useRouteMatch("/edit-board-details/:boardId");
-
   const { loading, board: board } = boardState;
   const [ready, updateReady] = useState(false);
   const fetchBoard = () => {
@@ -92,8 +91,7 @@ const EditBoardDetailsForm = ({
           validationSchema={validationSchema}
           onSubmit={handleSubmitForm}
         >
-          {({errors, touched, handleSubmit }) => {
-
+          {({ errors, touched, handleSubmit }) => {
             return (
               <Form className="w-100" onSubmit={handleSubmit}>
                 <h3>Edit Board</h3>

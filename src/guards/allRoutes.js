@@ -5,7 +5,7 @@ import Dashboard from "../view/dashboard/Dashboard";
 import Boards from "../view/Boards/Boards";
 import MakeNewPage from "../view/Boards/MakeNewPage";
 import BoardDetails from "../view/Boards/BoardDetails";
-import EditBoardDetailsForm from "../components/forms/EditBoardDetailsForm";
+import EditBoardDetails from "../view/Boards/EditBoardDetails";
 import AddNewTask from "../view/tasks/AddNewTask";
 import TaskDetails from "../view/tasks/TaskDetails";
 
@@ -15,7 +15,7 @@ const userRoutes = [
   { path: "/boards", component: Boards },
   { path: "/make-new-board", component: MakeNewPage },
   { path: "/board-details", component: BoardDetails },
-  { path: "/edit-board-details", component: EditBoardDetailsForm },
+  { path: "/edit-board-details", component: EditBoardDetails },
   { path: "/add-new-task", component: AddNewTask },
   { path: "/task-details", component: TaskDetails },
   { path: "", exact: true, component: Boards },

@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import styles from "./kanban.scss";
-import { COLUMN_NAMES } from "../../constants/taskStatuses";
+import { COLUMN_NAMES_ARRAY } from "../../constants/taskStatuses";
 import { withRouter } from "react-router-dom";
 import { editTask } from "../../redux/tasks/actions";
 import dateFormat from "../../helpers/dateHelper";
@@ -62,12 +62,9 @@ const MovableItem = ({
       const dropResult = monitor.getDropResult();
       if (dropResult) {
         const { name } = dropResult;
-        const { ...rest } = COLUMN_NAMES;
-        let value;
-        Object.keys(rest).forEach((key) => {
-          value = rest[key];
-          if (name === value) {
-            changeItemColumn(item, value);
+        COLUMN_NAMES_ARRAY.forEach((key) => {
+          if (name === key) {
+            changeItemColumn(item, key);
           }
         });
       }
