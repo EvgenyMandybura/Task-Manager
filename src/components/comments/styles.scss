@@ -1,0 +1,27 @@
+.comment {
+  &Container {
+    margin-bottom: 24px;
+    padding-top: 16px;
+    border: 1px double lightgray;
+    border-radius: 8px;
+  }
+}
+
+.user {
+  display: flex;
+  flex-direction: row;
+  &Avatar {
+    &Wr {
+      margin: 12px 0 12px 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      object-fit: cover;
+    }
+  }
+}
+
+
+

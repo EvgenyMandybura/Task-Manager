@@ -15,6 +15,7 @@ import fileIcons from "../helpers/fileIcons";
 import updateFirestoreDocument from "../helpers/updateFirestoreDocument";
 import uploadActivitiesToFirebase from "../helpers/UploadActivitiesToFirebase";
 import uploadCommentsToFirebase from "../helpers/UploadCommentToFirebase";
+import { DEFAULT_LIMIT } from "../constants/pagination";
 
 class TasksService {
   async getAllList(data) {
@@ -205,6 +206,31 @@ class TasksService {
     ).then(() => {
       return { taskId };
     });
+  }
+
+  async getComments(model) {
+    let { taskId, lastVisible } = model;
+    const commentsLimit = [];
+    const query = await firestore
+      .collection(commentsUrl)
+      .doc(taskId)
+      .collection(commentsUrl)
+      .orderBy("timeStamp")
+      .startAfter(lastVisible)
+      .limit(DEFAULT_LIMIT)
+      .get();
+
+    for (let i = 0; i < query.docs.length; i++) {
+      const creatorData = await AuthService.getUser(
+        query.docs[i].data().commentCreator
+      );
+      commentsLimit.push({ creatorData, ...query.docs[i].data() });
+      if (i == query.docs.length - 1) {
+        lastVisible = query.docs[i];
+      }
+    }
+
+    return { commentsLimit, lastVisible };
   }
 }
 export default new TasksService();
