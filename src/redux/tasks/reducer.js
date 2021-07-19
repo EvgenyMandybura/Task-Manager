@@ -20,6 +20,9 @@ import {
   GET_TASKS_FILES_SUCCESS,
   GET_TASKS_FILES_ERROR,
   GET_TASKS_FILES_CLEAR,
+  EDIT_TASK,
+  EDIT_TASK_SUCCESS,
+  EDIT_TASK_ERROR,
 } from "./actionTypes";
 
 const initialState = {
@@ -170,6 +173,25 @@ const tasks = (state = initialState, action) => {
         ...state,
         files: [],
         error: "",
+      };
+      break;
+    case EDIT_TASK:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case EDIT_TASK_SUCCESS:
+      state = {
+        ...state,
+        taskStatus: action.payload.taskStatus,
+        loading: false,
+      };
+      break;
+    case EDIT_TASK_ERROR:
+      state = {
+        ...state,
+        loading: false,
       };
       break;
 

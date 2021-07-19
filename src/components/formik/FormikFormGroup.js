@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { Field } from "formik";
-import { FormGroup, InputGroup, Label } from "reactstrap";
+import {
+  FormGroup,
+  InputGroup,
+  Label,
+  Button,
+  InputGroupAddon,
+} from "reactstrap";
 import classNames from "classnames";
 import FormError from "./FormError";
 import FormikDropdown from "./FormikDropdown";
 import RichTextEditor from "./RichTextEditor";
 import DatesPicker from "./DatePicker";
+import styles from "./formikStyles.scss";
 
 const FormikFormGroup = ({
   values = "",
@@ -20,10 +27,15 @@ const FormikFormGroup = ({
   isMulti = false,
   maxLength = null,
   setFieldValue,
+  buttonText = "",
 }) => {
   const [visible] = useState(false);
   const isInvalid = errors[fieldName] && touched[fieldName];
-  const className = classNames("form-control", isInvalid && "is-invalid");
+  const className = classNames(
+    "form-control",
+    styles,
+    isInvalid && "is-invalid"
+  );
 
   const getInputComponent = (type) => {
     switch (type) {
@@ -80,6 +92,26 @@ const FormikFormGroup = ({
             onChange={setFieldValue}
             name={fieldName}
           />
+        );
+      case "selectAddon":
+        return (
+          <InputGroup>
+            <div className="selectAddon">
+              <Field
+                name={fieldName}
+                errors={errors}
+                touched={touched}
+                placeholder={placeholder}
+                handleChange={handleChange}
+                component={FormikDropdown}
+                options={options}
+                isMulti={isMulti}
+              />
+            </div>
+            <InputGroupAddon addonType="append">
+              <Button color="success">{buttonText}</Button>
+            </InputGroupAddon>
+          </InputGroup>
         );
       default:
         return (
