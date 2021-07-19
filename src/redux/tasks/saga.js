@@ -8,6 +8,7 @@ import {
   GET_TASK,
   GET_TASKS_FILES,
   EDIT_TASK,
+  GET_ACTIVITIES_LOG,
 } from "./actionTypes";
 
 import {
@@ -25,6 +26,8 @@ import {
   getTaskFilesError,
   editTaskSuccess,
   editTaskError,
+  getActivitiesLogSuccess,
+  getActivitiesLogError,
 } from "./actions";
 
 import ToastrService from "../../services/ToastrService";
@@ -56,6 +59,10 @@ const getTaskFilesAsync = async (model) => {
 
 const editTaskAsync = async (model) => {
   return await TasksService.editTask(model);
+};
+
+const getActivityLogAsync = async (taskId) => {
+  return await TasksService.getActivityLog(taskId);
 };
 
 function* getTasksList({ payload: { model } }) {
@@ -129,6 +136,15 @@ function* editTask({ payload: { model } }) {
   }
 }
 
+function* getTaskActivityLog({ payload: { taskId } }) {
+  try {
+    const response = yield call(getActivityLogAsync, taskId);
+    yield put(getActivitiesLogSuccess(response));
+  } catch (error) {
+    yield put(getActivitiesLogError(error));
+  }
+}
+
 export function* watchGetAllTasks() {
   yield takeEvery(GET_TASKS, getTasksList);
 }
@@ -157,6 +173,10 @@ export function* watchEditTask() {
   yield takeEvery(EDIT_TASK, editTask);
 }
 
+export function* watchGetActivityLog() {
+  yield takeEvery(GET_ACTIVITIES_LOG, getTaskActivityLog);
+}
+
 function* tasksState() {
   yield all([
     fork(watchGetAllTasks),
@@ -166,6 +186,7 @@ function* tasksState() {
     fork(watchGetTask),
     fork(watchGetTaskFiles),
     fork(watchEditTask),
+    fork(watchGetActivityLog),
   ]);
 }
 

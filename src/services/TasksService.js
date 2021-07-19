@@ -1,5 +1,10 @@
 import { firestore } from "../components/Firebase/firebase";
-import { tasksUrl, boardsUrl } from "../constants/urlForFiresore";
+import {
+  tasksUrl,
+  boardsUrl,
+  activitiesUrl,
+  logUrl,
+} from "../constants/urlForFiresore";
 import AuthService from "./AuthService";
 import StorageService from "./StorageService";
 import uploadTaskToFirebase from "../helpers/uploadTaskToFirebase";
@@ -7,6 +12,7 @@ import { TODO } from "../constants/taskStatuses";
 import firebase from "firebase";
 import fileIcons from "../helpers/fileIcons";
 import updateFirestoreDocument from "../helpers/updateFirestoreDocument";
+import uploadActivitiesToFirebase from "../helpers/UploadActivitiesToFirebase";
 
 class TasksService {
   async getAllList(data) {
@@ -145,6 +151,15 @@ class TasksService {
     const dataForStorage = {
       taskStatus,
     };
+    const currentUser = StorageService.user.value.email;
+    const timeStamp = new Date().getTime();
+    const activityDataForStorage = {
+      activityCreator: currentUser,
+      taskStatus,
+      timeStamp,
+      taskId,
+    };
+    uploadActivitiesToFirebase(activityDataForStorage, taskId, activitiesUrl);
     return updateFirestoreDocument(
       dataForStorage,
       null,
@@ -154,6 +169,20 @@ class TasksService {
     ).then(() => {
       return { taskId, ...dataForStorage };
     });
+  }
+
+  async getActivityLog(taskId) {
+    const tempDoc = [];
+    const query = await firestore
+      .collection(activitiesUrl)
+      .doc(taskId)
+      .collection(logUrl)
+      .get();
+
+    for (const doc of query.docs) {
+      tempDoc.push(doc.data());
+    }
+    return tempDoc;
   }
 }
 export default new TasksService();

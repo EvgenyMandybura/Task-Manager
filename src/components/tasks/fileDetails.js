@@ -5,13 +5,9 @@ import { connect } from "react-redux";
 import SimpleReactLightbox from "simple-react-lightbox";
 import { SRLWrapper } from "simple-react-lightbox";
 
-const FilesDetails = ({
-  fileUrls,
-  getTaskFiles,
-  clearTaskFiles,
-  tasksState,
-}) => {
+const FilesDetails = ({ getTaskFiles, clearTaskFiles, tasksState }) => {
   const { loadingFiles, files } = tasksState;
+  const fileUrls = tasksState.task[0].fileUrls;
   const [readyFiles, updateReadyFiles] = useState(false);
   const fetchTaskFiles = () => {
     getTaskFiles(fileUrls);
@@ -39,7 +35,6 @@ const FilesDetails = ({
 
   return (
     <div>
-      <h4>List of task files:</h4>
       <SimpleReactLightbox>
         <SRLWrapper options={options}>
           {readyFiles && files?.length > 0 ? (
