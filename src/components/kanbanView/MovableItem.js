@@ -51,7 +51,7 @@ const MovableItem = ({
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
-      moveCardHandler(dragIndex, hoverIndex);
+      moveCardHandler(dragIndex, hacceptoverIndex);
       item.index = hoverIndex;
     },
   });
