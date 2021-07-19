@@ -18,6 +18,9 @@ import {
   LEAVE_BOARD,
   LEAVE_BOARD_SUCCESS,
   LEAVE_BOARD_ERROR,
+  CHANGE_STATUSES,
+  CHANGE_STATUSES_SUCCESS,
+  CHANGE_STATUSES_ERROR,
 } from "./actionTypes";
 
 const initialState = {
@@ -25,10 +28,12 @@ const initialState = {
   message: "",
   created: null,
   loading: false,
+  loadingStatuses: false,
   board: null,
   boardsList: [],
   savedMembers: [],
   removed: false,
+  statuses: [],
 };
 
 const boards = (state = initialState, action) => {
@@ -155,6 +160,25 @@ const boards = (state = initialState, action) => {
       state = {
         ...state,
         loading: false,
+      };
+      break;
+    case CHANGE_STATUSES:
+      state = {
+        ...state,
+        loadingStatuses: true,
+      };
+      break;
+    case CHANGE_STATUSES_SUCCESS:
+      state = {
+        ...state,
+        statuses: action.payload,
+        loadingStatuses: false,
+      };
+      break;
+    case CHANGE_STATUSES_ERROR:
+      state = {
+        ...state,
+        loadingStatuses: false,
       };
       break;
 

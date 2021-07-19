@@ -24,3 +24,7 @@ export const SUMMARY_MAX_LENGTH = 100;
 
 //Keyword
 export const KEYWORD_MIN_LENGTH = 3;
+
+// Column title
+export const COLUMN_MIN_LENGTH = 3;
+export const COLUMN_MAX_LENGTH = 20;

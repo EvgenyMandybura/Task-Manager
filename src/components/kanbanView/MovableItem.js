@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import styles from "./kanban.scss";
-import { COLUMN_NAMES_ARRAY } from "../../constants/taskStatuses";
 import { withRouter } from "react-router-dom";
 import { editTask } from "../../redux/tasks/actions";
 import dateFormat from "../../helpers/dateHelper";
@@ -16,6 +15,7 @@ const MovableItem = ({
   taskDetails,
   editTask,
   history,
+  boardsState,
 }) => {
   const changeItemColumn = (currentItem, columnName) => {
     setItems((prevState) => {
@@ -55,14 +55,13 @@ const MovableItem = ({
       item.index = hoverIndex;
     },
   });
-
   const [{ isDragging }, drag] = useDrag({
     item: { index, name, currentColumnName, type: "Our first type" },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
       if (dropResult) {
         const { name } = dropResult;
-        COLUMN_NAMES_ARRAY.forEach((key) => {
+        boardsState.board.statuses.forEach((key) => {
           if (name === key) {
             changeItemColumn(item, key);
           }
@@ -90,6 +89,6 @@ const MovableItem = ({
   );
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = ({ boards }) => ({ boardsState: boards });
 
 export default withRouter(connect(mapStateToProps, { editTask })(MovableItem));

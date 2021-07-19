@@ -18,6 +18,9 @@ import {
   LEAVE_BOARD,
   LEAVE_BOARD_SUCCESS,
   LEAVE_BOARD_ERROR,
+  CHANGE_STATUSES,
+  CHANGE_STATUSES_SUCCESS,
+  CHANGE_STATUSES_ERROR,
 } from "./actionTypes";
 
 export const createBoard = (model) => {
@@ -141,3 +144,22 @@ export const leaveBoardError = ({ message = "Unknown error" }) => {
     type: LEAVE_BOARD_ERROR,
   };
 };
+
+export const changeStatuses = (model) => {
+  return {
+    type: CHANGE_STATUSES,
+    payload: { model },
+  };
+};
+
+export const changeStatusesSuccess = (board) => {
+  return {
+    type: CHANGE_STATUSES_SUCCESS,
+    payload: board,
+  };
+};
+
+export const changeStatusesError = ({ message }) => ({
+  type: CHANGE_STATUSES_ERROR,
+  payload: { message },
+});

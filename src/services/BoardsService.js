@@ -138,5 +138,23 @@ class BoardsService {
       });
     }
   }
+
+  changeStatuses(model) {
+    console.log("model in service", model);
+    const { boardId, statuses } = model;
+
+    const dataForStorage = {
+      statuses: statuses,
+    };
+    return updateFirestoreDocument(
+      dataForStorage,
+      null,
+      boardId,
+      null,
+      boardsUrl
+    ).then(() => {
+      return boardId;
+    });
+  }
 }
 export default new BoardsService();
