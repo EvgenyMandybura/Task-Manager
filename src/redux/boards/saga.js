@@ -8,6 +8,7 @@ import {
   LEAVE_BOARD,
   CHANGE_STATUSES,
   DELETE_STATUSES,
+  RENAME_STATUS,
 } from "./actionTypes";
 
 import {
@@ -25,6 +26,8 @@ import {
   changeStatusesError,
   deleteStatusSuccess,
   deleteStatusError,
+  renameStatusSuccess,
+  renameStatusError,
 } from "./actions";
 
 import ToastrService from "../../services/ToastrService";
@@ -62,6 +65,10 @@ const changeStatusesAsync = async (model) => {
 
 const deleteStatusesAsync = async (model) => {
   return await BoardsService.deleteStatuses(model);
+};
+
+const renameStatusAsync = async (model) => {
+  return await BoardsService.renameStatus(model);
 };
 
 function* createBoardProject({ payload: { model } }) {
@@ -135,6 +142,15 @@ function* deleteBoardStatuses({ payload: { model } }) {
   }
 }
 
+function* renameBoardStatus({ payload: { model } }) {
+  try {
+    const response = yield call(renameStatusAsync, model);
+    yield put(renameStatusSuccess(response));
+  } catch (error) {
+    yield put(renameStatusSuccess(error));
+  }
+}
+
 export function* watchCreateBoard() {
   yield takeEvery(CREATE_BOARD, createBoardProject);
 }
@@ -163,6 +179,10 @@ export function* watchDeleteStatuses() {
   yield takeEvery(DELETE_STATUSES, deleteBoardStatuses);
 }
 
+export function* watchRenameStatus() {
+  yield takeEvery(RENAME_STATUS, renameBoardStatus);
+}
+
 function* authBoards() {
   yield all([
     fork(watchCreateBoard),
@@ -172,6 +192,7 @@ function* authBoards() {
     fork(watchLeaveBoard),
     fork(watchChangeStatuses),
     fork(watchDeleteStatuses),
+    fork(watchRenameStatus),
   ]);
 }
 

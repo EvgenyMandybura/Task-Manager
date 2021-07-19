@@ -24,6 +24,9 @@ import {
   DELETE_STATUSES,
   DELETE_STATUSES_SUCCESS,
   DELETE_STATUSES_ERROR,
+  RENAME_STATUS,
+  RENAME_STATUS_SUCCESS,
+  RENAME_STATUS_ERROR,
 } from "./actionTypes";
 
 export const createBoard = (model) => {
@@ -186,3 +189,22 @@ export const deleteStatusError = ({ message = "Unknown error" }) => {
     type: DELETE_STATUSES_ERROR,
   };
 };
+
+export const renameStatus = (model) => {
+  return {
+    type: RENAME_STATUS,
+    payload: { model },
+  };
+};
+
+export const renameStatusSuccess = (board) => {
+  return {
+    type: RENAME_STATUS_SUCCESS,
+    payload: board,
+  };
+};
+
+export const renameStatusError = ({ message }) => ({
+  type: RENAME_STATUS_ERROR,
+  payload: { message },
+});
