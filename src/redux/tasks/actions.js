@@ -30,6 +30,8 @@ import {
   EDIT_TASK_DETAILS,
   EDIT_TASK_DETAILS_SUCCESS,
   EDIT_TASK_DETAILS_ERROR,
+  SET_TASKS_FILES,
+  SET_TASKS_FILES_CLEAR,
 } from "./actionTypes";
 
 export const getListTasks = (model) => {
@@ -224,3 +226,16 @@ export const editTaskDetailsError = ({ message }) => ({
   type: EDIT_TASK_DETAILS_ERROR,
   payload: { message },
 });
+
+export const setTaskFiles = (model) => {
+  return {
+    payload: { model },
+    type: SET_TASKS_FILES,
+  };
+};
+
+export const clearSetTaskFiles = () => {
+  return {
+    type: SET_TASKS_FILES_CLEAR,
+  };
+};

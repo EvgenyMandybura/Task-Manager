@@ -1,0 +1,12 @@
+.thumbsContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 20px;
+};
+
+.thumbInner {
+  display: flex;
+  min-width: 0;
+  overflow: hidden;
+}

@@ -245,4 +245,8 @@ export const TranslationEN = {
     comment: "Comment",
     loggedTime: "Logged time",
   },
+  dropZone: {
+    dragAndDrop: "Drag 'n' drop some files here",
+    openFileDialog: "Open File Dialog",
+  },
 };

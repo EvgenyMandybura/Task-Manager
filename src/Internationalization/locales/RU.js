@@ -243,4 +243,8 @@ export const TranslationRU = {
     comment: "Комментарий",
     loggedTime: "Выработано",
   },
+  dropZone: {
+    dragAndDrop: "Перетащите сюда несколько файлов",
+    openFileDialog: "Выбрать файлы",
+  },
 };

@@ -3,6 +3,7 @@ import { EditorState, ContentState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import htmlToDraft from "html-to-draftjs";
+import editorStyles from "./formikStyles.scss";
 
 const RichTextEditor = ({ field, form, placeholder }) => {
   const { setFieldTouched, setFieldValue } = form;
@@ -39,7 +40,6 @@ const RichTextEditor = ({ field, form, placeholder }) => {
         onBlur={() => setFieldTouched(field.name, true)}
         wrapperClassName="wrapper-class"
         editorClassName="editor-class"
-        toolbarClassName="toolbar-class"
       />
     </div>
   );

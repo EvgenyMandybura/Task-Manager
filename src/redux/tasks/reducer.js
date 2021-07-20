@@ -30,6 +30,8 @@ import {
   EDIT_TASK_DETAILS,
   EDIT_TASK_DETAILS_SUCCESS,
   EDIT_TASK_DETAILS_ERROR,
+  SET_TASKS_FILES,
+  SET_TASKS_FILES_CLEAR,
 } from "./actionTypes";
 
 const initialState = {
@@ -45,6 +47,7 @@ const initialState = {
   created: {},
   taskStatus: "",
   activitiesLog: [],
+  filesForUpload: [],
 };
 
 const tasks = (state = initialState, action) => {
@@ -249,6 +252,20 @@ const tasks = (state = initialState, action) => {
         loading: false,
       };
       break;
+
+    case SET_TASKS_FILES:
+      state = {
+        ...state,
+        filesForUpload: action.payload.model,
+      };
+      break;
+    case SET_TASKS_FILES_CLEAR:
+      state = {
+        ...state,
+        filesForUpload: [],
+      };
+      break;
+
     default:
       state = { ...state };
       break;
