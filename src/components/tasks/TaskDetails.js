@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Col, Row, Button } from "reactstrap";
 import { useRouteMatch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { getTaskDetails, clearTaskDetails } from "../../redux/tasks/actions";
+import {
+  getTaskDetails,
+  clearTaskDetails,
+  editTaskStatusClear,
+} from "../../redux/tasks/actions";
+import { getLogWorksDataClear } from "../../redux/workLog/actions";
 import MemberDetails from "../members/MemberDetails";
 import styles from "./index.module.scss";
 import dateFormat from "../../helpers/dateHelper";
@@ -24,13 +29,14 @@ const TaskDetail = ({
   tasksState,
   getLogWorksData,
   workLogsState,
+  editTaskStatusClear,
+  getLogWorksDataClear,
   history,
 }) => {
   const {
     params: { taskId },
   } = useRouteMatch("/task-details/:taskId");
   const { loading, task, taskStatus } = tasksState;
-
   const [ready, updateReady] = useState(false);
   const fetchTask = () => {
     const model = { taskId, history };
@@ -41,6 +47,8 @@ const TaskDetail = ({
     updateReady(true);
     return () => {
       clearTaskDetails();
+      editTaskStatusClear();
+      getLogWorksDataClear();
     };
   }, []);
   useEffect(() => {
@@ -152,5 +160,7 @@ export default withRouter(
     getTaskDetails,
     clearTaskDetails,
     getLogWorksData,
+    editTaskStatusClear,
+    getLogWorksDataClear,
   })(TaskDetail)
 );
