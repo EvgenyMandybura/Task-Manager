@@ -18,7 +18,7 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
   } = useRouteMatch("/board-details/:boardId");
   const { loading, board: board } = boardState;
   const [ready, updateReady] = useState(false);
-  const [listView, setListView] = useState(true);
+  const [listView, setListView] = useState(false);
   const changeBoardView = (e) => {
     e.preventDefault();
     setListView(!listView);
@@ -39,32 +39,44 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
   const { t } = useTranslation();
   return (
     <ContainerUser>
-      <Button onClick={changeBoardView} color="success">
-        {listView ? t("boardDetails.gridView") : t("boardDetails.listView")}
-      </Button>
+      <div className="d-flex m-3">
+        <Button
+          onClick={changeBoardView}
+          color="success"
+          className="boardButtons"
+        >
+          {listView ? t("boardDetails.gridView") : t("boardDetails.listView")}
+        </Button>
+        <Button
+          color="success"
+          onClick={() => history.push(`/add-new-task/${board.boardId}`)}
+          className="boardButtons"
+        >
+          {t("boardDetails.addNewTask")}
+        </Button>
+        <Button
+          color="success"
+          className="boardButtons"
+          onClick={() => history.push(`/edit-board-details/${board.boardId}`)}
+        >
+          {t("boards.edit")}
+        </Button>
+        <div className="search">
+          <Search />
+          <SortForm />
+          <FilterForm members={board?.members} />
+        </div>
+      </div>
       {listView ? (
         <div>
           {ready && !loading && (
             <div className="cardBoardDetails">
-              <h3>{board.title}</h3>
               <Row>
-                <Col xs="8">
-                  <div className="search">
-                    <Search />
-                    <FilterForm members={board.members} />
-                    <SortForm />
-                    <Button
-                      color="success"
-                      onClick={() =>
-                        history.push(`/add-new-task/${board.boardId}`)
-                      }
-                    >
-                      {t("boardDetails.addNewTask")}
-                    </Button>
-                  </div>
+                <h3 className="text-center">{board.title}</h3>
+                <Col xs="9">
                   <ListOfTasks />
                 </Col>
-                <Col xs="4">
+                <Col xs="3">
                   <img
                     width="100%"
                     src={board.fileUrl}

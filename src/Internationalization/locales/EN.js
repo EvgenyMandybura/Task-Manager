@@ -79,7 +79,7 @@ export const TranslationEN = {
   boards: {
     addNewBoard: "Add New Board",
     edit: "Edit",
-    leaveBoard: "Leave board",
+    leaveBoard: "Leave",
     noBoards: "No boards",
     leaveBoardTitle: "Leave board",
     doYouWantToLeaveBoard: "Do you want to leave board?",
@@ -161,10 +161,10 @@ export const TranslationEN = {
     buttonText: "Change",
   },
   filterForm: {
-    label: "Select status",
-    placeholder: "Select status",
-    labelAssignee: "Add assignee",
-    placeholderAssignee: "Select assignee",
+    filterByStatus: "Filter by status",
+    status: "Status",
+    assignee: "Assignee",
+    filterByAssignee: "Filter by assignee",
     filter: "Filter",
   },
   filterReportsByDate: {

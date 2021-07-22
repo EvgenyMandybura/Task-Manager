@@ -159,10 +159,10 @@ export const TranslationRU = {
     buttonText: "Изменить",
   },
   filterForm: {
-    label: "Выбрать статус",
-    placeholder: "Выбрать статус",
-    labelAssignee: "Назначить исполнителя",
-    placeholderAssignee: "Выбрать исполнителя",
+    filterByStatus: "Фильтр по статусу",
+    filterByAssignee: "Фильтр по исполнителю",
+    status: "Статус",
+    assignee: "Исполнитель",
     filter: "Фильтровать",
   },
   filterReportsByDate: {

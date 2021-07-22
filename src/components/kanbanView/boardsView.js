@@ -19,7 +19,7 @@ const Column = ({ children, className, title }) => {
 
   const getBackgroundColor = () => {
     if (isOver) {
-      return "rgb(188,251,255)";
+      return "rgb(143,188,143)";
     } else {
       return "";
     }
@@ -32,6 +32,7 @@ const Column = ({ children, className, title }) => {
       style={{ backgroundColor: getBackgroundColor() }}
     >
       <p className="columnTitle">{title}</p>
+      <hr />
       {children}
     </div>
   );
@@ -95,15 +96,13 @@ export const BoardKanbanView = ({
 
   return (
     <div className="containerKanban">
-      {tasksList.length > 0 && (
-        <DndProvider backend={HTML5Backend}>
-          {boardsState.board.statuses?.map((column) => (
-            <Column title={column} className="column" key={column}>
-              {returnItemsForColumn(column)}
-            </Column>
-          ))}
-        </DndProvider>
-      )}
+      <DndProvider backend={HTML5Backend}>
+        {boardsState.board?.statuses?.map((column) => (
+          <Column title={column} className="column" key={column}>
+            {returnItemsForColumn(column)}
+          </Column>
+        ))}
+      </DndProvider>
     </div>
   );
 };

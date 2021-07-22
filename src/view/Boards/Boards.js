@@ -11,6 +11,9 @@ import {
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { useTranslation } from "react-i18next";
+import classNames from "classnames";
+
 import "./indexBoards.scss";
 import imgPlaceholder from "../../assets/ic-placeholder.svg";
 import { getListBoards, getListBoardsClear } from "../../redux/boards/actions";
@@ -18,7 +21,7 @@ import ConfirmationDialog from "../../components/modal/ConfirmationDialog";
 import useModal from "../../hook/useModal";
 import { leaveBoard } from "../../redux/boards/actions";
 import HeaderStyles from "../../components/layout/index.module.scss";
-import { useTranslation } from "react-i18next";
+import Spinner from "../../components/loaderSpinner/Spinner";
 
 const Boards = ({
   getListBoards,
@@ -59,13 +62,20 @@ const Boards = ({
       <Link to="/make-new-board">
         <Button color="success">{t("boards.addNewBoard")}</Button>
       </Link>
-      <div>
-        {ready && boardsList != "" && !loading ? (
+      <div className="row justify-content-center align-self-center">
+        {ready && boardsList != "border" && !loading ? (
           boardsList.map((board) => (
-            <Card className="cardBoards" key={board.boardId}>
+            <Card
+              className={classNames(
+                "col-sm-3 m-2 d-inline-block rounded-3 shadow",
+                "wrapBoard"
+              )}
+              key={board.boardId}
+            >
               <CardImg
                 src={board.fileUrl ? board.fileUrl : imgPlaceholder}
                 alt="Card image"
+                className="pt-3"
                 onClick={() => history.push(`/board-details/${board.boardId}`)}
               />
               <CardBody>
@@ -80,28 +90,29 @@ const Boards = ({
                   <b>{board.queryUser.firstName}</b>
                 </CardText>
               </CardBody>
-              <Button
-                color="secondary"
-                className="cardBoardDetailsBtn"
-                onClick={() =>
-                  history.push(`/edit-board-details/${board.boardId}`)
-                }
-              >
-                {t("boards.edit")}
-              </Button>
-
-              <Button
-                color="danger"
-                value={board.boardId}
-                onClick={() => showModal(board.boardId)}
-                className="cardBoardDetailsBtn"
-              >
-                {t("boards.leaveBoard")}
-              </Button>
+              <div className="toBottom">
+                <Button
+                  color="secondary"
+                  className="cardBoardDetailsBtn"
+                  onClick={() =>
+                    history.push(`/edit-board-details/${board.boardId}`)
+                  }
+                >
+                  {t("boards.edit")}
+                </Button>
+                <Button
+                  color="danger"
+                  value={board.boardId}
+                  onClick={() => showModal(board.boardId)}
+                  className="cardBoardDetailsBtn"
+                >
+                  {t("boards.leaveBoard")}
+                </Button>
+              </div>
             </Card>
           ))
         ) : (
-          <h3>{t("boards.noBoards")}</h3>
+          <Spinner />
         )}
       </div>
       <ConfirmationDialog

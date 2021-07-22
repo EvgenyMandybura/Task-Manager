@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import styles from "./kanban.scss";
-import { withRouter } from "react-router-dom";
+import { useRouteMatch, withRouter } from "react-router-dom";
 import { editTask } from "../../redux/tasks/actions";
 import dateFormat from "../../helpers/dateHelper";
 import { connect } from "react-redux";
@@ -51,7 +51,7 @@ const MovableItem = ({
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
-      moveCardHandler(dragIndex, hacceptoverIndex);
+      moveCardHandler(dragIndex);
       item.index = hoverIndex;
     },
   });
@@ -78,7 +78,12 @@ const MovableItem = ({
   drag(drop(ref));
 
   return (
-    <div ref={ref} className="movableItem" style={{ opacity }}>
+    <div
+      ref={ref}
+      className="movableItem"
+      style={{ opacity }}
+      onClick={() => history.push(`/task-details/${taskDetails.taskId}`)}
+    >
       <p>{taskDetails.summary}</p>
       <p>{taskDetails.assignee}</p>
       <p>
