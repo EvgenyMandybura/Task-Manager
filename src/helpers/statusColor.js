@@ -5,10 +5,9 @@ const classStatus = (status) => {
   switch (status) {
     case DONE:
       return styles.tasksStatusDone;
-      break;
+
     case INPROGRESS:
       return styles.tasksStatusInProgress;
-      break;
 
     default:
       return styles.tasksStatusTodo;

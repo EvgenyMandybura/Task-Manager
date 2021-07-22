@@ -37,32 +37,37 @@ const ListOfTasks = ({
   const { t } = useTranslation();
   return (
     <div className={styles.tasks}>
-      {ready && tasksList != "" ? (
+      {ready && tasksList !== "" ? (
         tasksList.map((task) => (
           <div
             key={task.summary}
             onClick={() => history.push(`/task-details/${task.taskId}`)}
-            className={styles.tasksBody}
+            className={classNames(styles.tasksBody, "rounded-3 shadow")}
           >
-            <h5>{task.summary}</h5>
-            <p>{t("tasks.assignee")}</p>
-            <MemberDetails member={task.assigneeData} />
-            <div>
-              <p className="d-inline">{t("tasks.status")} </p>
-              <p
-                className={classNames(
-                  styles.tasksStatus,
-                  classStatus(task.taskStatus)
-                )}
-              >
-                {task.taskStatus}
-              </p>
-            </div>
-            <div>
-              <p className="d-inline">{t("tasks.timeEstimation")}</p>
-              <p className={styles.tasksDate}>
-                {dateFormat(task.timeEstimation.seconds)}
-              </p>
+            <h5 className="text-center">{task.summary}</h5>
+            <hr />
+            <div className="row">
+              <div className="col-md-6 col-xs-12">
+                <p>{t("tasks.assignee")}</p>
+                <MemberDetails member={task.assigneeData} />
+              </div>
+              <div className="col-md-6 col-xs-12 p-3">
+                <p className="d-inline">{t("tasks.status")} </p>
+                <p
+                  className={classNames(
+                    styles.tasksStatus,
+                    classStatus(task.taskStatus)
+                  )}
+                >
+                  {task.taskStatus}
+                </p>
+                <div>
+                  <p className="d-inline">{t("tasks.timeEstimation")}</p>
+                  <p className={styles.tasksDate}>
+                    {dateFormat(task.timeEstimation.seconds)}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         ))

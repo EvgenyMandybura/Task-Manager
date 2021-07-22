@@ -83,7 +83,7 @@ const Reports = ({ getAllLogs, allLogsClear, reportsState }) => {
           <Button color="success" onClick={getFilteredByDate}>
             {t("reports.filterByDate")}
           </Button>
-          {queryReports == ALL_REPORTS && (
+          {queryReports === ALL_REPORTS && (
             <Table bordered>
               <thead>
                 <tr>
@@ -108,9 +108,9 @@ const Reports = ({ getAllLogs, allLogsClear, reportsState }) => {
               </tbody>
             </Table>
           )}
-          {queryReports == FILTERED_BY_TASK && <ReportsFilteredByTasks />}
-          {queryReports == FILTERED_BY_BOARD && <ReportsFilteredByBoards />}
-          {queryReports == FILTERED_BY_DATE && <ReportsFilteredByDate />}
+          {queryReports === FILTERED_BY_TASK && <ReportsFilteredByTasks />}
+          {queryReports === FILTERED_BY_BOARD && <ReportsFilteredByBoards />}
+          {queryReports === FILTERED_BY_DATE && <ReportsFilteredByDate />}
         </div>
       ) : (
         <h5>{t("reports.loading")}</h5>

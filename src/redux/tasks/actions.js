@@ -114,9 +114,9 @@ export const filterTasksError = ({ message }) => {
     type: FILTER_TASKS_ERROR,
   };
 };
-export const getTaskDetails = (taskId) => {
+export const getTaskDetails = (model) => {
   return {
-    payload: { taskId },
+    payload: { model },
     type: GET_TASK,
   };
 };

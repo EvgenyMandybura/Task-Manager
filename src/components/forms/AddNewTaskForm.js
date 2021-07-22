@@ -31,7 +31,7 @@ const AddNewTaskForm = ({
   const handleSubmitForm = (values) => {
     values.description = saveToDb(values.description);
     values.boardId = boardId;
-    values.timeEstimation = values.timeEstimation == "" && new Date();
+    values.timeEstimation = values.timeEstimation === "" && new Date();
     fileModel.files = taskState.filesForUpload || [];
     const model = { values, history, fileModel };
     createTask(model);
@@ -44,7 +44,8 @@ const AddNewTaskForm = ({
   const [ready, updateReady] = useState(false);
   const { loading, board } = boardState;
   const fetchBoard = () => {
-    getBoard(boardId);
+    const model = { boardId, history };
+    getBoard(model);
   };
   useEffect(() => {
     fetchBoard();

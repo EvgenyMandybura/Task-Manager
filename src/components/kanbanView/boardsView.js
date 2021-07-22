@@ -48,14 +48,12 @@ export const BoardKanbanView = ({
   const {
     params: { boardId },
   } = useRouteMatch("/board-details/:boardId");
-  const [ready, updateReady] = useState(false);
   const fetchTasks = () => {
     const model = { boardId, SUMMARY };
     getListTasks(model);
   };
   useEffect(() => {
     fetchTasks();
-    updateReady(true);
     return () => {
       getListTasksClear();
     };

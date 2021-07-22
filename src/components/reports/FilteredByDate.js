@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Table, Container } from "reactstrap";
 import { useHistory } from "react-router-dom";
@@ -33,7 +33,7 @@ const ReportsFilteredByDate = ({ reportsState }) => {
               <td>{item.log.taskTitle}</td>
               <td>{item.log.workLogComment}</td>
               {item.tempArr.map((x) => (
-                <td>{x == "" ? x : minutesToString(item.log.loggedTime)}</td>
+                <td>{x === "" ? x : minutesToString(item.log.loggedTime)}</td>
               ))}
             </tr>
           ))}

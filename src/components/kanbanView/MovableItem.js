@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import styles from "./kanban.scss";
-import { useRouteMatch, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { editTask } from "../../redux/tasks/actions";
 import dateFormat from "../../helpers/dateHelper";
 import { connect } from "react-redux";
@@ -19,7 +19,7 @@ const MovableItem = ({
 }) => {
   const changeItemColumn = (currentItem, columnName) => {
     setItems((prevState) => {
-      return prevState.map((e) => {
+      return prevState.map(() => {
         const { taskId, boardId } = taskDetails;
         const model = { taskId, taskStatus: columnName, history, boardId };
         editTask(model);

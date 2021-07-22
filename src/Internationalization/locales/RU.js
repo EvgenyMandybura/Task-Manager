@@ -77,7 +77,7 @@ export const TranslationRU = {
   },
   boards: {
     addNewBoard: "Создать новый проект",
-    edit: "Редактировать",
+    edit: "Изменить",
     leaveBoard: "Покинуть",
     noBoards: "Нет доступных проектов",
     leaveBoardTitle: "Покинуть проект",

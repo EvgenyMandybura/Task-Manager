@@ -127,7 +127,6 @@ const SignUpForm = ({ registerUser, history }) => {
                 errors={errors}
                 touched={touched}
                 fieldName={"confirmPassword"}
-                label={"Confirm Password"}
                 label={t("signUp.confirmPasswordLabel")}
                 placeholder={t("signUp.confirmPasswordPlaceholder")}
               />

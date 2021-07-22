@@ -61,8 +61,7 @@ const MakeNewPageForm = ({
         validationSchema={validationSchema}
         onSubmit={handleSubmitForm}
       >
-        {({ errors, touched, setFieldTouched, handleSubmit }) => {
-          //   useTranslateFormErrors(errors, touched, setFieldTouched);
+        {({ errors, touched, handleSubmit }) => {
           return (
             <Form className="w-100" onSubmit={handleSubmit}>
               <h3> {t("createNewBoard.createNewBoard")}</h3>

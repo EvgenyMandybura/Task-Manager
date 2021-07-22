@@ -35,7 +35,6 @@ const Boards = ({
   const fetchBoards = () => {
     getListBoards();
   };
-
   useEffect(() => {
     fetchBoards();
     updateReady(true);
@@ -63,7 +62,7 @@ const Boards = ({
         <Button color="success">{t("boards.addNewBoard")}</Button>
       </Link>
       <div className="row justify-content-center align-self-center">
-        {ready && boardsList != "border" && !loading ? (
+        {ready && !loading ? (
           boardsList.map((board) => (
             <Card
               className={classNames(
@@ -114,6 +113,7 @@ const Boards = ({
         ) : (
           <Spinner />
         )}
+        {boardsList === "" && <h3>{t("boards.noBoards")}</h3>}
       </div>
       <ConfirmationDialog
         isOpen={modalVisibleLeave}

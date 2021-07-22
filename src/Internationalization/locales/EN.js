@@ -149,7 +149,7 @@ export const TranslationEN = {
     saveChanges: " Save Changes",
     labelSummary: "Summary",
     placeholderSummary: "Add summary",
-    labelDescription: "Description",
+    labelDescription: "Description:",
     placeholderDescription: "Add description",
     labelAssignee: "Add assignee",
     placeholderAssignee: "Select assignee",
@@ -185,7 +185,7 @@ export const TranslationEN = {
     gridView: "Grid view",
     listView: "List view",
     addNewTask: "Add New Task",
-    description: "Description",
+    description: "Description:",
   },
   members: {
     listOfMembers: "List of members:",

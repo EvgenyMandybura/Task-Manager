@@ -38,7 +38,8 @@ const EditBoardDetailsForm = ({
   const { loading, board: board } = boardState;
   const [ready, updateReady] = useState(false);
   const fetchBoard = () => {
-    getBoard(boardId);
+    const model = { boardId, history };
+    getBoard(model);
   };
   useEffect(() => {
     fetchBoard();
@@ -100,7 +101,7 @@ const EditBoardDetailsForm = ({
                   <img
                     alt="Logo"
                     className="boardImage"
-                    src={imageUploaded ? imageUploaded : board.fileUrl}
+                    src={imageUploaded ? imageUploaded : board?.fileUrl}
                   />
                   <div className="file-input">
                     <input
@@ -134,7 +135,7 @@ const EditBoardDetailsForm = ({
                   {t("editBoardDetailsForm.inviteEditMembers")}
                 </Button>
                 <ListOfMembersDetail
-                  members={!!savedMembers ? savedMembers : board.members}
+                  members={!!savedMembers ? savedMembers : board?.members}
                 />
                 <AddMemberModalDialog
                   isOpen={modalVisibleAdd}

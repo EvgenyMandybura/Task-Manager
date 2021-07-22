@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 
 const FilesDetails = ({ getTaskFiles, clearTaskFiles, tasksState }) => {
   const { loadingFiles, files } = tasksState;
-  const fileUrls = tasksState.task[0].fileUrls;
+  const fileUrls = tasksState.task[0]?.fileUrls;
   const [readyFiles, updateReadyFiles] = useState(false);
   const fetchTaskFiles = () => {
     getTaskFiles(fileUrls);

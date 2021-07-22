@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withRouter, useRouteMatch, Link } from "react-router-dom";
+import { withRouter, useRouteMatch } from "react-router-dom";
 import { connect } from "react-redux";
 import ContainerUser from "../../components/layout/ContainerUser";
 import { getBoard, clearBoardFetched } from "../../redux/boards/actions";
@@ -24,11 +24,15 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
     setListView(!listView);
   };
   const fetchBoard = () => {
-    getBoard(boardId);
+    const model = { boardId, history };
+    getBoard(model);
   };
   useEffect(() => {
     fetchBoard();
     updateReady(true);
+    return () => {
+      clearBoardFetched();
+    };
   }, []);
 
   useEffect(() => {

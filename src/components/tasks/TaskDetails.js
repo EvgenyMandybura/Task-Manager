@@ -24,6 +24,7 @@ const TaskDetail = ({
   tasksState,
   getLogWorksData,
   workLogsState,
+  history,
 }) => {
   const {
     params: { taskId },
@@ -32,7 +33,8 @@ const TaskDetail = ({
 
   const [ready, updateReady] = useState(false);
   const fetchTask = () => {
-    getTaskDetails(taskId);
+    const model = { taskId, history };
+    getTaskDetails(model);
   };
   useEffect(() => {
     fetchTask();
@@ -111,21 +113,21 @@ const TaskDetail = ({
                   </div>
                 )}
                 <p> {t("tasks.assignee")} </p>
-                <MemberDetails member={task[0].assigneeData} />
+                <MemberDetails member={task[0]?.assigneeData} />
                 <div className={styles.container}>
                   <p className="d-inline">{t("tasks.status")} </p>
                   <div className={styles.containerTextStatus}>
                     <p
                       className={classNames(
                         styles.tasksStatus,
-                        classStatus(taskStatus || task[0].taskStatus)
+                        classStatus(taskStatus || task[0]?.taskStatus)
                       )}
                     >
-                      {taskStatus || task[0].taskStatus}
+                      {taskStatus || task[0]?.taskStatus}
                     </p>
                   </div>
                   <div className={styles.containerChangeStatus}>
-                    <ChangeTaskStatusForm />
+                    {!!task[0] && <ChangeTaskStatusForm />}
                   </div>
                 </div>
               </Col>
