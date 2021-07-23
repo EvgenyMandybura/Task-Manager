@@ -15,6 +15,7 @@ import ReportsFilteredByBoards from "./FilteredByBoard";
 import ReportsFilteredByDate from "./FilteredByDate";
 import styles from "./reports.scss";
 import { useTranslation } from "react-i18next";
+import Spinner from "../loaderSpinner/Spinner";
 
 const Reports = ({ getAllLogs, allLogsClear, reportsState }) => {
   const { loading, workLogs } = reportsState;
@@ -113,7 +114,7 @@ const Reports = ({ getAllLogs, allLogsClear, reportsState }) => {
           {queryReports === FILTERED_BY_DATE && <ReportsFilteredByDate />}
         </div>
       ) : (
-        <h5>{t("reports.loading")}</h5>
+        <Spinner />
       )}
     </Container>
   );
