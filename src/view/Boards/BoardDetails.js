@@ -17,7 +17,7 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
   } = useRouteMatch("/board-details/:boardId");
   const { loading, board: board } = boardState;
   const [ready, updateReady] = useState(false);
-  const [listView, setListView] = useState(false);
+  const [listView, setListView] = useState(true);
   const changeBoardView = (e) => {
     e.preventDefault();
     setListView(!listView);
@@ -38,7 +38,7 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
 
   return (
     <ContainerUser>
-      <Button onClick={changeBoardView}>
+      <Button onClick={changeBoardView} color="success">
         {listView ? "Grid view" : "List view"}
       </Button>
       {listView ? (
@@ -46,7 +46,6 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
           {ready && !loading && (
             <div className="cardBoardDetails">
               <h3>{board.title}</h3>
-
               <Row>
                 <Col xs="8">
                   <div className="search">
