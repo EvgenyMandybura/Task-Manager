@@ -1,44 +1,35 @@
-import {
-  COLUMN_MAX_LENGTH,
-  COLUMN_MIN_LENGTH,
-  DESCRIPTION_MAX_LENGTH,
-  KEYWORD_MIN_LENGTH,
-  PASSWORD_MAX_LENGTH,
-  PASSWORD_MIN_LENGTH,
-  SUMMARY_MAX_LENGTH,
-  SUMMARY_MIN_LENGTH,
-  TASK_DESCRIPTION_MAX_LENGTH,
-  TITLE_MAX_LENGTH,
-  TITLE_MIN_LENGTH,
-  USERNAME_MAX_LENGTH,
-  USERNAME_MIN_LENGTH,
-  WORK_LOG_COMMENT_MAX_LENGTH,
-  WORK_LOG_COMMENT_MIN_LENGTH,
-} from "../../constants/validationRules";
-
 export const TranslationRU = {
   validationErrors: {
     IS_INVALID_EMAIL: "Email недействителен",
     IS_REQUIRED_EMAIL: "Введите Email",
     IS_EMAIL_UNIQUE: "Emails должен быть уникальным",
     IS_REQUIRED_PASSWORD: "Введите пароль",
-    IS_INCORRECT_LENGTH_PASSWORD: `Длина пароля должна быть от ${PASSWORD_MIN_LENGTH} до ${PASSWORD_MAX_LENGTH} символов`,
+    IS_INCORRECT_LENGTH_PASSWORD:
+      "Длина пароля должна быть от {{PASSWORD_MIN_LENGTH}} до {{PASSWORD_MAX_LENGTH}} символов",
     IS_INCORRECT_FORMAT_PASSWORD:
       "Пароль должен содержать не менее 1 буквы и 1 цифры",
     PASSWORD_DOES_NOT_MATCH: "Пароли должны совпадать",
     IS_REQUIRED_USERNAME: "Введите имя пользователя",
-    IS_INCORRECT_LENGTH_USERNAME: `Длина имени пользователя должна быть от ${USERNAME_MIN_LENGTH} до ${USERNAME_MAX_LENGTH} символов;`,
+    IS_INCORRECT_LENGTH_USERNAME:
+      "Длина имени пользователя должна быть от {{USERNAME_MIN_LENGTH}} до {{USERNAME_MAX_LENGTH}} символов",
     IS_INCORRECT_PHONE: "Номер телефона некорректный",
     IS_REQUIRED_TITLE: "Введите название",
-    IS_INCORRECT_LENGTH_TITLE: `Длина названия должна быть от ${TITLE_MIN_LENGTH} до ${TITLE_MAX_LENGTH} символов;`,
+    IS_INCORRECT_LENGTH_TITLE:
+      "Длина названия должна быть от {{TITLE_MIN_LENGTH}} до {{TITLE_MAX_LENGTH}} символов",
 
-    IS_INCORRECT_LENGTH_DESCRIPTION: `Длина описания должна быть меньше ${DESCRIPTION_MAX_LENGTH} символов;`,
-    IS_INCORRECT_LENGTH_SUMMARY: `Длина название должна быть от ${SUMMARY_MIN_LENGTH} до ${SUMMARY_MAX_LENGTH} символов;`,
-    IS_INCORRECT_LENGTH_TASK_DESCRIPTION: `Description must be less ${TASK_DESCRIPTION_MAX_LENGTH} символов;`,
-    IS_INCORRECT_LENGTH_KEYWORD: `Длина запроса должна быть более ${KEYWORD_MIN_LENGTH} символов;`,
-    IS_INCORRECT_LENGTH_COLUMN: `Длина название должна быть от ${COLUMN_MIN_LENGTH} до ${COLUMN_MAX_LENGTH} символов;`,
-    IS_INCORRECT_WORK_LOG_COMMENT: `Длина название должна быть от ${WORK_LOG_COMMENT_MIN_LENGTH} до ${WORK_LOG_COMMENT_MAX_LENGTH} символов;`,
-    IS_INCORRECT_LOGGED_TIME: `Данные должны быть в формате: "3w 5d 10h 30m" `,
+    IS_INCORRECT_LENGTH_DESCRIPTION:
+      "Длина описания должна быть меньше {{DESCRIPTION_MAX_LENGTH}} символов",
+    IS_INCORRECT_LENGTH_SUMMARY:
+      "Длина название должна быть от {{SUMMARY_MIN_LENGTH}} до {{SUMMARY_MAX_LENGTH}} символов",
+    IS_INCORRECT_LENGTH_TASK_DESCRIPTION:
+      "Description must be less {{TASK_DESCRIPTION_MAX_LENGTH}} символов",
+    IS_INCORRECT_LENGTH_KEYWORD:
+      "Длина запроса должна быть более {{KEYWORD_MIN_LENGTH}} символов",
+    IS_INCORRECT_LENGTH_COLUMN:
+      "Длина название должна быть от {{COLUMN_MIN_LENGTH}} до {{COLUMN_MAX_LENGTH}} символов",
+    IS_INCORRECT_WORK_LOG_COMMENT:
+      "Длина название должна быть от {{WORK_LOG_COMMENT_MIN_LENGTH}} до {{WORK_LOG_COMMENT_MAX_LENGTH}} символов",
+    IS_INCORRECT_LOGGED_TIME: "Данные должны быть в формате: 3w 5d 10h 30m",
     FINISH_DATE_IS_INCORRECT: "Дата окончания должна быть больше даты начала",
     DATE_RANGE_IS_INCORRECT: "Диапазон дат должен быть меньше 31 дня",
   },

@@ -1,10 +1,15 @@
 import * as yup from "yup";
 import "yup-phone";
 
-import {
+import { PASSWORD_PATTERN, ERRORS_CONST } from "./validationRules";
+
+const uniqueValues = (values) => {
+  return new Set(values).size === values.length;
+};
+
+let {
   PASSWORD_MAX_LENGTH,
   PASSWORD_MIN_LENGTH,
-  PASSWORD_PATTERN,
   USERNAME_MAX_LENGTH,
   USERNAME_MIN_LENGTH,
   TITLE_MAX_LENGTH,
@@ -17,11 +22,7 @@ import {
   COLUMN_MIN_LENGTH,
   WORK_LOG_COMMENT_MAX_LENGTH,
   WORK_LOG_COMMENT_MIN_LENGTH,
-} from "./validationRules";
-
-const uniqueValues = (values) => {
-  return new Set(values).size === values.length;
-};
+} = ERRORS_CONST;
 
 const validationSchemas = {
   email: yup
