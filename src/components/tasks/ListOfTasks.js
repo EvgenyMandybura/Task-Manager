@@ -8,8 +8,14 @@ import classStatus from "../../helpers/statusColor";
 import dateFormat from "../../helpers/dateHelper";
 import { SUMMARY } from "../../constants/sortFields";
 import classNames from "classnames";
+import { useTranslation } from "react-i18next";
 
-const ListOfTasks = ({ getListTasks, getListTasksClear, tasksState, history }) => {
+const ListOfTasks = ({
+  getListTasks,
+  getListTasksClear,
+  tasksState,
+  history,
+}) => {
   const { tasksList } = tasksState;
   const [ready, updateReady] = useState(false);
   const {
@@ -26,7 +32,7 @@ const ListOfTasks = ({ getListTasks, getListTasksClear, tasksState, history }) =
       getListTasksClear();
     };
   }, []);
-
+  const { t } = useTranslation();
   return (
     <div className={styles.tasks}>
       {ready && tasksList != "" ? (
@@ -35,10 +41,10 @@ const ListOfTasks = ({ getListTasks, getListTasksClear, tasksState, history }) =
             <h5 onClick={() => history.push(`/task-details/${task.taskId}`)}>
               {task.summary}
             </h5>
-            <p>Assignee:</p>
+            <p>{t("tasks.assignee")}</p>
             <MemberDetails member={task.assigneeData} />
             <div>
-              <p className="d-inline">Status: </p>
+              <p className="d-inline">{t("tasks.status")} </p>
               <p
                 className={classNames(
                   styles.tasksStatus,
@@ -49,7 +55,7 @@ const ListOfTasks = ({ getListTasks, getListTasksClear, tasksState, history }) =
               </p>
             </div>
             <div>
-              <p className="d-inline">Time estimation: </p>
+              <p className="d-inline">{t("tasks.timeEstimation")}</p>
               <p className={styles.tasksDate}>
                 {dateFormat(task.timeEstimation.seconds)}
               </p>
@@ -57,7 +63,7 @@ const ListOfTasks = ({ getListTasks, getListTasksClear, tasksState, history }) =
           </div>
         ))
       ) : (
-        <h3>No tasks yet</h3>
+        <h3>{t("tasks.noTasks")}</h3>
       )}
     </div>
   );

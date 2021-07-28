@@ -12,6 +12,7 @@ import * as yup from "yup";
 import validationSchemas from "../../constants/validationSchemas";
 import useModal from "../../hook/useModal";
 import AddMemberModalDialog from "../modal/AddMemberModalDialog";
+import { useTranslation } from "react-i18next";
 
 const initialValues = {
   title: "",
@@ -49,7 +50,7 @@ const MakeNewPageForm = ({
     const promiseFile = await FileHelper.openAsDataUrl(file);
     await setImageUploaded(promiseFile);
   };
-
+  const { t } = useTranslation();
   const [modalVisibleAdd, toggleModalAdd] = useModal();
   const savedMembers = boardState.savedMembers.members;
 
@@ -60,10 +61,11 @@ const MakeNewPageForm = ({
         validationSchema={validationSchema}
         onSubmit={handleSubmitForm}
       >
-        {({ errors, touched, handleSubmit }) => {
+        {({ errors, touched, setFieldTouched, handleSubmit }) => {
+          //   useTranslateFormErrors(errors, touched, setFieldTouched);
           return (
             <Form className="w-100" onSubmit={handleSubmit}>
-              <h3>Create new Board</h3>
+              <h3> {t("createNewBoard.createNewBoard")}</h3>
               <div>
                 <img
                   src={imageUploaded ? imageUploaded : logoPlaceholder}
@@ -80,7 +82,7 @@ const MakeNewPageForm = ({
                     onChange={(e) => changeHandler(e)}
                   />
                   <label htmlFor="file" className="buttonLabel">
-                    Select file
+                    {t("createNewBoard.selectFile")}
                   </label>
                 </div>
               </div>
@@ -88,20 +90,24 @@ const MakeNewPageForm = ({
                 errors={errors}
                 touched={touched}
                 fieldName={"title"}
-                label={"title"}
-                placeholder={"Add title"}
+                label={t("createNewBoard.titleLabel")}
+                placeholder={t("createNewBoard.titlePlaceholder")}
               />
               <FormikFormGroup
                 errors={errors}
                 touched={touched}
                 fieldName={"description"}
-                label={"description"}
-                placeholder={"Add description"}
+                label={t("createNewBoard.descriptionLabel")}
+                placeholder={t("createNewBoard.descriptionPlaceholder")}
               />
               <Button color="success" onClick={() => toggleModalAdd()}>
-                Invite members
+                {t("createNewBoard.inviteMembers")}
               </Button>
-              {savedMembers && <p className="listMembers">List of members:</p>}
+              {savedMembers && (
+                <p className="listMembers">
+                  {t("createNewBoard.listOfMembers")}
+                </p>
+              )}
               {savedMembers &&
                 savedMembers.map((member) => <li key={member}>{member}</li>)}
               <AddMemberModalDialog
@@ -115,7 +121,7 @@ const MakeNewPageForm = ({
                 className="buttonLabel"
                 size="md"
               >
-                Continue
+                {t("createNewBoard.continue")}
               </Button>
             </Form>
           );

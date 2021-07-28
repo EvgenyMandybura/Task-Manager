@@ -8,6 +8,7 @@ import {
 import { Table } from "reactstrap";
 import dateFormat from "../../helpers/dateHelper";
 import { milliseconds } from "../../helpers/dateHelper";
+import { useTranslation } from "react-i18next";
 
 const ActivityLog = ({ getActivitiesLog, clearActivitiesLog, tasksState }) => {
   const {
@@ -30,14 +31,14 @@ const ActivityLog = ({ getActivitiesLog, clearActivitiesLog, tasksState }) => {
       fetchActivityLog();
     }
   }, []);
-
+  const { t } = useTranslation();
   return (
     <Table striped>
       <thead>
         <tr>
-          <th>User email</th>
-          <th>Activity</th>
-          <th>Date</th>
+          <th>{t("tasks.userEmail")}</th>
+          <th>{t("tasks.activity")}</th>
+          <th>{t("tasks.date")}</th>
         </tr>
       </thead>
       <tbody>
@@ -46,9 +47,11 @@ const ActivityLog = ({ getActivitiesLog, clearActivitiesLog, tasksState }) => {
             <tr key={activity.timeStamp}>
               <td>{activity.activityCreator}</td>
               {!!activity.taskStatus ? (
-                <td>Change task status to {activity.taskStatus}</td>
+                <td>
+                  {t("tasks.changeTaskStatusTo")} {activity.taskStatus}
+                </td>
               ) : (
-                <td>Change task details</td>
+                <td>{t("tasks.changeTaskDetails")}</td>
               )}
               <td>{dateFormat(activity.timeStamp / milliseconds)}</td>
             </tr>

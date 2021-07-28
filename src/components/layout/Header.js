@@ -21,6 +21,8 @@ import {
 import SubMenu from "./SubMenu";
 import { usersUrl } from "../../constants/urlForFiresore";
 import StorageService from "../../services/StorageService";
+import SelectLanguage from "../forms/SelectLanguageForm";
+import { useTranslation } from "react-i18next";
 
 const Header = ({ logoutUser, history, authState }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,6 +48,8 @@ const Header = ({ logoutUser, history, authState }) => {
         setImageAvatar(url);
       });
   }
+  const { t } = useTranslation();
+
   return (
     <div>
       <Navbar
@@ -62,7 +66,7 @@ const Header = ({ logoutUser, history, authState }) => {
         {!!user && (
           <>
             <Button color="success" onClick={toggleSidebar}>
-              {isOpenNavBar ? "Hide Menu" : "Show menu"}
+              {isOpenNavBar ? t("header.hideMenu") : t("header.showMenu")}
             </Button>
             <NavbarToggler onClick={toggle} />
             <Collapse isOpen={isOpen} navbar>
@@ -79,12 +83,12 @@ const Header = ({ logoutUser, history, authState }) => {
                   <DropdownMenu right>
                     <DropdownItem>
                       <NavLink to={"/profile"} tag={NavLinkRoute}>
-                        Profile
+                        {t("header.profile")}
                       </NavLink>
                     </DropdownItem>
                     <DropdownItem divider />
                     <DropdownItem onClick={onSubmitLogOut}>
-                      <NavLink>Log out</NavLink>
+                      <NavLink> {t("header.logOut")}</NavLink>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -92,6 +96,7 @@ const Header = ({ logoutUser, history, authState }) => {
             </Collapse>
           </>
         )}
+        <SelectLanguage />
       </Navbar>
       {isOpenNavBar && <SubMenu />}
     </div>

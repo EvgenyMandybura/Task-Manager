@@ -7,6 +7,7 @@ import FormikFormGroup from "../formik/FormikFormGroup";
 import { filterTasks } from "../../redux/tasks/actions";
 import createMemberArrayForSelect from "../../helpers/createMenberArrayForSelectFormik";
 import { allStatus } from "../../constants/taskStatuses";
+import { useTranslation } from "react-i18next";
 
 const initialValues = {
   status: "",
@@ -22,7 +23,7 @@ const FilterForm = ({ members, filterTasks }) => {
   const {
     params: { boardId },
   } = useRouteMatch("/board-details/:boardId");
-
+  const { t } = useTranslation();
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmitForm}>
       {({ errors, touched, handleSubmit, setFieldTouched, setFieldValue }) => {
@@ -35,8 +36,8 @@ const FilterForm = ({ members, filterTasks }) => {
                     errors={errors}
                     touched={touched}
                     fieldName={"status"}
-                    label={"Select status"}
-                    placeholder={"Select status"}
+                    label={t("filterForm.label")}
+                    placeholder={t("filterForm.placeholder")}
                     options={allStatus}
                     setFieldTouched={setFieldTouched}
                     setFieldValue={setFieldValue}
@@ -48,8 +49,8 @@ const FilterForm = ({ members, filterTasks }) => {
                     errors={errors}
                     touched={touched}
                     fieldName={"assignee"}
-                    label={"Add assignee"}
-                    placeholder={"Select assignee"}
+                    label={t("filterForm.labelAssignee")}
+                    placeholder={t("filterForm.placeholderAssignee")}
                     options={createMemberArrayForSelect(members)}
                     setFieldTouched={setFieldTouched}
                     setFieldValue={setFieldValue}
@@ -64,7 +65,7 @@ const FilterForm = ({ members, filterTasks }) => {
                       size="md"
                       className="searchBtn"
                     >
-                      Filter
+                      {t("filterForm.filter")}
                     </Button>
                   </div>
                 </Col>

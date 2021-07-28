@@ -6,6 +6,7 @@ import LeaveCommentForm from "../forms/AddCommentForm";
 import CommentsList from "../comments/CommentsList";
 import TaskWorkLogs from "../workLog/TaskWorkLogs";
 import styles from "./index.module.scss";
+import { useTranslation } from "react-i18next";
 
 const TabForPage = () => {
   const [activeTab, setActiveTab] = useState("1");
@@ -13,7 +14,7 @@ const TabForPage = () => {
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
-
+  const { t } = useTranslation();
   return (
     <div>
       <Nav tabs>
@@ -24,7 +25,7 @@ const TabForPage = () => {
               toggle("1");
             }}
           >
-            Activities log
+            {t("tabForPage.activitiesLog")}
           </NavLink>
         </NavItem>
         <NavItem>
@@ -34,7 +35,7 @@ const TabForPage = () => {
               toggle("2");
             }}
           >
-            Comments
+            {t("tabForPage.comments")}
           </NavLink>
         </NavItem>
         <NavItem>
@@ -44,7 +45,7 @@ const TabForPage = () => {
               toggle("3");
             }}
           >
-            WorkLogs
+            {t("tabForPage.workLogs")}
           </NavLink>
         </NavItem>
       </Nav>

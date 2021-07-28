@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Table, Container } from "reactstrap";
 import { useHistory } from "react-router-dom";
 import { minutesToString } from "../../helpers/workLogTimeHelper";
+import { useTranslation } from "react-i18next";
 
 const ReportsFilteredByBoards = ({ reportsState }) => {
   const { workLogs } = reportsState;
@@ -10,14 +11,15 @@ const ReportsFilteredByBoards = ({ reportsState }) => {
   const handleRowClick = (boardId) => {
     history.push(`/board-details/${boardId}`);
   };
+  const { t } = useTranslation();
   return (
     <Container>
       <Table bordered striped>
         <thead>
           <tr>
-            <th>Board Name</th>
-            <th>Board Logged time</th>
-            <th>Tasks</th>
+            <th>{t("reports.boardName")}</th>
+            <th>{t("reports.boardLogged")}</th>
+            <th>{t("reports.tasks")}</th>
           </tr>
         </thead>
         <tbody>

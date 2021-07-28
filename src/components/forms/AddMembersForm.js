@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import * as yup from "yup";
 import validationSchemas from "../../constants/validationSchemas";
 import FormikFormError from "../formik/FormikFormError";
+import { useTranslation } from "react-i18next";
 
 const validationSchema = yup.object({
   members: validationSchemas.members,
@@ -20,7 +21,7 @@ const AddMembersForm = ({ membersArray, saveMembers }) => {
   const initialValues = {
     members: membersArray,
   };
-
+  const { t } = useTranslation();
   return (
     <div>
       <Formik
@@ -29,7 +30,6 @@ const AddMembersForm = ({ membersArray, saveMembers }) => {
         onSubmit={handleSubmitForm}
       >
         {({ errors, handleSubmit, values }) => {
-
           return (
             <Form className="w-100" onSubmit={handleSubmit}>
               <FieldArray name="members" label={"Members:"}>
@@ -41,7 +41,8 @@ const AddMembersForm = ({ membersArray, saveMembers }) => {
                           <Col xs="10">
                             <Field
                               name={`members.${index}`}
-                              placeholder="Add member by email"
+                              label={t("addMembersForm.label")}
+                              placeholder={t("addMembersForm.placeholder")}
                               className="form-control"
                               type="email"
                             />
@@ -62,7 +63,7 @@ const AddMembersForm = ({ membersArray, saveMembers }) => {
                       color="success"
                       onClick={() => push()}
                     >
-                      Add member
+                      {t("addMembersForm.addMember")}
                     </Button>
                   </div>
                 )}
@@ -76,7 +77,7 @@ const AddMembersForm = ({ membersArray, saveMembers }) => {
                 className="buttonLabel"
                 size="md"
               >
-                Save changes
+                {t("addMembersForm.saveChanges")}
               </Button>
             </Form>
           );

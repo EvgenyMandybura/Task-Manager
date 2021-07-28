@@ -16,6 +16,7 @@ import useModal from "../../hook/useModal";
 import AddWorkLogModal from "../modal/AddWorkLogModal";
 import { getLogWorksData } from "../../redux/workLog/actions";
 import { minutesToString } from "../../helpers/workLogTimeHelper";
+import { useTranslation } from "react-i18next";
 
 const TaskDetail = ({
   getTaskDetails,
@@ -67,16 +68,16 @@ const TaskDetail = ({
     toggleModalWorkLogAdd();
     fetchWorkLogs();
   };
-
+  const { t } = useTranslation();
   return (
     <>
       {ready && !loading && (
         <div>
           <Button color="success" onClick={editTaskDetails}>
-            {editState ? "Save changes" : "Edit task"}
+            {editState ? t("tasks.saveChanges") : t("tasks.editTask")}
           </Button>
           <Button color="info" onClick={() => toggleModalWorkLogAdd()}>
-            Add worklog
+            {t("tasks.addWorklog")}
           </Button>
           <AddWorkLogModal
             isOpen={modalVisibleWorkLogAdd}
@@ -87,7 +88,7 @@ const TaskDetail = ({
             <Row>
               <h3 className={styles.taskHeader}>{task[0]?.summary}</h3>
               <Col xs="8">
-                <h4>Task description:</h4>
+                <h4> {t("tasks.taskDescription")}</h4>
                 <div
                   className={styles.taskDescription}
                   dangerouslySetInnerHTML={{ __html: task[0]?.description }}
@@ -96,23 +97,23 @@ const TaskDetail = ({
               </Col>
               <Col xs="4">
                 <div>
-                  <p className="d-inline">Due date: </p>
+                  <p className="d-inline">{t("tasks.dueDate")} </p>
                   <p className={styles.tasksDate}>
                     {dateFormat(task[0]?.timeEstimation?.seconds)}
                   </p>
                 </div>
                 {!!workLogs && !loadingWorkLog && (
                   <div>
-                    <p className="d-inline">Total logged: </p>
+                    <p className="d-inline">{t("tasks.totalLogged")} </p>
                     <p className={styles.tasksDate}>
                       {minutesToString(totalWorkLog)}
                     </p>
                   </div>
                 )}
-                <p> Assignee:: </p>
+                <p> {t("tasks.assignee")} </p>
                 <MemberDetails member={task[0].assigneeData} />
                 <div className={styles.container}>
-                  <p className="d-inline">Status: </p>
+                  <p className="d-inline">{t("tasks.status")} </p>
                   <div className={styles.containerTextStatus}>
                     <p
                       className={classNames(
