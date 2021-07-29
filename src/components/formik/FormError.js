@@ -3,7 +3,7 @@ import FormikFormError from "./FormikFormError";
 import { useTranslation } from "react-i18next";
 import { ERRORS_RULES } from "../../constants/validationRules";
 
-import { TranslationEN } from "../../Internationalization/locales/EN";
+import TranslationEN from "../../Internationalization/locales/EN.json";
 
 const getDeepValue = (object, path) =>
   path
