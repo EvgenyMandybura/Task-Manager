@@ -1,84 +1,51 @@
 import React from "react";
 import { connect } from "react-redux";
 import { useRouteMatch, withRouter } from "react-router-dom";
-import { Formik } from "formik";
-import { Button, Form, Row, Col } from "reactstrap";
-import FormikFormGroup from "../formik/FormikFormGroup";
 import { filterTasks } from "../../redux/tasks/actions";
 import createMemberArrayForSelect from "../../helpers/createMenberArrayForSelectFormik";
 import { allStatus } from "../../constants/taskStatuses";
 import { useTranslation } from "react-i18next";
-
-const initialValues = {
-  status: "",
-  assignee: "",
-};
+import Select from "react-select";
 
 const FilterForm = ({ members, filterTasks }) => {
-  const handleSubmitForm = (values) => {
+  const filterByStatus = (val) => {
+    const values = { status: val.value, assignee: "" };
     const model = { values, boardId };
     filterTasks(model);
   };
-
+  const filterByAssignee = (val) => {
+    const values = { status: "", assignee: val.value };
+    const model = { values, boardId };
+    filterTasks(model);
+  };
   const {
     params: { boardId },
   } = useRouteMatch("/board-details/:boardId");
   const { t } = useTranslation();
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmitForm}>
-      {({ errors, touched, handleSubmit, setFieldTouched, setFieldValue }) => {
-        return (
-          <div>
-            <Form className="w-100" onSubmit={handleSubmit}>
-              <Row>
-                <Col xs="5">
-                  <FormikFormGroup
-                    errors={errors}
-                    touched={touched}
-                    fieldName={"status"}
-                    label={t("filterForm.label")}
-                    placeholder={t("filterForm.placeholder")}
-                    options={allStatus}
-                    setFieldTouched={setFieldTouched}
-                    setFieldValue={setFieldValue}
-                    type={"select"}
-                  />
-                </Col>
-                <Col xs="5">
-                  <FormikFormGroup
-                    errors={errors}
-                    touched={touched}
-                    fieldName={"assignee"}
-                    label={t("filterForm.labelAssignee")}
-                    placeholder={t("filterForm.placeholderAssignee")}
-                    options={createMemberArrayForSelect(members)}
-                    setFieldTouched={setFieldTouched}
-                    setFieldValue={setFieldValue}
-                    type={"select"}
-                  />
-                </Col>
-                <Col>
-                  <div className="d-flex justify-content-center align-items-center">
-                    <Button
-                      color="primary"
-                      type="submit"
-                      size="md"
-                      className="searchBtn"
-                    >
-                      {t("filterForm.filter")}
-                    </Button>
-                  </div>
-                </Col>
-              </Row>
-            </Form>
-          </div>
-        );
-      }}
-    </Formik>
+    <div className="filters">
+      <div>
+        <p className="sortTitle">{t("filterForm.filterByStatus")}</p>
+        <Select
+          placeholder={t("filterForm.filter")}
+          options={allStatus}
+          onChange={filterByStatus}
+          className="sortField"
+        />
+      </div>
+      <div>
+        <p className="sortTitle">{t("filterForm.filterByAssignee")}</p>
+        <Select
+          placeholder={t("filterForm.status")}
+          options={createMemberArrayForSelect(members)}
+          onChange={filterByAssignee}
+          className="sortField"
+        />
+      </div>
+    </div>
   );
 };
 const mapStateToProps = () => ({});
-
 export default withRouter(
   connect(mapStateToProps, { filterTasks })(FilterForm)
 );

@@ -48,9 +48,9 @@ export const createBoardError = ({ message }) => ({
   payload: { message },
 });
 
-export const getBoard = (boardId) => {
+export const getBoard = (model) => {
   return {
-    payload: { boardId },
+    payload: { model },
     type: GET_BOARD,
   };
 };

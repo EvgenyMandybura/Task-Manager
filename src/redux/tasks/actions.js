@@ -23,6 +23,7 @@ import {
   EDIT_TASK,
   EDIT_TASK_SUCCESS,
   EDIT_TASK_ERROR,
+  EDIT_TASK_CLEAR,
   GET_ACTIVITIES_LOG,
   GET_ACTIVITIES_LOG_SUCCESS,
   GET_ACTIVITIES_LOG_CLEAR,
@@ -114,9 +115,9 @@ export const filterTasksError = ({ message }) => {
     type: FILTER_TASKS_ERROR,
   };
 };
-export const getTaskDetails = (taskId) => {
+export const getTaskDetails = (model) => {
   return {
-    payload: { taskId },
+    payload: { model },
     type: GET_TASK,
   };
 };
@@ -182,6 +183,10 @@ export const editTaskSuccess = (board) => {
 export const editTaskError = ({ message }) => ({
   type: EDIT_TASK_ERROR,
   payload: { message },
+});
+
+export const editTaskStatusClear = () => ({
+  type: EDIT_TASK_CLEAR,
 });
 
 export const getActivitiesLog = (taskId) => {

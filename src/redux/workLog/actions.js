@@ -5,7 +5,9 @@ import {
   GET_LOG_WORK_DATA,
   GET_LOG_WORK_DATA_SUCCESS,
   GET_LOG_WORK_DATA_ERROR,
+  GET_LOG_WORK_DATA_CLEAR,
 } from "./actionTypes";
+import { GET_TASK_COMMENTS_CLEAR } from "../comments/actionTypes";
 
 export const addWorkLog = (model) => {
   return {
@@ -42,5 +44,11 @@ export const getLogWorksDataError = ({ message }) => {
   return {
     payload: { message },
     type: GET_LOG_WORK_DATA_ERROR,
+  };
+};
+
+export const getLogWorksDataClear = () => {
+  return {
+    type: GET_LOG_WORK_DATA_CLEAR,
   };
 };

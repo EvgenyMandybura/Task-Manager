@@ -27,7 +27,7 @@ const ListOfMembersDetail = ({
   return (
     <>
       <h5>{t("members.listOfMembers")}</h5>
-      {ready && membersList != "" ? (
+      {ready && membersList !== "" ? (
         membersList.map((member) => (
           <MemberDetails member={member} key={member.email} />
         ))

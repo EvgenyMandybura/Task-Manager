@@ -19,7 +19,7 @@ const MovableItem = ({
 }) => {
   const changeItemColumn = (currentItem, columnName) => {
     setItems((prevState) => {
-      return prevState.map((e) => {
+      return prevState.map(() => {
         const { taskId, boardId } = taskDetails;
         const model = { taskId, taskStatus: columnName, history, boardId };
         editTask(model);
@@ -51,7 +51,7 @@ const MovableItem = ({
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
-      moveCardHandler(dragIndex, hacceptoverIndex);
+      moveCardHandler(dragIndex);
       item.index = hoverIndex;
     },
   });
@@ -78,7 +78,12 @@ const MovableItem = ({
   drag(drop(ref));
 
   return (
-    <div ref={ref} className="movableItem" style={{ opacity }}>
+    <div
+      ref={ref}
+      className="movableItem"
+      style={{ opacity }}
+      onClick={() => history.push(`/task-details/${taskDetails.taskId}`)}
+    >
       <p>{taskDetails.summary}</p>
       <p>{taskDetails.assignee}</p>
       <p>

@@ -1,7 +1,7 @@
 const createMemberArrayForSelect = (members) => {
   const memberArray = [];
 
-  members.forEach((member) => {
+  members?.forEach((member) => {
     memberArray.push({
       label: member,
       value: member,

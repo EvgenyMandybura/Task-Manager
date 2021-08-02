@@ -13,18 +13,42 @@
     max-height: 600px;
     margin-left: auto;
     margin-right: auto;
-    padding: 12px;
+    padding: 12px 0 12px 0;
   }
   &Body{
     margin-left: 24px;
   }
   &Btn {
-    margin: 0 0px 16px 28px;
+    margin: 0 0px 16px 22px;
     min-width: 115px;
    }
 }
 
 .search{
-  margin-left: 24px;
+  display: flex;
+  justify-content:right;
 }
 
+.boardButtons {
+  height: 40px;
+}
+
+.toBottom{
+  bottom: 8px;
+  position: absolute;
+}
+
+
+@media (min-width: 1401px){
+  .wrapBoard {
+    position: relative;
+    padding-bottom: 70px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .wrapBoard {
+    position: relative;
+    padding-bottom: 120px;
+  }
+}

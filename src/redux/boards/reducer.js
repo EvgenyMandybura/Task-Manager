@@ -30,16 +30,12 @@ import {
 } from "./actionTypes";
 
 const initialState = {
-  error: "",
-  message: "",
-  created: null,
   loading: false,
   loadingStatuses: false,
   board: null,
   boardsList: [],
   savedMembers: [],
   removed: false,
-  statuses: [],
 };
 
 const boards = (state = initialState, action) => {
@@ -53,7 +49,6 @@ const boards = (state = initialState, action) => {
     case CREATE_BOARD_SUCCESS:
       state = {
         ...state,
-        created: action.payload,
         loading: false,
       };
       break;
@@ -125,7 +120,7 @@ const boards = (state = initialState, action) => {
     case EDIT_BOARD_SUCCESS:
       state = {
         ...state,
-        created: action.payload,
+
         loading: false,
       };
       break;
@@ -177,7 +172,6 @@ const boards = (state = initialState, action) => {
     case CHANGE_STATUSES_SUCCESS:
       state = {
         ...state,
-        statuses: action.payload,
         loadingStatuses: false,
       };
       break;

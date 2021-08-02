@@ -116,9 +116,12 @@ class TasksService {
   async getTask(taskId) {
     const docRef = await firestore.collection(tasksUrl).doc(taskId).get();
     const tempDoc = [];
-    const assigneeData = await AuthService.getUser(docRef.data().assignee);
-    tempDoc.push({ ...docRef.data(), assigneeData });
-    return tempDoc;
+    if (!!docRef.data()) {
+      const assigneeData = await AuthService.getUser(docRef.data().assignee);
+      tempDoc.push({ ...docRef.data(), assigneeData });
+      return tempDoc;
+    }
+    return "No such document!";
   }
 
   async getFiles(model) {

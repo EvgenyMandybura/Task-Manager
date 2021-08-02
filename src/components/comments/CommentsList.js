@@ -20,7 +20,7 @@ const CommentsList = ({ getTaskComments, getTaskCommentsClear, Comments }) => {
   };
   const [allList, setAllList] = useState(null);
   useEffect(() => {
-    if (comments.length != 0 && lastVisible != null) {
+    if (comments.length !== 0 && lastVisible != null) {
       setAllList(comments);
     }
   }, [comments]);

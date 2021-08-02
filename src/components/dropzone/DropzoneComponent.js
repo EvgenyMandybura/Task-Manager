@@ -74,7 +74,7 @@ function DropzoneComponent({ setTaskFiles }) {
   const thumbs = files.map((file) => (
     <div key={file.name}>
       <div className="task">
-        <img src={file.preview} className="taskImage" />
+        <img src={file.preview} className="taskImage" alt="" />
         <p>
           {file.path} - {file.size} bytes
         </p>

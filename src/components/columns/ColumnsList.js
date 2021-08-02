@@ -22,6 +22,7 @@ const ColumnsList = ({
   getBoard,
   clearBoardFetched,
   deleteStatus,
+  history,
 }) => {
   const {
     params: { boardId },
@@ -29,7 +30,8 @@ const ColumnsList = ({
   const { loading, board: board } = boardsState;
   const [ready, updateReady] = useState(false);
   const fetchBoard = () => {
-    getBoard(boardId);
+    const model = { boardId, history };
+    getBoard(model);
   };
   useEffect(() => {
     fetchBoard();
