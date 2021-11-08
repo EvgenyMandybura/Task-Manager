@@ -1,0 +1,70 @@
+.tasks{
+  margin: 12px 24px 12px 18px;
+
+  &Body{
+    margin-bottom: 24px;
+    padding: 18px 24px 18px 24px;
+    border: 1px double lightgray;
+    border-radius: 8px;
+  }
+
+  &Status{
+    font-weight: bold;
+    font-style: italic;
+    display: inline-block;
+
+    &InProgress{
+      color: blue;
+    }
+    &Done{
+      color: green;
+    }
+    &Todo{
+      color: red;
+    }
+  }
+
+  &Date{
+    font-weight: bold;
+    display: inline-block;
+  }
+}
+
+.task{
+  &Header{
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  &Description{
+    padding: 12px;
+    margin-bottom: 24px;
+    border: 1px double lightgray;
+    border-radius: 8px;
+
+  }
+}
+
+.container {
+  width: 250px;
+  height: 300px;
+
+  &TextStatus {
+    position: absolute;
+  }
+
+  &ChangeStatus {
+    opacity: 0;
+    position: absolute;
+    transition: all .2s;
+  }
+}
+
+.container:hover .containerChangeStatus {
+  opacity: 1;
+}
+
+.container:hover .containerTextStatus {
+  opacity: 0;
+}
+
+
