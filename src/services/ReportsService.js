@@ -2,11 +2,7 @@ import { workLogsUrl, tasksUrl } from "../constants/urlForFiresore";
 import { firestore } from "../components/Firebase/firebase";
 import StorageService from "./StorageService";
 import BoardsService from "./BoardsService";
-import {
-  ALL_REPORTS,
-  FILTERED_BY_TASK,
-  FILTERED_BY_BOARD,
-} from "../constants/reportsQuery";
+import { ALL_REPORTS, FILTERED_BY_BOARD } from "../constants/reportsQuery";
 
 class ReportsService {
   async getWorkLogs(model) {
@@ -14,11 +10,14 @@ class ReportsService {
     const queryTasks = await firestore.collection(tasksUrl).get();
     const tempWorkLogArray = [];
     const tempTasksArray = [];
-    const arr = [];
+    const filteredByTask = [];
+    const boardsArray = [];
+    const boardsLogs = [];
     for (let doc of queryTasks.docs) {
       const { taskId, summary, boardId } = doc.data();
       tempTasksArray.push({ taskId, summary, boardId });
     }
+
     for (let task of tempTasksArray) {
       const query = await firestore
         .collection(workLogsUrl)
@@ -37,8 +36,17 @@ class ReportsService {
         await tempWorkLogArray.push(model);
         await tempArrTasks.push(model);
       }
+
       if (tempArrTasks.length > 0) {
-        arr.push(tempArrTasks);
+        if (!boardsArray.includes(tempArrTasks[0].boardId)) {
+          boardsArray.push(tempArrTasks[0].boardId);
+          const model = {
+            boardId: tempArrTasks[0].boardId,
+            logs: [],
+          };
+          boardsLogs.push(model);
+        }
+        filteredByTask.push(tempArrTasks);
       }
       await tempArrTasks.push(sum);
     }
@@ -49,29 +57,21 @@ class ReportsService {
         break;
 
       case FILTERED_BY_BOARD:
-        let filteredByBoard = [];
-        for (let i = 0, j = 0; i < arr.length; i++) {
-          if (i == 0) {
-            filteredByBoard[j] = [];
-            filteredByBoard[j].push(arr[i]);
-          } else {
-            if (arr[i][0].boardId == arr[i - 1][0].boardId) {
-              if (j != 0) {
-                filteredByBoard[j] = [];
-              }
-              filteredByBoard[j].push(arr[i]);
-            } else {
-              j++;
-              filteredByBoard[j] = [];
-              filteredByBoard[j].push(arr[i]);
+        for (let board of boardsLogs) {
+          board.sum = 0;
+          for (let task of filteredByTask) {
+            console.log(task.taskId, task[task.length - 1]);
+            if (board.boardId == task[0].boardId) {
+              board.sum += task[task.length - 1];
+              board.logs.push(task);
             }
           }
         }
-        return filteredByBoard;
+        return boardsLogs;
         break;
 
       default:
-        return arr;
+        return filteredByTask;
         break;
     }
   }
