@@ -1,7 +1,7 @@
 import { workLogsUrl } from "../constants/urlForFiresore";
 import StorageService from "./StorageService";
 import uploadCommentsToFirebase from "../helpers/UploadCommentToFirebase";
-import { firestore } from "../components/Firebase/firebase";
+import { firestore } from "../Firebase/firebase";
 import AuthService from "./AuthService";
 
 class WorkLogService {

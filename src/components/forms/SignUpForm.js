@@ -10,6 +10,7 @@ import validationSchemas from "../../constants/validationSchemas";
 import logoPlaceholder from "../../assets/ic-avatar-placeholder.svg";
 import fileValidation from "../../helpers/fileValidation";
 import FileHelper from "../../helpers/FIleHelper";
+import { useTranslation } from "react-i18next";
 const validationSchema = yup.object({
   firstName: validationSchemas.name,
   lastName: validationSchemas.name,
@@ -45,7 +46,7 @@ const SignUpForm = ({ registerUser, history }) => {
     const promiseFile = await FileHelper.openAsDataUrl(file);
     await setImageUploaded(promiseFile);
   };
-
+  const { t } = useTranslation();
   return (
     <div>
       <Formik
@@ -58,7 +59,7 @@ const SignUpForm = ({ registerUser, history }) => {
 
           return (
             <Form className="w-100" onSubmit={handleSubmit}>
-              <h1>Sign up</h1>
+              <h1>{t("signUp.signUp")}</h1>
               <div>
                 <img
                   src={imageUploaded ? imageUploaded : logoPlaceholder}
@@ -75,7 +76,7 @@ const SignUpForm = ({ registerUser, history }) => {
                     onChange={(e) => changeHandler(e)}
                   />
                   <label htmlFor="file" className="buttonLabel">
-                    Select file
+                    {t("signUp.selectFile")}
                   </label>
                 </div>
               </div>
@@ -83,53 +84,52 @@ const SignUpForm = ({ registerUser, history }) => {
                 errors={errors}
                 touched={touched}
                 fieldName={"firstName"}
-                label={"firstName"}
-                placeholder={"Enter firstName"}
+                label={t("signUp.firstNameLabel")}
+                placeholder={t("signUp.firstNamePlaceholder")}
               />
               <FormikFormGroup
                 errors={errors}
                 touched={touched}
                 fieldName={"lastName"}
-                label={"lastName"}
-                placeholder={"Enter lastName"}
+                label={t("signUp.lastNameLabel")}
+                placeholder={t("signUp.lastNamePlaceholder")}
               />
               <FormikFormGroup
                 errors={errors}
                 touched={touched}
                 fieldName={"description"}
-                label={"description"}
-                placeholder={"Enter description"}
+                label={t("signUp.descriptionLabel")}
+                placeholder={t("signUp.descriptionPlaceholder")}
               />
               <FormikFormGroup
                 errors={errors}
                 touched={touched}
                 fieldName={"phone"}
-                label={"phone"}
-                placeholder={"Enter phone"}
+                label={t("signUp.phoneLabel")}
+                placeholder={t("signUp.phonePlaceholder")}
               />
               <FormikFormGroup
                 type={"email"}
                 errors={errors}
                 touched={touched}
                 fieldName={"email"}
-                label={"Email address"}
-                placeholder={"Enter email"}
+                label={t("signUp.emailLabel")}
+                placeholder={t("signUp.emailPlaceholder")}
               />
               <FormikFormGroup
                 errors={errors}
                 touched={touched}
                 fieldName={"password"}
-                label={"Password"}
-                placeholder={"Enter password"}
-                type={"password"}
+                label={t("signUp.passwordLabel")}
+                placeholder={t("signUp.passwordPlaceholder")}
               />
               <FormikFormGroup
                 errors={errors}
                 touched={touched}
                 fieldName={"confirmPassword"}
                 label={"Confirm Password"}
-                placeholder={"Confirm password"}
-                type={"password"}
+                label={t("signUp.confirmPasswordLabel")}
+                placeholder={t("signUp.confirmPasswordPlaceholder")}
               />
               <div className="d-flex justify-content-center align-items-center">
                 <Button
@@ -138,12 +138,12 @@ const SignUpForm = ({ registerUser, history }) => {
                   className="w-100 mt-3 text-uppercase"
                   size="md"
                 >
-                  Continue
+                  {t("signUp.continue")}
                 </Button>
               </div>
               <div className="signInItems">
                 <Link to="/sign-in" className="text-decoration-none">
-                  Already have an account? Sign In
+                  {t("signUp.haveAccount")}
                 </Link>
               </div>
             </Form>

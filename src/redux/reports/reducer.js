@@ -3,6 +3,9 @@ import {
   GET_ALL_LOGS_SUCCESS,
   GET_ALL_LOGS_ERROR,
   ALL_LOGS__CLEAR,
+  SET_FILTERED_DATE,
+  SET_FILTERED_DATE_SUCCESS,
+  SET_FILTERED_DATE_ERROR,
 } from "./actionTypes";
 
 const initialState = {
@@ -10,6 +13,9 @@ const initialState = {
   message: "",
   loading: false,
   workLogs: [],
+  filterDateLoading: false,
+  dateRange: [],
+  filterDateArray: [],
 };
 
 const reports = (state = initialState, action) => {
@@ -36,6 +42,27 @@ const reports = (state = initialState, action) => {
     case ALL_LOGS__CLEAR:
       state = {
         ...initialState,
+      };
+      break;
+    case SET_FILTERED_DATE:
+      state = {
+        ...state,
+        filterDateLoading: true,
+      };
+      break;
+
+    case SET_FILTERED_DATE_SUCCESS:
+      state = {
+        ...state,
+        dateRange: action.payload.data.dateRange,
+        filterDateArray: action.payload.data.dateArrayTemp,
+        filterDateLoading: false,
+      };
+      break;
+    case SET_FILTERED_DATE_ERROR:
+      state = {
+        ...state,
+        filterDateLoading: false,
       };
       break;
 

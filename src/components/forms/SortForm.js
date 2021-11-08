@@ -6,6 +6,7 @@ import { Button, Form, Row, Col } from "reactstrap";
 import FormikFormGroup from "../formik/FormikFormGroup";
 import { getListTasks } from "../../redux/tasks/actions";
 import { sortFields } from "../../constants/sortFields";
+import { useTranslation } from "react-i18next";
 
 const initialValues = {
   sortField: "",
@@ -20,7 +21,7 @@ const SortForm = ({ getListTasks }) => {
   const {
     params: { boardId },
   } = useRouteMatch("/board-details/:boardId");
-
+  const { t } = useTranslation();
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmitForm}>
       {({ errors, touched, handleSubmit, setFieldTouched, setFieldValue }) => {
@@ -33,8 +34,8 @@ const SortForm = ({ getListTasks }) => {
                     errors={errors}
                     touched={touched}
                     fieldName={"sortField"}
-                    label={"Sort"}
-                    placeholder={"Sort"}
+                    label={t("sort.label")}
+                    placeholder={t("sort.placeholder")}
                     options={sortFields}
                     setFieldTouched={setFieldTouched}
                     setFieldValue={setFieldValue}
@@ -49,7 +50,7 @@ const SortForm = ({ getListTasks }) => {
                       size="md"
                       className="searchBtn"
                     >
-                      Sort
+                      {t("sort.sort")}
                     </Button>
                   </div>
                 </Col>

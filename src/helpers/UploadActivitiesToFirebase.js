@@ -1,4 +1,4 @@
-import { firestore } from "../components/Firebase/firebase";
+import { firestore } from "../Firebase/firebase";
 import { logUrl } from "../constants/urlForFiresore";
 
 async function uploadActivitiesToFirebase(dataForStorage, Id, collectionUrl) {

@@ -18,9 +18,7 @@ import ConfirmationDialog from "../../components/modal/ConfirmationDialog";
 import useModal from "../../hook/useModal";
 import { leaveBoard } from "../../redux/boards/actions";
 import HeaderStyles from "../../components/layout/index.module.scss";
-
-const LEAVE_BOARD_MODAL_TITLE = "Leave Board";
-const LEAVE_BOARD_MODAL_DESCRIPTION = "Do you want to leave board?";
+import { useTranslation } from "react-i18next";
 
 const Boards = ({
   getListBoards,
@@ -29,7 +27,7 @@ const Boards = ({
   leaveBoard,
   history,
 }) => {
-  const { boardsList: boardsList, removed: removed } = boardState;
+  const { boardsList, removed, loading } = boardState;
   const [ready, updateReady] = useState(false);
   const fetchBoards = () => {
     getListBoards();
@@ -55,15 +53,14 @@ const Boards = ({
     setBoardId(boardId);
     toggleModalLeave();
   };
-
+  const { t } = useTranslation();
   return (
     <ContainerUser>
-      <h1>List of boards:</h1>
       <Link to="/make-new-board">
-        <Button color="success">Add New Board</Button>
+        <Button color="success">{t("boards.addNewBoard")}</Button>
       </Link>
       <div>
-        {ready && boardsList != "" ? (
+        {ready && boardsList != "" && !loading ? (
           boardsList.map((board) => (
             <Card className="cardBoards" key={board.boardId}>
               <CardImg
@@ -90,7 +87,7 @@ const Boards = ({
                   history.push(`/edit-board-details/${board.boardId}`)
                 }
               >
-                Edit
+                {t("boards.edit")}
               </Button>
 
               <Button
@@ -99,20 +96,20 @@ const Boards = ({
                 onClick={() => showModal(board.boardId)}
                 className="cardBoardDetailsBtn"
               >
-                Leave board
+                {t("boards.leaveBoard")}
               </Button>
             </Card>
           ))
         ) : (
-          <h3>No boards</h3>
+          <h3>{t("boards.noBoards")}</h3>
         )}
       </div>
       <ConfirmationDialog
         isOpen={modalVisibleLeave}
-        titleText={LEAVE_BOARD_MODAL_TITLE}
-        contentText={LEAVE_BOARD_MODAL_DESCRIPTION}
-        cancelButtonText="Cancel"
-        confirmButtonText="Leave"
+        titleText={t("boards.leaveBoardTitle")}
+        contentText={t("boards.doYouWantToLeaveBoard")}
+        cancelButtonText={t("boards.cancelButtonText")}
+        confirmButtonText={t("boards.confirmButtonText")}
         onCancel={toggleModalLeave}
         onConfirm={onLeaveConfirmed}
       />

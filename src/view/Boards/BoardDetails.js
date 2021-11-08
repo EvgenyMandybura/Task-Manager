@@ -10,6 +10,7 @@ import ListOfTasks from "../../components/tasks/ListOfTasks";
 import FilterForm from "../../components/forms/FilterForm";
 import SortForm from "../../components/forms/SortForm";
 import BoardKanbanView from "../../components/kanbanView/boardsView";
+import { useTranslation } from "react-i18next";
 
 const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
   const {
@@ -17,7 +18,7 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
   } = useRouteMatch("/board-details/:boardId");
   const { loading, board: board } = boardState;
   const [ready, updateReady] = useState(false);
-  const [listView, setListView] = useState(false);
+  const [listView, setListView] = useState(true);
   const changeBoardView = (e) => {
     e.preventDefault();
     setListView(!listView);
@@ -35,18 +36,17 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
       fetchBoard();
     }
   }, []);
-
+  const { t } = useTranslation();
   return (
     <ContainerUser>
-      <Button onClick={changeBoardView}>
-        {listView ? "Grid view" : "List view"}
+      <Button onClick={changeBoardView} color="success">
+        {listView ? t("boardDetails.gridView") : t("boardDetails.listView")}
       </Button>
       {listView ? (
         <div>
           {ready && !loading && (
             <div className="cardBoardDetails">
               <h3>{board.title}</h3>
-
               <Row>
                 <Col xs="8">
                   <div className="search">
@@ -59,7 +59,7 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
                         history.push(`/add-new-task/${board.boardId}`)
                       }
                     >
-                      Add New Task
+                      {t("boardDetails.addNewTask")}
                     </Button>
                   </div>
                   <ListOfTasks />
@@ -71,7 +71,7 @@ const BoardDetails = ({ getBoard, clearBoardFetched, boardState, history }) => {
                     alt="Board logo"
                     className="cardBoardDetailsImg"
                   />
-                  <h5>Description: </h5>
+                  <h5>{t("boardDetails.description")}</h5>
                   <p>{board.description}</p>
                   <ListOfMembersDetail members={board.members} />
                 </Col>

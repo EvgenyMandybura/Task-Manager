@@ -1,5 +1,6 @@
 import React from "react";
 import FormikFormError from "./FormikFormError";
+import { useTranslation } from "react-i18next";
 
 const getDeepValue = (object, path) =>
   path
@@ -11,11 +12,11 @@ const getDeepValue = (object, path) =>
 const FormError = ({ fieldName, errors, touched, ...rest }) => {
   const error = getDeepValue(errors, fieldName);
   const isTouched = getDeepValue(touched, fieldName);
-
+  const { t } = useTranslation();
   return (
     <>
       {error && isTouched && (
-        <FormikFormError {...rest}>{error}</FormikFormError>
+        <FormikFormError {...rest}>{t(error)}</FormikFormError>
       )}
     </>
   );

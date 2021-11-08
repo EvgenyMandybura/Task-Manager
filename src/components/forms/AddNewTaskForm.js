@@ -12,17 +12,12 @@ import createMemberArrayForSelect from "../../helpers/createMenberArrayForSelect
 import { createTask } from "../../redux/tasks/actions";
 import FileHelper from "../../helpers/FIleHelper";
 import fileIcons from "../../helpers/fileIcons";
+import StorageService from "../../services/StorageService";
+import { useTranslation } from "react-i18next";
 
 const validationSchema = yup.object({
   summary: validationSchemas.summary,
 });
-
-const initialValues = {
-  summary: "",
-  description: "",
-  assignee: "",
-  timeEstimation: "",
-};
 
 const AddNewTaskForm = ({
   createTask,
@@ -88,6 +83,14 @@ const AddNewTaskForm = ({
     const files = e.target.files;
     filesForDisplay(files);
   };
+
+  const initialValues = {
+    summary: "",
+    description: "",
+    assignee: StorageService.user.value.email,
+    timeEstimation: "",
+  };
+  const { t } = useTranslation();
   return (
     <Formik
       initialValues={initialValues}
@@ -99,7 +102,7 @@ const AddNewTaskForm = ({
           <div>
             {ready && !loading && (
               <Form className="w-100" onSubmit={handleSubmit}>
-                <h3>Add new task</h3>
+                <h3>{t("addNewTaskForm.addNewTask")}</h3>
                 <div>
                   {filesPreview != [] ? (
                     filesPreview?.map((image) => (
@@ -117,7 +120,7 @@ const AddNewTaskForm = ({
                       </div>
                     ))
                   ) : (
-                    <h3>No images</h3>
+                    <h3>{t("addNewTaskForm.noImages")}</h3>
                   )}
 
                   <div className="file-input">
@@ -130,7 +133,7 @@ const AddNewTaskForm = ({
                       onChange={(e) => changeHandler(e)}
                     />
                     <label htmlFor="file" className="buttonLabel">
-                      Select file
+                      {t("addNewTaskForm.selectFile")}
                     </label>
                   </div>
                 </div>
@@ -138,23 +141,23 @@ const AddNewTaskForm = ({
                   errors={errors}
                   touched={touched}
                   fieldName={"summary"}
-                  label={"Summary"}
-                  placeholder={"Add summary"}
+                  label={t("addNewTaskForm.labelSummary")}
+                  placeholder={t("addNewTaskForm.placeholderSummary")}
                 />
                 <FormikFormGroup
                   type={"richEditor"}
                   errors={errors}
                   touched={touched}
                   fieldName={"description"}
-                  label={"Description"}
-                  placeholder={"Add description"}
+                  label={t("addNewTaskForm.labelDescription")}
+                  placeholder={t("addNewTaskForm.placeholderDescription")}
                 />
                 <FormikFormGroup
                   errors={errors}
                   touched={touched}
                   fieldName={"assignee"}
-                  label={"Add assignee"}
-                  placeholder={"Select assignee"}
+                  label={t("addNewTaskForm.labelAssignee")}
+                  placeholder={t("addNewTaskForm.placeholderAssignee")}
                   options={createMemberArrayForSelect(board?.members)}
                   setFieldTouched={setFieldTouched}
                   setFieldValue={setFieldValue}
@@ -164,7 +167,7 @@ const AddNewTaskForm = ({
                   errors={errors}
                   touched={touched}
                   fieldName={"timeEstimation"}
-                  label={"Set Due date:    "}
+                  label={t("addNewTaskForm.labelDate")}
                   setFieldTouched={setFieldTouched}
                   setFieldValue={setFieldValue}
                   type={"datePicker"}
@@ -176,7 +179,7 @@ const AddNewTaskForm = ({
                     className="buttonLabel"
                     size="md"
                   >
-                    Add task
+                    {t("addNewTaskForm.addTask")}
                   </Button>
                 </div>
               </Form>

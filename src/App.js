@@ -9,7 +9,6 @@ const App = () => {
   return (
     <Fragment>
       <ToastContainer />
-
       <Router>
         <Switch>
           {authRoutes.map((route, idx) => (

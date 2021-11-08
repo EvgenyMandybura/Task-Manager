@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import SimpleReactLightbox from "simple-react-lightbox";
 import { SRLWrapper } from "simple-react-lightbox";
+import { useTranslation } from "react-i18next";
 
 const FilesDetails = ({ getTaskFiles, clearTaskFiles, tasksState }) => {
   const { loadingFiles, files } = tasksState;
@@ -32,7 +33,7 @@ const FilesDetails = ({ getTaskFiles, clearTaskFiles, tasksState }) => {
       showThumbnailsButton: false,
     },
   };
-
+  const { t } = useTranslation();
   return (
     <div>
       <SimpleReactLightbox>
@@ -49,7 +50,7 @@ const FilesDetails = ({ getTaskFiles, clearTaskFiles, tasksState }) => {
               </div>
             ))
           ) : (
-            <h3>No files</h3>
+            <h3>{t("tasks.noFiles")}</h3>
           )}
         </SRLWrapper>
       </SimpleReactLightbox>
