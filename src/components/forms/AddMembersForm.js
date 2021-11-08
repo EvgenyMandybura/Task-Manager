@@ -29,7 +29,7 @@ const AddMembersForm = ({ membersArray, saveMembers }) => {
         validationSchema={validationSchema}
         onSubmit={handleSubmitForm}
       >
-        {({ errors, handleSubmit, values }) => {
+        {({ handleSubmit, values }) => {
           return (
             <Form className="w-100" onSubmit={handleSubmit}>
               <FieldArray name="members" label={"Members:"}>

@@ -8,7 +8,10 @@ import { MILLISECONDS_IN_24HOURS } from "../constants/timeConstants";
 class ReportsService {
   async getWorkLogs(model) {
     const currentUser = StorageService.user.value.email;
-    const queryTasks = await firestore.collection(tasksUrl).get();
+    const queryTasks = await firestore
+      .collection(tasksUrl)
+      .where("assignee", "==", currentUser)
+      .get();
     const tempWorkLogArray = [];
     const tempTasksArray = [];
     const filteredByTask = [];
@@ -20,6 +23,7 @@ class ReportsService {
     }
 
     for (let task of tempTasksArray) {
+      //  console.log("task", task);
       const query = await firestore
         .collection(workLogsUrl)
         .doc(task.taskId)
@@ -37,7 +41,6 @@ class ReportsService {
         await tempWorkLogArray.push(model);
         await tempArrTasks.push(model);
       }
-
       if (tempArrTasks.length > 0) {
         if (!boardsArray.includes(tempArrTasks[0].boardId)) {
           boardsArray.push(tempArrTasks[0].boardId);
@@ -51,6 +54,7 @@ class ReportsService {
       }
       await tempArrTasks.push(sum);
     }
+
     switch (model) {
       case ALL_REPORTS:
         await tempWorkLogArray.sort((a, b) => b.timeStamp - a.timeStamp);
@@ -60,7 +64,6 @@ class ReportsService {
         for (let board of boardsLogs) {
           board.sum = 0;
           for (let task of filteredByTask) {
-            console.log(task.taskId, task[task.length - 1]);
             if (board.boardId == task[0].boardId) {
               board.sum += task[task.length - 1];
               board.logs.push(task);
@@ -99,13 +102,11 @@ class ReportsService {
               tempArr.push("");
             }
           }
-          dateArrayTemp.push({log, tempArr});
+          dateArrayTemp.push({ log, tempArr });
         }
       }
     }
     return { dateArrayTemp, dateRange };
   }
-
-
 }
 export default new ReportsService();

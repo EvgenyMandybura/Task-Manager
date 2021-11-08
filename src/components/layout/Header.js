@@ -24,7 +24,7 @@ import StorageService from "../../services/StorageService";
 import SelectLanguage from "../forms/SelectLanguageForm";
 import { useTranslation } from "react-i18next";
 
-const Header = ({ logoutUser, history, authState }) => {
+const Header = ({ logoutUser, history }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenNavBar, setIsOpenNavBar] = useState(false);
   const user = StorageService.user.value;

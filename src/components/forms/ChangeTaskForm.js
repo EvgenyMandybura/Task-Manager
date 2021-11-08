@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Col, Row, Button, Form } from "reactstrap";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -6,9 +6,7 @@ import styles from "../tasks/index.module.scss";
 import classNames from "classnames";
 import classStatus from "../../helpers/statusColor";
 import ChangeTaskStatusForm from "../forms/ChangeTaskStatusForm";
-import FilesDetails from "../tasks/fileDetails";
 import { Formik } from "formik";
-import fileIcons from "../../helpers/fileIcons";
 import FormikFormGroup from "../formik/FormikFormGroup";
 import createMemberArrayForSelect from "../../helpers/createMenberArrayForSelectFormik";
 import { saveToDb } from "../../helpers/saveRichTextToDb";
@@ -35,7 +33,8 @@ const ChangeTaskForm = ({
   const { boardId } = currentTask;
   const { loading, board } = boardsState;
   const fetchBoard = () => {
-    getBoard(boardId);
+    const model = { boardId, history };
+    getBoard(model);
   };
   useEffect(() => {
     fetchBoard();
@@ -58,7 +57,7 @@ const ChangeTaskForm = ({
   };
 
   const handleSubmitForm = (values) => {
-    if (currentTask.description != values.description) {
+    if (currentTask.description !== values.description) {
       values.description = saveToDb(values.description);
     }
     const model = { taskId: currentTask.taskId, values, history, currentTask };

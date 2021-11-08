@@ -1,10 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Button, Form } from "reactstrap";
+import { Form } from "reactstrap";
 import { useRouteMatch, withRouter } from "react-router-dom";
 import FormikFormGroup from "../formik/FormikFormGroup";
 import { Formik } from "formik";
-import { Row, Col } from "reactstrap";
 import validationSchemas from "../../constants/validationSchemas";
 import * as yup from "yup";
 import { searchTasks } from "../../redux/tasks/actions";
@@ -35,27 +34,14 @@ const Search = ({ searchTasks }) => {
     >
       {({ errors, touched, handleSubmit }) => {
         return (
-          <Form className="w-100" onSubmit={handleSubmit}>
-            <Row>
-              <Col>
-                <FormikFormGroup
-                  errors={errors}
-                  touched={touched}
-                  fieldName={"keyword"}
-                  placeholder={t("search.placeholder")}
-                />
-              </Col>
-              <Col>
-                <Button
-                  color="primary"
-                  type="submit"
-                  className="searchBtn"
-                  size="md"
-                >
-                  {t("search.search")}
-                </Button>
-              </Col>
-            </Row>
+          <Form className="sortFilterField" onChange={handleSubmit}>
+            <FormikFormGroup
+              errors={errors}
+              touched={touched}
+              label={t("search.search")}
+              fieldName={"keyword"}
+              placeholder={t("search.placeholder")}
+            />
           </Form>
         );
       }}

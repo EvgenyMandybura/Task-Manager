@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Col, Row, Button } from "reactstrap";
 import { useRouteMatch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { getTaskDetails, clearTaskDetails } from "../../redux/tasks/actions";
+import {
+  getTaskDetails,
+  clearTaskDetails,
+  editTaskStatusClear,
+} from "../../redux/tasks/actions";
+import { getLogWorksDataClear } from "../../redux/workLog/actions";
 import MemberDetails from "../members/MemberDetails";
 import styles from "./index.module.scss";
 import dateFormat from "../../helpers/dateHelper";
@@ -24,21 +29,26 @@ const TaskDetail = ({
   tasksState,
   getLogWorksData,
   workLogsState,
+  editTaskStatusClear,
+  getLogWorksDataClear,
+  history,
 }) => {
   const {
     params: { taskId },
   } = useRouteMatch("/task-details/:taskId");
   const { loading, task, taskStatus } = tasksState;
-
   const [ready, updateReady] = useState(false);
   const fetchTask = () => {
-    getTaskDetails(taskId);
+    const model = { taskId, history };
+    getTaskDetails(model);
   };
   useEffect(() => {
     fetchTask();
     updateReady(true);
     return () => {
       clearTaskDetails();
+      editTaskStatusClear();
+      getLogWorksDataClear();
     };
   }, []);
   useEffect(() => {
@@ -111,21 +121,21 @@ const TaskDetail = ({
                   </div>
                 )}
                 <p> {t("tasks.assignee")} </p>
-                <MemberDetails member={task[0].assigneeData} />
+                <MemberDetails member={task[0]?.assigneeData} />
                 <div className={styles.container}>
                   <p className="d-inline">{t("tasks.status")} </p>
                   <div className={styles.containerTextStatus}>
                     <p
                       className={classNames(
                         styles.tasksStatus,
-                        classStatus(taskStatus || task[0].taskStatus)
+                        classStatus(taskStatus || task[0]?.taskStatus)
                       )}
                     >
-                      {taskStatus || task[0].taskStatus}
+                      {taskStatus || task[0]?.taskStatus}
                     </p>
                   </div>
                   <div className={styles.containerChangeStatus}>
-                    <ChangeTaskStatusForm />
+                    {!!task[0] && <ChangeTaskStatusForm />}
                   </div>
                 </div>
               </Col>
@@ -150,5 +160,7 @@ export default withRouter(
     getTaskDetails,
     clearTaskDetails,
     getLogWorksData,
+    editTaskStatusClear,
+    getLogWorksDataClear,
   })(TaskDetail)
 );

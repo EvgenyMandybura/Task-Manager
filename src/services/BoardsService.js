@@ -15,6 +15,7 @@ class BoardsService {
     const boardId = `${creatorEmail}_${timeStamp}`;
     const storage = firebase.storage().ref().child(`${boardsUrl}/${boardId}`);
     const file = model.fileModel.files[0];
+    model.values.members.push(creatorEmail);
     const dataForStorage = {
       boardId,
       creatorEmail,

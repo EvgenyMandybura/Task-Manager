@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Col, Modal, ModalBody, Row, ModalFooter } from "reactstrap";
+import { Button, Modal, ModalBody, ModalFooter } from "reactstrap";
 import classNames from "classnames";
 import styles from "./index.module.scss";
 import AddMembersForm from "../forms/AddMembersForm";

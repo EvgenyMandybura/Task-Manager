@@ -97,9 +97,12 @@ function* editBoardProject({ payload: { model } }) {
   }
 }
 
-function* getBoard({ payload: { boardId } }) {
+function* getBoard({ payload: { model } }) {
   try {
-    const response = yield call(getBoardAsync, boardId);
+    const response = yield call(getBoardAsync, model.boardId);
+    if (response === "No such document!") {
+      model.history.push(`/boards`);
+    }
     yield put(getBoardSuccess(response));
   } catch (error) {
     yield put(getBoardError(error));

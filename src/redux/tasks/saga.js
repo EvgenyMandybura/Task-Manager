@@ -112,9 +112,12 @@ function* filterBoardTasks({ payload: data }) {
   }
 }
 
-function* getTaskDetail({ payload: { taskId } }) {
+function* getTaskDetail({ payload: { model } }) {
   try {
-    const response = yield call(getTaskAsync, taskId);
+    const response = yield call(getTaskAsync, model.taskId);
+    if (response === "No such document!") {
+      model.history.push(`/boards`);
+    }
     yield put(getTaskSuccess(response));
   } catch (error) {
     yield put(getTaskError(error));

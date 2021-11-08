@@ -26,6 +26,7 @@ const AddWorkLogModal = ({
   const handleSubmitForm = (values) => {
     values.loggedTime = stringToMinutes(values.loggedTime);
     values.taskId = tasksStatus.tasks.task[0].taskId;
+    values.assignee = tasksStatus.tasks.task[0].assignee;
     values.boardId = tasksStatus.tasks.task[0].boardId;
     addWorkLog(values);
   };

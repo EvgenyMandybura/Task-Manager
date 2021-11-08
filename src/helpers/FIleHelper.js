@@ -27,18 +27,5 @@ const FileHelper = class BaseFileHelper {
       };
     });
   }
-
-  static openAsDataUrlWithoutCheckingSize(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      if (reader.error) {
-        return reject("Invalid file");
-      }
-      reader.onload = () => {
-        return resolve(reader.result);
-      };
-    });
-  }
 };
 export default FileHelper;

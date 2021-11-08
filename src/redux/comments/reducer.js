@@ -10,7 +10,6 @@ import {
 
 const initialState = {
   comments: [],
-  error: "",
   loading: false,
   lastVisible: null,
 };

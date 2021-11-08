@@ -96,3 +96,24 @@
   display: inline-block;
   height: 300px;
 }
+
+.sortFilterField{
+  width: 130px;
+  margin-left: 16px;
+}
+
+.sortField{
+  width: 130px;
+  margin-left: 16px;
+  margin-top: -16px;
+}
+
+.sortTitle{
+  margin-left: 16px;
+}
+
+.filters{
+  display: flex;
+  justify-content:right;
+}
+

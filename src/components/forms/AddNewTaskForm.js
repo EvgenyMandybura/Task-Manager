@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useRouteMatch, withRouter } from "react-router-dom";
 import * as yup from "yup";
@@ -8,12 +8,12 @@ import { Button, Form } from "reactstrap";
 import FormikFormGroup from "../formik/FormikFormGroup";
 import { saveToDb } from "../../helpers/saveRichTextToDb";
 import { getBoard, clearBoardFetched } from "../../redux/boards/actions";
+import { clearSetTaskFiles } from "../../redux/tasks/actions";
 import createMemberArrayForSelect from "../../helpers/createMenberArrayForSelectFormik";
 import { createTask } from "../../redux/tasks/actions";
-import FileHelper from "../../helpers/FIleHelper";
-import fileIcons from "../../helpers/fileIcons";
 import StorageService from "../../services/StorageService";
 import { useTranslation } from "react-i18next";
+import DropzoneComponent from "../dropzone/DropzoneComponent";
 
 const validationSchema = yup.object({
   summary: validationSchemas.summary,
@@ -24,14 +24,18 @@ const AddNewTaskForm = ({
   getBoard,
   clearBoardFetched,
   boardState,
+  taskState,
   history,
+  clearSetTaskFiles,
 }) => {
   const handleSubmitForm = (values) => {
     values.description = saveToDb(values.description);
     values.boardId = boardId;
-    fileModel.files = filesMy;
+    values.timeEstimation = values.timeEstimation === "" && new Date();
+    fileModel.files = taskState.filesForUpload || [];
     const model = { values, history, fileModel };
     createTask(model);
+    clearSetTaskFiles();
   };
 
   const {
@@ -40,7 +44,8 @@ const AddNewTaskForm = ({
   const [ready, updateReady] = useState(false);
   const { loading, board } = boardState;
   const fetchBoard = () => {
-    getBoard(boardId);
+    const model = { boardId, history };
+    getBoard(model);
   };
   useEffect(() => {
     fetchBoard();
@@ -57,33 +62,6 @@ const AddNewTaskForm = ({
   }, []);
 
   const fileModel = {};
-  const uploadedImage = useRef(null);
-  const [filesPreview, setFilesPreview] = useState([]);
-  const filesSelected = [];
-  const filesForDB = [];
-  const filesForDisplay = async (files) => {
-    for (const file of files) {
-      const promiseFile = await FileHelper.openAsDataUrlWithoutCheckingSize(
-        file
-      );
-      await filesSelected.push({
-        file: promiseFile,
-        name: file.name,
-        type: file.type,
-      });
-      await filesForDB.push(file);
-    }
-    await setFilesPreview(filesPreview.concat(filesSelected));
-    await setFilesMy(filesMy.concat(filesForDB));
-  };
-
-  const [filesMy, setFilesMy] = useState([]);
-
-  const changeHandler = (e) => {
-    const files = e.target.files;
-    filesForDisplay(files);
-  };
-
   const initialValues = {
     summary: "",
     description: "",
@@ -103,40 +81,6 @@ const AddNewTaskForm = ({
             {ready && !loading && (
               <Form className="w-100" onSubmit={handleSubmit}>
                 <h3>{t("addNewTaskForm.addNewTask")}</h3>
-                <div>
-                  {filesPreview != [] ? (
-                    filesPreview?.map((image) => (
-                      <div key={image.file} className="task">
-                        <img
-                          src={
-                            image.type.includes(`image/`)
-                              ? image.file
-                              : fileIcons(image.type)
-                          }
-                          alt="Logo"
-                          className="taskImage"
-                        />
-                        <p>{image.name}</p>
-                      </div>
-                    ))
-                  ) : (
-                    <h3>{t("addNewTaskForm.noImages")}</h3>
-                  )}
-
-                  <div className="file-input">
-                    <input
-                      ref={uploadedImage}
-                      type="file"
-                      multiple
-                      className="file"
-                      id="file"
-                      onChange={(e) => changeHandler(e)}
-                    />
-                    <label htmlFor="file" className="buttonLabel">
-                      {t("addNewTaskForm.selectFile")}
-                    </label>
-                  </div>
-                </div>
                 <FormikFormGroup
                   errors={errors}
                   touched={touched}
@@ -172,6 +116,7 @@ const AddNewTaskForm = ({
                   setFieldValue={setFieldValue}
                   type={"datePicker"}
                 />
+                <DropzoneComponent />
                 <div className="d-flex justify-content-center align-items-center">
                   <Button
                     color="success"
@@ -190,10 +135,16 @@ const AddNewTaskForm = ({
     </Formik>
   );
 };
-const mapStateToProps = ({ boards }) => ({ boardState: boards });
+const mapStateToProps = ({ boards, tasks }) => ({
+  boardState: boards,
+  taskState: tasks,
+});
 
 export default withRouter(
-  connect(mapStateToProps, { createTask, getBoard, clearBoardFetched })(
-    AddNewTaskForm
-  )
+  connect(mapStateToProps, {
+    createTask,
+    getBoard,
+    clearBoardFetched,
+    clearSetTaskFiles,
+  })(AddNewTaskForm)
 );

@@ -23,6 +23,7 @@ import {
   EDIT_TASK,
   EDIT_TASK_SUCCESS,
   EDIT_TASK_ERROR,
+  EDIT_TASK_CLEAR,
   GET_ACTIVITIES_LOG,
   GET_ACTIVITIES_LOG_SUCCESS,
   GET_ACTIVITIES_LOG_CLEAR,
@@ -30,6 +31,8 @@ import {
   EDIT_TASK_DETAILS,
   EDIT_TASK_DETAILS_SUCCESS,
   EDIT_TASK_DETAILS_ERROR,
+  SET_TASKS_FILES,
+  SET_TASKS_FILES_CLEAR,
 } from "./actionTypes";
 
 export const getListTasks = (model) => {
@@ -112,9 +115,9 @@ export const filterTasksError = ({ message }) => {
     type: FILTER_TASKS_ERROR,
   };
 };
-export const getTaskDetails = (taskId) => {
+export const getTaskDetails = (model) => {
   return {
-    payload: { taskId },
+    payload: { model },
     type: GET_TASK,
   };
 };
@@ -182,6 +185,10 @@ export const editTaskError = ({ message }) => ({
   payload: { message },
 });
 
+export const editTaskStatusClear = () => ({
+  type: EDIT_TASK_CLEAR,
+});
+
 export const getActivitiesLog = (taskId) => {
   return {
     payload: { taskId },
@@ -224,3 +231,16 @@ export const editTaskDetailsError = ({ message }) => ({
   type: EDIT_TASK_DETAILS_ERROR,
   payload: { message },
 });
+
+export const setTaskFiles = (model) => {
+  return {
+    payload: { model },
+    type: SET_TASKS_FILES,
+  };
+};
+
+export const clearSetTaskFiles = () => {
+  return {
+    type: SET_TASKS_FILES_CLEAR,
+  };
+};

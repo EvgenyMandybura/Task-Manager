@@ -35,7 +35,6 @@ const ChangeTaskStatusForm = ({ editTask, tasksState, history }) => {
                 options={allStatus}
                 setFieldTouched={setFieldTouched}
                 setFieldValue={setFieldValue}
-                className={styles.btnStatus}
                 type={"selectAddon"}
                 buttonText={t("changeTaskStatusForm.buttonText")}
               />
